@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OakStride — Consulting &amp; Advisory in Digital, AI and Technology Leadership</title>
+<meta name="description" content="OakStride is a Nordic consulting and advisory firm helping organizations turn digital and AI strategy into delivery — through interim leadership, transformation and technology governance.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #21261f;
+    --pine: #1e3a2f;
+    --moss: #4a6b57;
+    --birch: #e9eeec;
+    --paper: #f5f7f6;
+    --acorn: #2f6486;
+    --line: #d8dcd2;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.6;
+    font-size: 17px;
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(245,247,246,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 0;
+  }
+  .logo {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700; font-size: 1.25rem; letter-spacing: -0.02em;
+    color: var(--pine); text-decoration: none;
+  }
+  .logo span { color: var(--acorn); }
+  nav.links { display: flex; gap: 28px; }
+  nav.links a {
+    color: var(--ink); text-decoration: none; font-size: 0.95rem; font-weight: 500;
+  }
+  nav.links a:hover, nav.links a:focus-visible { color: var(--moss); }
+  a:focus-visible { outline: 2px solid var(--acorn); outline-offset: 3px; border-radius: 2px; }
+
+  /* Hero */
+  .hero { position: relative; overflow: hidden; padding: 96px 0 88px; }
+  .hero .wrap { position: relative; }
+  .rings {
+    position: absolute; right: -140px; top: 50%; transform: translateY(-50%);
+    width: 560px; height: 560px; opacity: 0.9; pointer-events: none;
+  }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--moss); margin-bottom: 20px;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: clamp(2.4rem, 6vw, 4.1rem);
+    line-height: 1.05; letter-spacing: -0.03em; font-weight: 700;
+    color: var(--pine); max-width: 16ch;
+  }
+  .hero p.lead {
+    margin-top: 28px; max-width: 56ch; font-size: 1.15rem; color: #3d443a;
+  }
+  .cta-row { margin-top: 40px; display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; text-decoration: none; font-weight: 600; font-size: 1rem;
+    padding: 14px 28px; border-radius: 4px;
+  }
+  .btn-primary { background: var(--pine); color: var(--paper); }
+  .btn-primary:hover, .btn-primary:focus-visible { background: #152b22; }
+  .btn-ghost { color: var(--pine); border: 1px solid var(--moss); }
+  .btn-ghost:hover, .btn-ghost:focus-visible { background: var(--birch); }
+
+  /* Sections */
+  section { padding: 84px 0; }
+  section.alt { background: var(--birch); }
+  h2 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: clamp(1.7rem, 3.5vw, 2.3rem); letter-spacing: -0.02em;
+    color: var(--pine); margin-bottom: 12px;
+  }
+  .section-intro { max-width: 60ch; color: #3d443a; margin-bottom: 48px; }
+
+  /* Services */
+  .services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  @media (max-width: 1000px) { .services { grid-template-columns: repeat(2, 1fr); } }
+  .card {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 6px;
+    padding: 32px 28px;
+  }
+  section.alt .card { background: #fdfdfb; }
+  .card h3 {
+    font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.2rem;
+    color: var(--pine); margin-bottom: 12px;
+  }
+  .card p { font-size: 0.98rem; color: #3d443a; }
+  .card .icon { width: 40px; height: 40px; color: var(--acorn); margin-bottom: 14px; }
+  .card .icon svg { width: 100%; height: 100%; }
+  .band { padding: 0; background: var(--pine); position: relative; }
+  .band svg.scene { display: block; width: 100%; height: auto; }
+  .band .quote {
+    position: absolute; inset: 0; display: flex; align-items: center;
+  }
+  .band .quote p {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: clamp(1.2rem, 2.6vw, 1.8rem); line-height: 1.3;
+    color: #f5f7f6; max-width: 26ch; letter-spacing: -0.01em;
+  }
+  .band .quote span { display: block; margin-top: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: #9fc0d4; }
+  .card .tag {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--acorn);
+    display: block; margin-bottom: 14px;
+  }
+
+  /* Approach / sectors */
+  .exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+  .exp-list { list-style: none; }
+  .exp-list li {
+    padding: 18px 0; border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; gap: 20px; align-items: baseline;
+  }
+  .exp-list li:first-child { border-top: 1px solid var(--line); }
+  .exp-list .org { font-weight: 600; color: var(--pine); }
+  .exp-list .role { font-size: 0.92rem; color: #4c534a; text-align: right; }
+  .facts { display: grid; gap: 24px; }
+  .fact { border-left: 3px solid var(--acorn); padding-left: 20px; }
+  .fact .num {
+    font-family: 'Bricolage Grotesque', sans-serif; font-size: 2rem;
+    font-weight: 700; color: var(--pine); line-height: 1.1;
+  }
+  .fact .lbl { font-size: 0.95rem; color: #3d443a; }
+
+  /* Contact */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .contact-list { list-style: none; display: grid; gap: 16px; }
+  .contact-list a { color: var(--pine); font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--acorn); }
+  .contact-list a:hover { color: var(--moss); }
+  .contact-list .k {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--moss);
+    display: block; margin-bottom: 4px;
+  }
+
+  footer {
+    border-top: 1px solid var(--line); padding: 32px 0; font-size: 0.88rem; color: #5a6157;
+  }
+
+  @media (max-width: 800px) {
+    .services, .exp-grid, .contact-grid { grid-template-columns: 1fr; }
+    .rings { display: none; }
+    nav.links { gap: 18px; }
+    section { padding: 60px 0; }
+    .hero { padding: 64px 0 56px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top">Oak<span>Stride</span></a>
+    <nav class="links" aria-label="Main navigation">
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <svg class="rings" viewBox="0 0 560 560" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#4a6b57" stroke-opacity="0.35">
+        <circle cx="280" cy="280" r="40" stroke-width="1.5"/>
+        <circle cx="280" cy="280" r="78" stroke-width="1"/>
+        <circle cx="280" cy="280" r="112" stroke-width="1.5"/>
+        <circle cx="280" cy="280" r="150" stroke-width="1"/>
+        <circle cx="280" cy="280" r="186" stroke-width="1.5"/>
+        <circle cx="280" cy="280" r="224" stroke-width="1"/>
+        <circle cx="280" cy="280" r="258" stroke-width="1.5"/>
+      </g>
+      <circle cx="280" cy="280" r="8" fill="#2f6486"/>
+    </svg>
+    <div class="wrap">
+      <p class="eyebrow">OakStride · Consulting &amp; Advisory</p>
+      <h1>Strategy is easy. Delivery is the hard part.</h1>
+      <p class="lead">OakStride is a Nordic consulting and advisory firm that helps organizations turn digital and AI strategy into working platforms, products and operating models — through hands-on leadership, disciplined prioritization and technology governance that holds.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#contact">Get in touch</a>
+        <a class="btn btn-ghost" href="#services">What we do</a>
+      </div>
+    </div>
+  </div>
+
+  <section class="alt" id="services">
+    <div class="wrap">
+      <h2>What we do</h2>
+      <p class="section-intro">We take on engagements where strategy needs to become reality — as interim leaders, advisors or transformation leads, always close to delivery.</p>
+      <div class="services">
+        <div class="card">
+          <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg></div>
+          <span class="tag">Interim</span>
+          <h3>Interim Technology Leadership</h3>
+          <p>Senior interim roles across application, development and IT operations — with accountability for teams, vendors, budget and delivery from day one. Stability through transitions, vacancies and periods of change.</p>
+        </div>
+        <div class="card">
+          <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5-8 4.5-8-4.5z"/><path d="M4 12.5l8 4.5 8-4.5"/><path d="M4 16.5l8 4.5 8-4.5"/></svg></div>
+          <span class="tag">Digital</span>
+          <h3>Digital Strategy &amp; Transformation</h3>
+          <p>From strategy to roadmaps, KPIs and executable plans. We lead the modernization of platforms and ways of working, with quality, efficiency and data security embedded in delivery — not added afterwards.</p>
+        </div>
+        <div class="card">
+          <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="12" r="2.5"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M7.5 7.5l2.7 2.7M16.5 7.5l-2.7 2.7M7.5 16.5l2.7-2.7M16.5 16.5l-2.7-2.7"/></svg></div>
+          <span class="tag">AI</span>
+          <h3>AI Strategy &amp; Transformation</h3>
+          <p>Pragmatic AI adoption grounded in business value: identifying the right use cases, preparing data and architecture, establishing governance and responsible-use guardrails, and taking AI initiatives from pilot to production.</p>
+        </div>
+        <div class="card">
+          <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <span class="tag">Governance</span>
+          <h3>Technology &amp; Vendor Governance</h3>
+          <p>Governance of outsourced and multi-vendor environments — sourcing, transitions and supplier steering, with vendors held accountable for cost, pace and quality.</p>
+        </div>
+        <div class="card">
+          <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="10" rx="1"/><rect x="17" y="4" width="4" height="13" rx="1"/></svg></div>
+          <span class="tag">PMO</span>
+          <h3>PMO &amp; Portfolio Management</h3>
+          <p>Building and running PMO and portfolio functions — budget, planning cadence and prioritization that make trade-offs visible, keep initiatives on track and make decisions stick.</p>
+        </div>
+        <div class="card">
+          <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 6-7"/><path d="M18 8h3v3"/><path d="M3 21h18"/></svg></div>
+          <span class="tag">Excellence</span>
+          <h3>Operational Excellence &amp; Lean IT</h3>
+          <p>Improving how IT delivers — Lean and Six Sigma-based analysis of delivery flows, standardized ways of working and continuous improvement that raise predictability and lower cost.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="band" role="img" aria-label="Stylized Nordic forest landscape">
+    <svg class="scene" viewBox="0 0 1440 340" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <rect width="1440" height="340" fill="#1e3a2f"/>
+      <path d="M0 260 Q 180 190 360 235 T 720 215 T 1080 245 T 1440 205 V340 H0 Z" fill="#24463a"/>
+      <path d="M0 290 Q 240 230 480 268 T 960 258 T 1440 275 V340 H0 Z" fill="#2b5244"/>
+      <path d="M0 320 Q 300 280 600 305 T 1200 300 T 1440 312 V340 H0 Z" fill="#33604f"/>
+      <g stroke="#9fc0d4" stroke-opacity="0.5" fill="none" stroke-width="1">
+        <path d="M0 150 Q 240 110 480 140 T 960 125 T 1440 145"/>
+        <path d="M0 110 Q 300 80 600 105 T 1200 88 T 1440 104"/>
+      </g>
+      <g fill="none" stroke="#2f6486" stroke-opacity="0.55">
+        <circle cx="1160" cy="120" r="26" stroke-width="1.5"/>
+        <circle cx="1160" cy="120" r="52" stroke-width="1"/>
+        <circle cx="1160" cy="120" r="80" stroke-width="1.5"/>
+        <circle cx="1160" cy="120" r="110" stroke-width="1"/>
+      </g>
+      <circle cx="1160" cy="120" r="5" fill="#9fc0d4"/>
+    </svg>
+    <div class="quote">
+      <div class="wrap">
+        <p>"Growth that lasts is built ring by ring — every layer carrying the next."</p>
+        <span>The OakStride way</span>
+      </div>
+    </div>
+  </div>
+
+  <section id="about">
+    <div class="wrap">
+      <h2>How we work</h2>
+      <p class="section-intro">OakStride is a boutique firm built on senior experience — leaders who have owned the results, not just advised on them. We work with minimum bureaucracy and maximum clarity, and we stay close enough to delivery to keep momentum and make decisions stick.</p>
+      <div class="exp-grid">
+        <ul class="exp-list">
+          <li><span class="org">Retail &amp; e-commerce</span><span class="role">Platforms, omnichannel, managed services</span></li>
+          <li><span class="org">Insurance &amp; banking</span><span class="role">Digital portfolios, operating models</span></li>
+          <li><span class="org">Public sector</span><span class="role">Shared services, digital capability</span></li>
+          <li><span class="org">Telecom &amp; industry</span><span class="role">Lean IT, sourcing, transformation</span></li>
+        </ul>
+        <div class="facts">
+          <div class="fact">
+            <div class="num">15+</div>
+            <div class="lbl">years of digital transformation and delivery leadership in complex, multi-stakeholder environments</div>
+          </div>
+          <div class="fact">
+            <div class="num">Nordics</div>
+            <div class="lbl">leading mixed teams of in-house specialists, partners and offshore vendors across the Nordic markets</div>
+          </div>
+          <div class="fact">
+            <div class="num">C-level</div>
+            <div class="lbl">a trusted partner to CIOs, COOs and executive teams — from boardroom to delivery floor</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt" id="contact">
+    <div class="wrap">
+      <h2>Contact</h2>
+      <div class="contact-grid">
+        <p class="section-intro" style="margin-bottom:0">Facing a leadership gap, a transformation that has stalled, or an AI agenda that needs to move from slides to production? Let's have a conversation.</p>
+        <ul class="contact-list">
+          <li><span class="k">Email</span><a href="mailto:info@oakstride.se">info@oakstride.se</a></li>
+          <li><span class="k">Phone</span><a href="tel:+46702371704">+46 70 237 17 04</a></li>
+          <li><span class="k">Location</span>Stockholm, Sweden</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+    <span>© 2026 OakStride</span>
+    <span>oakstride.se</span>
+  </div>
+</footer>
+
+</body>
+</html>
