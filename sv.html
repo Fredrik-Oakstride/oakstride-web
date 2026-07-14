@@ -58,7 +58,10 @@
   a:focus-visible { outline: 2px solid var(--acorn); outline-offset: 3px; border-radius: 2px; }
 
   /* Hero */
-  .hero { position: relative; overflow: hidden; padding: 96px 0 88px; }
+  .hero {
+    position: relative; overflow: hidden; padding: 108px 0 100px;
+    background: linear-gradient(rgba(16,29,23,0.82), rgba(16,29,23,0.74)), url('images/photo-1.jpg') center/cover no-repeat;
+  }
   .hero .wrap { position: relative; }
   .rings {
     position: absolute; right: -140px; top: 50%; transform: translateY(-50%);
@@ -67,26 +70,26 @@
   .eyebrow {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--moss); margin-bottom: 20px;
+    color: #a9c7b6; margin-bottom: 20px;
   }
   h1 {
     font-family: 'Bricolage Grotesque', sans-serif;
     font-size: clamp(2.4rem, 6vw, 4.1rem);
     line-height: 1.05; letter-spacing: -0.03em; font-weight: 700;
-    color: var(--pine); max-width: 16ch;
+    color: #f5f7f6; max-width: 16ch;
   }
   .hero p.lead {
-    margin-top: 28px; max-width: 56ch; font-size: 1.15rem; color: #3d443a;
+    margin-top: 28px; max-width: 56ch; font-size: 1.15rem; color: #d7e0da;
   }
   .cta-row { margin-top: 40px; display: flex; gap: 16px; flex-wrap: wrap; }
   .btn {
     display: inline-block; text-decoration: none; font-weight: 600; font-size: 1rem;
     padding: 14px 28px; border-radius: 4px;
   }
-  .btn-primary { background: var(--pine); color: var(--paper); }
-  .btn-primary:hover, .btn-primary:focus-visible { background: #152b22; }
-  .btn-ghost { color: var(--pine); border: 1px solid var(--moss); }
-  .btn-ghost:hover, .btn-ghost:focus-visible { background: var(--birch); }
+  .btn-primary { background: var(--paper); color: var(--pine); }
+  .btn-primary:hover, .btn-primary:focus-visible { background: #dfe6e1; }
+  .btn-ghost { color: #f5f7f6; border: 1px solid #9fc0d4; }
+  .btn-ghost:hover, .btn-ghost:focus-visible { background: rgba(255,255,255,0.10); }
 
   /* Sections */
   section { padding: 84px 0; }
@@ -199,8 +202,8 @@
   .photo-duo img { height: 230px; }
   .ai-figure { margin-top: 20px; }
   .ai-figure img { height: 150px; }
-  .contact-photo { margin-top: 56px; }
-  .contact-photo img { height: 240px; }
+  .contact-photo { margin-top: 56px; max-width: 560px; }
+  .contact-photo img { height: auto; }
   @media (max-width: 900px) {
     .exp-grid.with-photo { grid-template-columns: 1fr; }
     .photo-duo { grid-template-columns: 1fr; }
@@ -225,7 +228,7 @@
 <main id="top">
   <div class="hero">
     <svg class="rings" viewBox="0 0 560 560" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-      <g fill="none" stroke="#4a6b57" stroke-opacity="0.35">
+      <g fill="none" stroke="#9fc0d4" stroke-opacity="0.22">
         <circle cx="280" cy="280" r="40" stroke-width="1.5"/>
         <circle cx="280" cy="280" r="78" stroke-width="1"/>
         <circle cx="280" cy="280" r="112" stroke-width="1.5"/>
@@ -234,7 +237,7 @@
         <circle cx="280" cy="280" r="224" stroke-width="1"/>
         <circle cx="280" cy="280" r="258" stroke-width="1.5"/>
       </g>
-      <circle cx="280" cy="280" r="8" fill="#2f6486"/>
+      <circle cx="280" cy="280" r="8" fill="#9fc0d4"/>
     </svg>
     <div class="wrap">
       <p class="eyebrow">OakStride · Konsult &amp; rådgivning</p>
@@ -270,7 +273,6 @@
           <span class="tag">AI</span>
           <h3>AI-strategi &amp; transformation</h3>
           <p>Pragmatisk AI-adoption grundad i affärsvärde: rätt användningsfall, förberedd data och arkitektur, styrning och riktlinjer för ansvarsfull användning — och AI-initiativ som tar sig från pilot till produktion.</p>
-          <figure class="photo ai-figure"><img src="images/photo-4.jpg" alt="Ett barn som blir vän med en robot" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
         </div>
         <div class="card">
           <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
@@ -345,11 +347,7 @@
             <div class="lbl">en betrodd partner till CIO:er, COO:er och ledningsgrupper — från styrelserum till leveransgolv</div>
           </div>
         </div>
-        <figure class="photo about-photo"><img src="images/photo-1.jpg" alt="Kollegor som skrattar tillsammans vid sina datorer" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
-      </div>
-      <div class="photo-duo">
-        <figure class="photo"><img src="images/photo-3.jpg" alt="Två kvinnor som pratar och skrattar tillsammans" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
-        <figure class="photo"><img src="images/photo-6.jpg" alt="Glada människor på jobbet" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
+        <figure class="photo about-photo"><img src="images/photo-3.jpg" alt="Två kvinnor som pratar och skrattar tillsammans" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
       </div>
     </div>
   </section>
