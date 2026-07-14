@@ -170,6 +170,42 @@
     section { padding: 60px 0; }
     .hero { padding: 64px 0 56px; }
   }
+
+  /* Liveliness: motion (only when user allows it) */
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    .card, .step, .fact { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 14px 30px rgba(30,58,47,.13); border-color: var(--moss); }
+    .btn { transition: transform .15s ease, background .2s ease, color .2s ease; }
+    .btn:hover { transform: translateY(-2px); }
+    .hero .wrap > * { animation: heroIn .8s ease both; }
+    .hero .wrap > *:nth-child(2) { animation-delay: .12s; }
+    .hero .wrap > *:nth-child(3) { animation-delay: .24s; }
+    .hero .wrap > *:nth-child(4) { animation-delay: .36s; }
+    @keyframes heroIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    .rings { animation: ringbreathe 9s ease-in-out infinite; }
+    @keyframes ringbreathe { 50% { transform: translateY(-50%) scale(1.045); } }
+  }
+
+  .photo { margin: 0; border-radius: 6px; overflow: hidden; position: relative; background: var(--birch); }
+  .photo img { display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%) saturate(88%); }
+  .photo::after { content: ""; position: absolute; inset: 0; background: #1e3a2f; opacity: 0.10; pointer-events: none; }
+  .photo-wide { margin: 0 0 40px; }
+  .photo-wide img { height: 320px; }
+  .about-photo img { height: 100%; min-height: 320px; }
+  .exp-grid.with-photo { grid-template-columns: 1.1fr 1fr 1fr; gap: 32px; }
+  .photo-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 56px; }
+  .photo-duo img { height: 230px; }
+  .ai-figure { margin-top: 20px; }
+  .ai-figure img { height: 150px; }
+  .contact-photo { margin-top: 56px; }
+  .contact-photo img { height: 240px; }
+  @media (max-width: 900px) {
+    .exp-grid.with-photo { grid-template-columns: 1fr; }
+    .photo-duo { grid-template-columns: 1fr; }
+    .photo-wide img { height: 220px; }
+  }
 </style>
 </head>
 <body>
@@ -215,6 +251,7 @@
     <div class="wrap">
       <h2>Vad vi gör</h2>
       <p class="section-intro">Vi tar oss an uppdrag där strategi ska bli verklighet — som interimledare, rådgivare eller transformationsledare, alltid nära leveransen.</p>
+      <figure class="photo photo-wide"><img src="images/photo-2.jpg" alt="Professionella i ett energifyllt kontorsmöte" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
       <div class="services">
         <div class="card">
           <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg></div>
@@ -233,6 +270,7 @@
           <span class="tag">AI</span>
           <h3>AI-strategi &amp; transformation</h3>
           <p>Pragmatisk AI-adoption grundad i affärsvärde: rätt användningsfall, förberedd data och arkitektur, styrning och riktlinjer för ansvarsfull användning — och AI-initiativ som tar sig från pilot till produktion.</p>
+          <figure class="photo ai-figure"><img src="images/photo-4.jpg" alt="Ett barn som blir vän med en robot" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
         </div>
         <div class="card">
           <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
@@ -286,7 +324,7 @@
     <div class="wrap">
       <h2>Så arbetar vi</h2>
       <p class="section-intro">OakStride är en boutiquefirma byggd på senior erfarenhet — ledare som har ägt resultaten, inte bara gett råd om dem. Vi arbetar med minimal byråkrati och maximal tydlighet, och håller oss nära leveransen så att tempot hålls och besluten sitter.</p>
-      <div class="exp-grid">
+      <div class="exp-grid with-photo">
         <ul class="exp-list">
           <li><span class="org">Retail &amp; e-handel</span><span class="role">Plattformar, omnikanal, managed services</span></li>
           <li><span class="org">Försäkring &amp; bank</span><span class="role">Digitala portföljer, operativmodeller</span></li>
@@ -307,6 +345,11 @@
             <div class="lbl">en betrodd partner till CIO:er, COO:er och ledningsgrupper — från styrelserum till leveransgolv</div>
           </div>
         </div>
+        <figure class="photo about-photo"><img src="images/photo-1.jpg" alt="Kollegor som skrattar tillsammans vid sina datorer" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
+      </div>
+      <div class="photo-duo">
+        <figure class="photo"><img src="images/photo-3.jpg" alt="Två kvinnor som pratar och skrattar tillsammans" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
+        <figure class="photo"><img src="images/photo-6.jpg" alt="Glada människor på jobbet" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
       </div>
     </div>
   </section>
@@ -322,6 +365,7 @@
           <li><span class="k">Plats</span>Stockholm</li>
         </ul>
       </div>
+      <figure class="photo contact-photo"><img src="images/photo-5.jpg" alt="Skylt med texten Good vibes only" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
     </div>
   </section>
 </main>
@@ -333,5 +377,21 @@
   </div>
 </footer>
 
+<script>
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var groups = document.querySelectorAll('section .wrap > h2, section .wrap > .section-intro, .band .quote, .card, .step, .fact, .exp-list li, .contact-list, .photo');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.12 });
+  groups.forEach(function(el, i){
+    el.classList.add('reveal');
+    el.style.transitionDelay = ((i % 6) * 70) + 'ms';
+    io.observe(el);
+  });
+})();
+</script>
 </body>
 </html>
