@@ -202,8 +202,15 @@
   .photo-duo img { height: 230px; }
   .ai-figure { margin-top: 20px; }
   .ai-figure img { height: 150px; }
-  .contact-photo { margin-top: 56px; max-width: 560px; }
-  .contact-photo img { height: auto; }
+  #contact {
+    background: linear-gradient(rgba(16,29,23,0.86), rgba(16,29,23,0.80)), url('images/photo-5.jpg') center/cover no-repeat;
+  }
+  #contact h2 { color: #f5f7f6; }
+  #contact .section-intro { color: #d7e0da; }
+  #contact .contact-list a { color: #f5f7f6; border-bottom-color: #9fc0d4; }
+  #contact .contact-list a:hover { color: #c9d9cf; }
+  #contact .contact-list .k { color: #a9c7b6; }
+  #contact .contact-list li { color: #d7e0da; }
   @media (max-width: 900px) {
     .exp-grid.with-photo { grid-template-columns: 1fr; }
     .photo-duo { grid-template-columns: 1fr; }
@@ -363,7 +370,6 @@
           <li><span class="k">Location</span>Stockholm, Sweden</li>
         </ul>
       </div>
-      <figure class="photo contact-photo"><img src="images/photo-5.jpg" alt="Good vibes only sign" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
     </div>
   </section>
 </main>
