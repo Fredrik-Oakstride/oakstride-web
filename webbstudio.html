@@ -88,9 +88,18 @@
 
   .hero {
     position: relative; overflow: hidden; padding: 100px 0 92px;
-    background: linear-gradient(rgba(16,29,23,0.80), rgba(16,29,23,0.72)), url('images/studio-hero.jpg') center/cover no-repeat;
+    background: var(--pine);
   }
-  .hero .wrap { position: relative; }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; z-index: 0;
+    background: url('images/studio-hero.jpg') center/cover no-repeat;
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(rgba(16,29,23,0.80), rgba(16,29,23,0.72));
+  }
+  .hero .rings { z-index: 2; }
+  .hero .wrap { position: relative; z-index: 3; }
   .rings { position: absolute; right: -140px; top: 50%; transform: translateY(-50%); width: 520px; height: 520px; opacity: 0.9; pointer-events: none; }
   .eyebrow {
     font-family: 'IBM Plex Mono', monospace;
@@ -239,6 +248,17 @@
     @keyframes heroIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
     .rings { animation: ringbreathe 9s ease-in-out infinite; }
     @keyframes ringbreathe { 50% { transform: translateY(-50%) scale(1.045); } }
+    .hero::before { animation: kenburns 36s ease-in-out infinite alternate; }
+    @keyframes kenburns { to { transform: scale(1.08); } }
+    .photo img { transition: transform .6s ease; }
+    .photo:hover img { transform: scale(1.045); }
+    .work-shot img { transition: transform .6s ease; }
+    .work-item:hover .work-shot img { transform: scale(1.045); }
+    .card .icon svg { transition: transform .3s ease; }
+    .card:hover .icon svg { transform: scale(1.12) rotate(-6deg); }
+    .btn .arrow, nav.links a .arrow, .work-link .arrow { display: inline-block; transition: transform .2s ease; }
+    .btn:hover .arrow, .btn:focus-visible .arrow, nav.links a:hover .arrow, .work-link:hover .arrow { transform: translateX(3px); }
+    .btn:hover .arrow-d, .btn:focus-visible .arrow-d { transform: translateY(3px); }
   }
 </style>
 </head>
@@ -251,7 +271,7 @@
       <a href="#tjanster">Tjänster</a>
       <a href="#arbete">Vårt arbete</a>
       <a href="#kontakt">Kontakt</a>
-      <a href="/sv">Advisory &rarr;</a>
+      <a href="/sv">Advisory <span class="arrow">&rarr;</span></a>
       <a href="/studio" lang="en">English</a>
     </nav>
   </div>
@@ -276,8 +296,8 @@
       <h1>Storbyråns hantverk. Småföretagets hjärta.</h1>
       <p class="lead">OakStride Studio designar, bygger och sköter webbplatser och webbutiker för mindre organisationer, föreningar och lokala företag. Modernt, snabbt och lätt att driva — så att ni kan lägga energin på det ni faktiskt gör, och ändå se lysande ut på nätet.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="#kontakt">Starta ert projekt</a>
-        <a class="btn btn-ghost" href="#arbete">Se vårt arbete</a>
+        <a class="btn btn-primary" href="#kontakt">Starta ert projekt <span class="arrow">&rarr;</span></a>
+        <a class="btn btn-ghost" href="#arbete">Se vårt arbete <span class="arrow arrow-d">&darr;</span></a>
       </div>
     </div>
   </div>
@@ -351,7 +371,7 @@
             <li>Google-inloggning, data i molnet</li>
             <li>Byggd för både barn och vuxna</li>
           </ul>
-          <a class="work-link" href="https://nivlaparkour.com" target="_blank" rel="noopener">nivlaparkour.com &rarr;</a>
+          <a class="work-link" href="https://nivlaparkour.com" target="_blank" rel="noopener">nivlaparkour.com <span class="arrow">&rarr;</span></a>
         </div>
       </div>
 
@@ -370,7 +390,7 @@
 
       <div class="work-next">
         <p><strong>Ert projekt kan bli nästa.</strong> Berätta vad ni gör och var skon klämmer — vi föreslår något enkelt som fungerar.</p>
-        <a class="btn" href="#kontakt">Säg hej</a>
+        <a class="btn" href="#kontakt">Säg hej <span class="arrow">&rarr;</span></a>
       </div>
     </div>
   </section>

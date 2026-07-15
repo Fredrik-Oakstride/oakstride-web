@@ -88,9 +88,18 @@
 
   .hero {
     position: relative; overflow: hidden; padding: 100px 0 92px;
-    background: linear-gradient(rgba(16,29,23,0.82), rgba(16,29,23,0.74)), url('images/photo-6.jpg') center/cover no-repeat;
+    background: var(--pine);
   }
-  .hero .wrap { position: relative; }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; z-index: 0;
+    background: url('images/photo-6.jpg') center/cover no-repeat;
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(rgba(16,29,23,0.82), rgba(16,29,23,0.74));
+  }
+  .hero .rings { z-index: 2; }
+  .hero .wrap { position: relative; z-index: 3; }
   .rings { position: absolute; right: -140px; top: 50%; transform: translateY(-50%); width: 520px; height: 520px; opacity: 0.9; pointer-events: none; }
   .eyebrow {
     font-family: 'IBM Plex Mono', monospace;
@@ -194,6 +203,15 @@
     @keyframes heroIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
     .rings { animation: ringbreathe 9s ease-in-out infinite; }
     @keyframes ringbreathe { 50% { transform: translateY(-50%) scale(1.045); } }
+    .hero::before { animation: kenburns 36s ease-in-out infinite alternate; }
+    @keyframes kenburns { to { transform: scale(1.08); } }
+    .photo img { transition: transform .6s ease; }
+    .photo:hover img { transform: scale(1.045); }
+    .card .icon svg { transition: transform .3s ease; }
+    .card:hover .icon svg { transform: scale(1.12) rotate(-6deg); }
+    .btn .arrow, nav.links a .arrow, .work-link .arrow { display: inline-block; transition: transform .2s ease; }
+    .btn:hover .arrow, .btn:focus-visible .arrow, nav.links a:hover .arrow, .work-link:hover .arrow { transform: translateX(3px); }
+    .btn:hover .arrow-d, .btn:focus-visible .arrow-d { transform: translateY(3px); }
   }
 </style>
 </head>
@@ -205,7 +223,7 @@
     <nav class="links" aria-label="Huvudmeny">
       <a href="#tjansten">Tjänsten</a>
       <a href="#kontakt">Kontakt</a>
-      <a href="/sv">Advisory →</a>
+      <a href="/sv">Advisory <span class="arrow">&rarr;</span></a>
       <a href="/it-management" lang="en">English</a>
     </nav>
   </div>
@@ -230,8 +248,8 @@
       <h1>En IT-chef på er sida av bordet.</h1>
       <p class="lead">För bolag med 10–50 anställda som vuxit ur "den som kan datorer" men inte behöver en IT-chef på heltid. OakStride stöttar och avlastar er i IT-frågorna — strategi, budget, säkerhet och leverantörer — på ett fast antal timmar per månad.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="#kontakt">Boka ett samtal</a>
-        <a class="btn btn-ghost" href="#tjansten">Så funkar det</a>
+        <a class="btn btn-primary" href="#kontakt">Boka ett samtal <span class="arrow">&rarr;</span></a>
+        <a class="btn btn-ghost" href="#tjansten">Så funkar det <span class="arrow arrow-d">&darr;</span></a>
       </div>
     </div>
   </div>

@@ -109,9 +109,18 @@
   /* Hero */
   .hero {
     position: relative; overflow: hidden; padding: 108px 0 100px;
-    background: linear-gradient(rgba(16,29,23,0.82), rgba(16,29,23,0.74)), url('images/photo-1.jpg') center/cover no-repeat;
+    background: var(--pine);
   }
-  .hero .wrap { position: relative; }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; z-index: 0;
+    background: url('images/photo-1.jpg') center/cover no-repeat;
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(rgba(16,29,23,0.82), rgba(16,29,23,0.74));
+  }
+  .hero .rings { z-index: 2; }
+  .hero .wrap { position: relative; z-index: 3; }
   .rings {
     position: absolute; right: -140px; top: 50%; transform: translateY(-50%);
     width: 560px; height: 560px; opacity: 0.9; pointer-events: none;
@@ -244,6 +253,15 @@
     @keyframes heroIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
     .rings { animation: ringbreathe 9s ease-in-out infinite; }
     @keyframes ringbreathe { 50% { transform: translateY(-50%) scale(1.045); } }
+    .hero::before { animation: kenburns 36s ease-in-out infinite alternate; }
+    @keyframes kenburns { to { transform: scale(1.08); } }
+    .photo img { transition: transform .6s ease; }
+    .photo:hover img { transform: scale(1.045); }
+    .card .icon svg { transition: transform .3s ease; }
+    .card:hover .icon svg { transform: scale(1.12) rotate(-6deg); }
+    .btn .arrow, nav.links a .arrow, .work-link .arrow { display: inline-block; transition: transform .2s ease; }
+    .btn:hover .arrow, .btn:focus-visible .arrow, nav.links a:hover .arrow, .work-link:hover .arrow { transform: translateX(3px); }
+    .btn:hover .arrow-d, .btn:focus-visible .arrow-d { transform: translateY(3px); }
   }
 
   .photo { margin: 0; border-radius: 6px; overflow: hidden; position: relative; background: var(--birch); }
@@ -306,8 +324,8 @@
       <h1>Strategi är enkelt. Leverans är det svåra.</h1>
       <p class="lead">OakStride är ett nordiskt konsult- och rådgivningsbolag som hjälper organisationer att omsätta digital- och AI-strategi i fungerande plattformar, produkter och operativmodeller — genom närvarande ledarskap, disciplinerad prioritering och teknikstyrning som håller.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="#contact">Kontakta oss</a>
-        <a class="btn btn-ghost" href="#services">Vad vi gör</a>
+        <a class="btn btn-primary" href="#contact">Kontakta oss <span class="arrow">&rarr;</span></a>
+        <a class="btn btn-ghost" href="#services">Vad vi gör <span class="arrow arrow-d">&darr;</span></a>
       </div>
     </div>
   </div>
