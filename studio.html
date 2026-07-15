@@ -100,6 +100,11 @@
   }
   .hero .rings { z-index: 2; }
   .hero .wrap { position: relative; z-index: 3; }
+  .blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.5; pointer-events: none; z-index: 2; }
+  .b1 { width: 30rem; height: 30rem; top: -8rem; right: -8rem; background: radial-gradient(circle, rgba(159,192,212,0.38), transparent 65%); }
+  .b2 { width: 22rem; height: 22rem; bottom: -6rem; left: -8rem; background: radial-gradient(circle, rgba(74,107,87,0.5), transparent 65%); }
+  .b3 { width: 16rem; height: 16rem; top: 30%; left: 45%; background: radial-gradient(circle, rgba(47,100,134,0.4), transparent 65%); }
+  h1 span { color: #9fc0d4; }
   .rings { position: absolute; right: -140px; top: 50%; transform: translateY(-50%); width: 520px; height: 520px; opacity: 0.9; pointer-events: none; }
   .eyebrow {
     font-family: 'IBM Plex Mono', monospace;
@@ -189,8 +194,14 @@
   .work-next .btn:hover, .work-next .btn:focus-visible { background: var(--moss); }
 
   /* Steps */
-  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .step { border-left: 3px solid var(--acorn); padding-left: 20px; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; counter-reset: step; }
+  .step { border-left: 3px solid var(--acorn); padding-left: 20px; position: relative; overflow: hidden; counter-increment: step; }
+  .step::after {
+    content: "0" counter(step); position: absolute; top: -18px; right: 2px;
+    font-family: 'Bricolage Grotesque', sans-serif; font-size: 6rem; font-weight: 700;
+    line-height: 1; letter-spacing: -0.05em; color: var(--acorn); opacity: 0.10;
+    user-select: none; pointer-events: none;
+  }
   .step h3 { font-family:'Bricolage Grotesque',sans-serif; font-size: 1.1rem; color: var(--pine); margin-bottom: 8px; }
   .step p { font-size: 0.95rem; color: #3d443a; }
   .step .n { font-family:'IBM Plex Mono',monospace; font-size: 0.78rem; letter-spacing: 0.12em; color: var(--moss); display:block; margin-bottom: 8px; }
@@ -259,6 +270,13 @@
     .btn .arrow, nav.links a .arrow, .work-link .arrow { display: inline-block; transition: transform .2s ease; }
     .btn:hover .arrow, .btn:focus-visible .arrow, nav.links a:hover .arrow, .work-link:hover .arrow { transform: translateX(3px); }
     .btn:hover .arrow-d, .btn:focus-visible .arrow-d { transform: translateY(3px); }
+    .work-item:hover { transform: translateY(-5px); box-shadow: 0 14px 30px rgba(30,58,47,.13); border-color: var(--moss); }
+    .b1 { animation: drift1 22s ease-in-out infinite alternate; }
+    .b2 { animation: drift2 26s ease-in-out infinite alternate; }
+    .b3 { animation: drift3 18s ease-in-out infinite alternate; }
+    @keyframes drift1 { to { transform: translate(-5rem, 3rem) scale(1.12); } }
+    @keyframes drift2 { to { transform: translate(4rem, -2rem) scale(1.08); } }
+    @keyframes drift3 { to { transform: translate(3rem, 2rem) scale(0.92); } }
   }
 </style>
 </head>
@@ -291,9 +309,12 @@
       </g>
       <circle cx="280" cy="280" r="8" fill="#9fc0d4"/>
     </svg>
+    <div class="blob b1" aria-hidden="true"></div>
+    <div class="blob b2" aria-hidden="true"></div>
+    <div class="blob b3" aria-hidden="true"></div>
     <div class="wrap">
       <p class="eyebrow">OakStride &middot; Studio</p>
-      <h1>Big-agency craft. Small-business heart.</h1>
+      <h1>Big-agency craft. <span>Small-business heart.</span></h1>
       <p class="lead">OakStride Studio designs, builds and cares for websites and online shops for small organisations, clubs and local businesses. Modern, fast and easy to run — so you can spend your energy on what you actually do, and still look brilliant online.</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="#contact">Start your project <span class="arrow">&rarr;</span></a>
@@ -453,7 +474,7 @@
   }, { threshold: 0.12 });
   groups.forEach(function(el, i){
     el.classList.add('reveal');
-    el.style.transitionDelay = ((i % 6) * 70) + 'ms';
+    el.style.transitionDelay = ((i % 6) * 110) + 'ms';
     io.observe(el);
   });
 })();
