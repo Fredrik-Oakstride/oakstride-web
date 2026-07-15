@@ -195,11 +195,11 @@
 
   /* Steps */
   .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; counter-reset: step; }
-  .step { border-left: 3px solid var(--acorn); padding-left: 20px; position: relative; overflow: hidden; counter-increment: step; }
+  .step { border-left: 3px solid var(--acorn); padding-left: 20px; position: relative; counter-increment: step; }
   .step::after {
-    content: "0" counter(step); position: absolute; top: -18px; right: 2px;
-    font-family: 'Bricolage Grotesque', sans-serif; font-size: 6rem; font-weight: 700;
-    line-height: 1; letter-spacing: -0.05em; color: var(--acorn); opacity: 0.10;
+    content: "0" counter(step); position: absolute; top: 0; right: 8px;
+    font-family: 'Bricolage Grotesque', sans-serif; font-size: 4.5rem; font-weight: 700;
+    line-height: 1; letter-spacing: -0.05em; color: var(--acorn); opacity: 0.12;
     user-select: none; pointer-events: none;
   }
   .step h3 { font-family:'Bricolage Grotesque',sans-serif; font-size: 1.1rem; color: var(--pine); margin-bottom: 8px; }
