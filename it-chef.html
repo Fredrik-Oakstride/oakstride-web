@@ -39,7 +39,7 @@
     backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--line);
   }
-  .nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
+  .nav { display: flex; align-items: center; justify-content: space-between; padding-top: 18px; padding-bottom: 18px; }
   .logo {
     font-family: 'Bricolage Grotesque', sans-serif;
     font-weight: 700; font-size: 1.25rem; letter-spacing: -0.02em;
@@ -48,7 +48,7 @@
   .logo span { color: var(--acorn); }
   .logo small { display:block; font-family:'IBM Plex Mono',monospace; font-weight:400; font-size:0.62rem; letter-spacing:0.14em; text-transform:uppercase; color: var(--moss); }
   nav.links { display: flex; gap: 28px; }
-  nav.links a { color: var(--ink); text-decoration: none; font-size: 0.95rem; font-weight: 500; }
+  nav.links a { color: var(--ink); text-decoration: none; font-size: 0.95rem; font-weight: 500; white-space: nowrap; }
   nav.links a:hover, nav.links a:focus-visible { color: var(--moss); }
   a:focus-visible { outline: 2px solid var(--acorn); outline-offset: 3px; border-radius: 2px; }
 
@@ -137,6 +137,12 @@
     nav.links { gap: 18px; }
     section { padding: 56px 0; }
     .hero { padding: 60px 0 52px; }
+  }
+
+  @media (max-width: 640px) {
+    .nav { flex-wrap: wrap; row-gap: 6px; padding-top: 12px; padding-bottom: 12px; }
+    nav.links { width: 100%; justify-content: space-between; gap: 6px 10px; flex-wrap: wrap; }
+    nav.links a { font-size: 0.88rem; }
   }
 
   /* Liveliness: motion (only when user allows it) */

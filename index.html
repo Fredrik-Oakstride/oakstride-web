@@ -42,7 +42,7 @@
   }
   .nav {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 0;
+    padding-top: 18px; padding-bottom: 18px;
   }
   .logo {
     font-family: 'Bricolage Grotesque', sans-serif;
@@ -53,6 +53,7 @@
   nav.links { display: flex; gap: 28px; }
   nav.links a {
     color: var(--ink); text-decoration: none; font-size: 0.95rem; font-weight: 500;
+    white-space: nowrap;
   }
   nav.links a:hover, nav.links a:focus-visible { color: var(--moss); }
   a:focus-visible { outline: 2px solid var(--acorn); outline-offset: 3px; border-radius: 2px; }
@@ -172,6 +173,12 @@
     nav.links { gap: 18px; }
     section { padding: 60px 0; }
     .hero { padding: 64px 0 56px; }
+  }
+
+  @media (max-width: 640px) {
+    .nav { flex-wrap: wrap; row-gap: 6px; padding-top: 12px; padding-bottom: 12px; }
+    nav.links { width: 100%; justify-content: space-between; gap: 6px 10px; flex-wrap: wrap; }
+    nav.links a { font-size: 0.88rem; }
   }
 
   /* Liveliness: motion (only when user allows it) */
