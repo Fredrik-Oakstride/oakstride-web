@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://oakstride.se/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://oakstride.se/"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://oakstride.se/sv"/>
+  </url>
+  <url>
+    <loc>https://oakstride.se/sv</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://oakstride.se/"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://oakstride.se/sv"/>
+  </url>
+  <url>
+    <loc>https://oakstride.se/it-management</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://oakstride.se/it-management"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://oakstride.se/it-chef"/>
+  </url>
+  <url>
+    <loc>https://oakstride.se/it-chef</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://oakstride.se/it-management"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://oakstride.se/it-chef"/>
+  </url>
+  <url>
+    <loc>https://oakstride.se/studio</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://oakstride.se/studio"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://oakstride.se/webbstudio"/>
+  </url>
+  <url>
+    <loc>https://oakstride.se/webbstudio</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://oakstride.se/studio"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://oakstride.se/webbstudio"/>
+  </url>
+</urlset>
