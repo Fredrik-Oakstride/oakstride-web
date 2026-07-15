@@ -100,6 +100,12 @@
   }
   .hero .rings { z-index: 2; }
   .hero .wrap { position: relative; z-index: 3; }
+  .hero-video {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; z-index: 0; opacity: 0;
+    filter: saturate(0.8) contrast(1.05) brightness(0.9);
+  }
+  .hero-video.playing { opacity: 1; }
   .blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.5; pointer-events: none; z-index: 2; }
   .b1 { width: 30rem; height: 30rem; top: -8rem; right: -8rem; background: radial-gradient(circle, rgba(159,192,212,0.38), transparent 65%); }
   .b2 { width: 22rem; height: 22rem; bottom: -6rem; left: -8rem; background: radial-gradient(circle, rgba(74,107,87,0.5), transparent 65%); }
@@ -270,6 +276,7 @@
     .btn .arrow, nav.links a .arrow, .work-link .arrow { display: inline-block; transition: transform .2s ease; }
     .btn:hover .arrow, .btn:focus-visible .arrow, nav.links a:hover .arrow, .work-link:hover .arrow { transform: translateX(3px); }
     .btn:hover .arrow-d, .btn:focus-visible .arrow-d { transform: translateY(3px); }
+    .hero-video { transition: opacity 1.2s ease; }
     .work-item:hover { transform: translateY(-5px); box-shadow: 0 14px 30px rgba(30,58,47,.13); border-color: var(--moss); }
     .b1 { animation: drift1 22s ease-in-out infinite alternate; }
     .b2 { animation: drift2 26s ease-in-out infinite alternate; }
@@ -309,6 +316,7 @@
       </g>
       <circle cx="280" cy="280" r="8" fill="#9fc0d4"/>
     </svg>
+    <video class="hero-video" muted loop playsinline preload="none" aria-hidden="true"></video>
     <div class="blob b1" aria-hidden="true"></div>
     <div class="blob b2" aria-hidden="true"></div>
     <div class="blob b3" aria-hidden="true"></div>
@@ -465,6 +473,19 @@
 
 <script>
 (function(){
+  // Hero video: light 640px file on small screens, 960px on wide.
+  // Skipped entirely for users who prefer reduced motion; the hero
+  // photo stays as the backdrop until the video is actually playing.
+  var hv = document.querySelector('.hero-video');
+  if (hv && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    hv.src = matchMedia('(min-width: 56rem)').matches
+      ? 'video/studio-hero.mp4'
+      : 'video/studio-hero-small.mp4';
+    hv.autoplay = true;
+    hv.addEventListener('playing', function () { hv.classList.add('playing'); }, { once: true });
+    hv.play().catch(function () {});
+  }
+
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var groups = document.querySelectorAll('section .wrap > h2, section .wrap > .section-intro, .band .quote, .card, .step, .work-item, .work-next, .contact-list, .photo');
   var io = new IntersectionObserver(function(entries){
