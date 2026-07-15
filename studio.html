@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OakStride Studio — Web design &amp; e-commerce for small businesses</title>
+<meta name="description" content="OakStride Studio designs, builds and cares for websites and online shops for small organisations, clubs and local businesses — modern, fast and friendly, without the big-agency overhead.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #21261f;
+    --pine: #1e3a2f;
+    --moss: #4a6b57;
+    --birch: #e9eeec;
+    --paper: #f5f7f6;
+    --acorn: #2f6486;
+    --line: #d8dcd2;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.6;
+    font-size: 17px;
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(245,247,246,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; padding-top: 18px; padding-bottom: 18px; }
+  .logo {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 700; font-size: 1.25rem; letter-spacing: -0.02em;
+    color: var(--pine); text-decoration: none;
+  }
+  .logo span { color: var(--acorn); }
+  .logo small { display:block; font-family:'IBM Plex Mono',monospace; font-weight:400; font-size:0.62rem; letter-spacing:0.14em; text-transform:uppercase; color: var(--moss); }
+  nav.links { display: flex; gap: 28px; }
+  nav.links a { color: var(--ink); text-decoration: none; font-size: 0.95rem; font-weight: 500; white-space: nowrap; }
+  nav.links a:hover, nav.links a:focus-visible { color: var(--moss); }
+  a:focus-visible { outline: 2px solid var(--acorn); outline-offset: 3px; border-radius: 2px; }
+
+  .hero {
+    position: relative; overflow: hidden; padding: 100px 0 92px;
+    background: linear-gradient(rgba(16,29,23,0.80), rgba(16,29,23,0.72)), url('images/photo-7.jpg') center/cover no-repeat;
+  }
+  .hero .wrap { position: relative; }
+  .rings { position: absolute; right: -140px; top: 50%; transform: translateY(-50%); width: 520px; height: 520px; opacity: 0.9; pointer-events: none; }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: #a9c7b6; margin-bottom: 20px;
+  }
+  h1 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+    line-height: 1.07; letter-spacing: -0.03em; font-weight: 700;
+    color: #f5f7f6; max-width: 18ch;
+  }
+  .hero p.lead { margin-top: 26px; max-width: 56ch; font-size: 1.12rem; color: #d7e0da; }
+  .cta-row { margin-top: 38px; display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn { display: inline-block; text-decoration: none; font-weight: 600; font-size: 1rem; padding: 14px 28px; border-radius: 4px; }
+  .btn-primary { background: var(--paper); color: var(--pine); }
+  .btn-primary:hover, .btn-primary:focus-visible { background: #dfe6e1; }
+  .btn-ghost { color: #f5f7f6; border: 1px solid #9fc0d4; }
+  .btn-ghost:hover, .btn-ghost:focus-visible { background: rgba(255,255,255,0.10); }
+
+  section { padding: 80px 0; }
+  section.alt { background: var(--birch); }
+  h2 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: clamp(1.6rem, 3.2vw, 2.2rem); letter-spacing: -0.02em;
+    color: var(--pine); margin-bottom: 12px;
+  }
+  .section-intro { max-width: 60ch; color: #3d443a; margin-bottom: 44px; }
+
+  .services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 32px 28px; }
+  section.alt .card { background: #fdfdfb; }
+  .card h3 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.2rem; color: var(--pine); margin-bottom: 12px; }
+  .card p { font-size: 0.98rem; color: #3d443a; }
+  .card .icon { width: 40px; height: 40px; color: var(--acorn); margin-bottom: 14px; }
+  .card .icon svg { width: 100%; height: 100%; }
+  .card .tag {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--acorn);
+    display: block; margin-bottom: 14px;
+  }
+
+  .band { padding: 0; background: var(--pine); position: relative; }
+  .band svg.scene { display: block; width: 100%; height: auto; }
+  .band .quote { position: absolute; inset: 0; display: flex; align-items: center; }
+  .band .quote p {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: clamp(1.2rem, 2.6vw, 1.8rem); line-height: 1.3;
+    color: #f5f7f6; max-width: 26ch; letter-spacing: -0.01em;
+  }
+  .band .quote span { display: block; margin-top: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: #9fc0d4; }
+
+  .photo { margin: 0; border-radius: 6px; overflow: hidden; position: relative; background: var(--birch); }
+  .photo img { display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%) saturate(88%); }
+  .photo::after { content: ""; position: absolute; inset: 0; background: #1e3a2f; opacity: 0.10; pointer-events: none; }
+  .photo-wide { margin: 0 0 44px; }
+  .photo-wide img { height: 320px; }
+
+  /* Portfolio */
+  .work-item {
+    display: grid; grid-template-columns: 1.25fr 1fr; gap: 0;
+    background: var(--paper); border: 1px solid var(--line); border-radius: 6px; overflow: hidden;
+  }
+  section.alt .work-item { background: #fdfdfb; }
+  .work-shot { position: relative; background: var(--birch); min-height: 280px; }
+  .work-shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left; }
+  .work-body { padding: 36px 32px; display: flex; flex-direction: column; justify-content: center; }
+  .work-body h3 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.35rem; color: var(--pine); margin-bottom: 12px; }
+  .work-body p { font-size: 0.98rem; color: #3d443a; }
+  .work-body .tag {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--acorn);
+    display: block; margin-bottom: 14px;
+  }
+  .work-meta { list-style: none; margin: 18px 0 22px; display: grid; gap: 8px; }
+  .work-meta li { padding-left: 22px; position: relative; font-size: 0.94rem; color: #3d443a; }
+  .work-meta li::before { content: ""; position: absolute; left: 0; top: 9px; width: 10px; height: 10px; border: 2px solid var(--acorn); border-radius: 50%; }
+  .work-link { color: var(--pine); font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--acorn); align-self: flex-start; }
+  .work-link:hover { color: var(--moss); }
+  .work-next {
+    margin-top: 24px; border: 1px dashed var(--moss); border-radius: 6px;
+    padding: 28px 32px; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap;
+    background: transparent;
+  }
+  .work-next p { color: #3d443a; max-width: 52ch; }
+  .work-next .btn { background: var(--pine); color: #f5f7f6; }
+  .work-next .btn:hover, .work-next .btn:focus-visible { background: var(--moss); }
+
+  /* Steps */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .step { border-left: 3px solid var(--acorn); padding-left: 20px; }
+  .step h3 { font-family:'Bricolage Grotesque',sans-serif; font-size: 1.1rem; color: var(--pine); margin-bottom: 8px; }
+  .step p { font-size: 0.95rem; color: #3d443a; }
+  .step .n { font-family:'IBM Plex Mono',monospace; font-size: 0.78rem; letter-spacing: 0.12em; color: var(--moss); display:block; margin-bottom: 8px; }
+
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .contact-list { list-style: none; display: grid; gap: 16px; }
+  .contact-list a { color: var(--pine); font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--acorn); }
+  .contact-list a:hover { color: var(--moss); }
+  .contact-list .k {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--moss);
+    display: block; margin-bottom: 4px;
+  }
+  #contact {
+    background: linear-gradient(rgba(16,29,23,0.86), rgba(16,29,23,0.80)), url('images/photo-5.jpg') center/cover no-repeat;
+  }
+  #contact h2 { color: #f5f7f6; }
+  #contact .section-intro { color: #d7e0da; }
+  #contact .contact-list a { color: #f5f7f6; border-bottom-color: #9fc0d4; }
+  #contact .contact-list a:hover { color: #c9d9cf; }
+  #contact .contact-list .k { color: #a9c7b6; }
+  #contact .contact-list li { color: #d7e0da; }
+
+  footer { border-top: 1px solid var(--line); padding: 32px 0; font-size: 0.88rem; color: #5a6157; }
+
+  @media (max-width: 900px) {
+    .services, .steps, .contact-grid { grid-template-columns: 1fr; }
+    .work-item { grid-template-columns: 1fr; }
+    .work-shot { min-height: 220px; }
+    .rings { display: none; }
+    nav.links { gap: 18px; }
+    section { padding: 56px 0; }
+    .hero { padding: 60px 0 52px; }
+    .photo-wide img { height: 220px; }
+  }
+
+  @media (max-width: 640px) {
+    .nav { flex-wrap: wrap; row-gap: 6px; padding-top: 12px; padding-bottom: 12px; }
+    nav.links { width: 100%; justify-content: space-between; gap: 6px 10px; flex-wrap: wrap; }
+    nav.links a { font-size: 0.88rem; }
+  }
+
+  /* Liveliness: motion (only when user allows it) */
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    .card, .step, .work-item { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 14px 30px rgba(30,58,47,.13); border-color: var(--moss); }
+    .btn { transition: transform .15s ease, background .2s ease, color .2s ease; }
+    .btn:hover { transform: translateY(-2px); }
+    .hero .wrap > * { animation: heroIn .8s ease both; }
+    .hero .wrap > *:nth-child(2) { animation-delay: .12s; }
+    .hero .wrap > *:nth-child(3) { animation-delay: .24s; }
+    .hero .wrap > *:nth-child(4) { animation-delay: .36s; }
+    @keyframes heroIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    .rings { animation: ringbreathe 9s ease-in-out infinite; }
+    @keyframes ringbreathe { 50% { transform: translateY(-50%) scale(1.045); } }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="/studio">Oak<span>Stride</span><small>Studio</small></a>
+    <nav class="links" aria-label="Main navigation">
+      <a href="#services">Services</a>
+      <a href="#work">Our work</a>
+      <a href="#contact">Contact</a>
+      <a href="/">Advisory &rarr;</a>
+      <a href="/webbstudio" lang="sv">Svenska</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <svg class="rings" viewBox="0 0 560 560" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#9fc0d4" stroke-opacity="0.22">
+        <circle cx="280" cy="280" r="40" stroke-width="1.5"/>
+        <circle cx="280" cy="280" r="78" stroke-width="1"/>
+        <circle cx="280" cy="280" r="112" stroke-width="1.5"/>
+        <circle cx="280" cy="280" r="150" stroke-width="1"/>
+        <circle cx="280" cy="280" r="186" stroke-width="1.5"/>
+        <circle cx="280" cy="280" r="224" stroke-width="1"/>
+        <circle cx="280" cy="280" r="258" stroke-width="1.5"/>
+      </g>
+      <circle cx="280" cy="280" r="8" fill="#9fc0d4"/>
+    </svg>
+    <div class="wrap">
+      <p class="eyebrow">OakStride &middot; Studio</p>
+      <h1>Big-agency craft. Small-business heart.</h1>
+      <p class="lead">OakStride Studio designs, builds and cares for websites and online shops for small organisations, clubs and local businesses. Modern, fast and easy to run — so you can spend your energy on what you actually do, and still look brilliant online.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#contact">Start your project</a>
+        <a class="btn btn-ghost" href="#work">See our work</a>
+      </div>
+    </div>
+  </div>
+
+  <section class="alt" id="services">
+    <div class="wrap">
+      <h2>What we do</h2>
+      <p class="section-intro">Everything a small organisation needs to look great and sell online — designed with you, built properly, and looked after long after launch.</p>
+      <figure class="photo photo-wide"><img src="images/photo-2.jpg" alt="Two colleagues laughing together over a laptop" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
+      <div class="services">
+        <div class="card">
+          <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M8 21h8M12 17v4"/></svg></div>
+          <span class="tag">Websites</span>
+          <h3>Websites that win trust</h3>
+          <p>A modern, mobile-first website that tells your story and makes it easy to get in touch — designed around your brand, quick to load, and simple for you to update.</p>
+        </div>
+        <div class="card">
+          <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.4 12h11.2L21 8H6"/></svg></div>
+          <span class="tag">E-commerce</span>
+          <h3>Shops that sell</h3>
+          <p>From your first online order to a full store — products, payments, shipping and the checkout flow set up right, on platforms that fit your size and budget.</p>
+        </div>
+        <div class="card">
+          <div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-4 3.5-6 6.5-6 10a6 6 0 0 0 12 0c0-3.5-2-6.5-6-10z"/><path d="M12 21v-6"/></svg></div>
+          <span class="tag">Care</span>
+          <h3>Care &amp; growth</h3>
+          <p>We stay in your corner after launch — hosting, domains, updates, small fixes and search-friendly improvements, on a simple plan with no surprises.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="band" role="img" aria-label="Stylized Nordic forest landscape">
+    <svg class="scene" viewBox="0 0 1440 340" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <rect width="1440" height="340" fill="#1e3a2f"/>
+      <path d="M0 260 Q 180 190 360 235 T 720 215 T 1080 245 T 1440 205 V340 H0 Z" fill="#24463a"/>
+      <path d="M0 290 Q 240 230 480 268 T 960 258 T 1440 275 V340 H0 Z" fill="#2b5244"/>
+      <path d="M0 320 Q 300 280 600 305 T 1200 300 T 1440 312 V340 H0 Z" fill="#33604f"/>
+      <g stroke="#9fc0d4" stroke-opacity="0.5" fill="none" stroke-width="1">
+        <path d="M0 150 Q 240 110 480 140 T 960 125 T 1440 145"/>
+        <path d="M0 110 Q 300 80 600 105 T 1200 88 T 1440 104"/>
+      </g>
+      <g fill="none" stroke="#2f6486" stroke-opacity="0.55">
+        <circle cx="1160" cy="120" r="26" stroke-width="1.5"/>
+        <circle cx="1160" cy="120" r="52" stroke-width="1"/>
+        <circle cx="1160" cy="120" r="80" stroke-width="1.5"/>
+        <circle cx="1160" cy="120" r="110" stroke-width="1"/>
+      </g>
+      <circle cx="1160" cy="120" r="5" fill="#9fc0d4"/>
+    </svg>
+    <div class="quote">
+      <div class="wrap">
+        <p>"Small business doesn't mean small ambitions."</p>
+        <span>The OakStride way</span>
+      </div>
+    </div>
+  </div>
+
+  <section id="work">
+    <div class="wrap">
+      <h2>Our work</h2>
+      <p class="section-intro">We build every project as if it were our own — because sometimes it is. Here's what we've shipped.</p>
+      <div class="work-item">
+        <div class="work-shot"><img src="images/portfolio-nivlaparkour.png" alt="Screenshot of the Nivla Parkour website" loading="lazy"></div>
+        <div class="work-body">
+          <span class="tag">Web app &middot; Community</span>
+          <h3>Nivla Parkour</h3>
+          <p>A trick library and training platform for a parkour club — every trick in the sport, categorized and searchable, wrapped in a personal training journal with streaks, badges and a leaderboard.</p>
+          <ul class="work-meta">
+            <li>Marketing site and web app, mobile-first</li>
+            <li>Google sign-in, cloud data, offline-friendly</li>
+            <li>Built for kids and grown-ups alike</li>
+          </ul>
+          <a class="work-link" href="https://nivlaparkour.com" target="_blank" rel="noopener">nivlaparkour.com &rarr;</a>
+        </div>
+      </div>
+
+      <!--
+        Testimonials go here once real client quotes are in.
+        Structure ready to use:
+
+        <div class="services" style="margin-top:24px">
+          <div class="card">
+            <span class="tag">Client review</span>
+            <p>"REAL QUOTE HERE"</p>
+            <p style="margin-top:12px;font-weight:600;color:var(--pine)">Name, organisation</p>
+          </div>
+        </div>
+      -->
+
+      <div class="work-next">
+        <p><strong>Your project could be next.</strong> Tell us what you do and where it hurts — we'll suggest something simple that works.</p>
+        <a class="btn" href="#contact">Say hello</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt" id="how">
+    <div class="wrap">
+      <h2>How it works</h2>
+      <p class="section-intro">No jargon, no fifty-page proposals. Three steps and you're live.</p>
+      <div class="steps">
+        <div class="step">
+          <span class="n">01 &middot; Talk</span>
+          <h3>We listen first</h3>
+          <p>A relaxed conversation about your organisation, your customers and what you need — over coffee or a video call.</p>
+        </div>
+        <div class="step">
+          <span class="n">02 &middot; Build</span>
+          <h3>We design and build</h3>
+          <p>You get a first version fast and we shape it together. Clear fixed price, no meter running.</p>
+        </div>
+        <div class="step">
+          <span class="n">03 &middot; Grow</span>
+          <h3>We launch and stay close</h3>
+          <p>We put you live, teach you the ropes, and keep things fast, safe and up to date as you grow.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <h2>Tell us about your project</h2>
+      <div class="contact-grid">
+        <p class="section-intro" style="margin-bottom:0">A new website, your first online shop, or a tired old site that needs love? Let's have a conversation — it costs nothing to ask.</p>
+        <ul class="contact-list">
+          <li><span class="k">Email</span><a href="mailto:info@oakstride.se">info@oakstride.se</a></li>
+          <li><span class="k">Phone</span><a href="tel:+46702371704">+46 70 237 17 04</a></li>
+          <li><span class="k">Location</span>Stockholm, Sweden</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+    <span>&copy; 2026 OakStride</span>
+    <span><a href="/" style="color:inherit;">Advisory</a> &middot; <a href="/it-management" style="color:inherit;">IT Management</a> &middot; oakstride.se</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var groups = document.querySelectorAll('section .wrap > h2, section .wrap > .section-intro, .band .quote, .card, .step, .work-item, .work-next, .contact-list, .photo');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.12 });
+  groups.forEach(function(el, i){
+    el.classList.add('reveal');
+    el.style.transitionDelay = ((i % 6) * 70) + 'ms';
+    io.observe(el);
+  });
+})();
+</script>
+</body>
+</html>
