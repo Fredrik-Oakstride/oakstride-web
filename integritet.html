@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Integritet &amp; cookies — OakStride</title>
+<meta name="description" content="Så hanterar OakStride besöksstatistik och cookies på oakstride.se.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="canonical" href="https://oakstride.se/integritet">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#21261f; --pine:#1e3a2f; --moss:#4a6b57; --paper:#f5f7f6; --line:#d8dcd2; --acorn:#2f6486; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'IBM Plex Sans',sans-serif; color:var(--ink); background:var(--paper); line-height:1.65; font-size:17px; }
+  .wrap { max-width:720px; margin:0 auto; padding:56px 24px 80px; }
+  a { color:var(--acorn); }
+  h1 { font-family:'Bricolage Grotesque',sans-serif; color:var(--pine); font-size:2rem; letter-spacing:-0.02em; margin-bottom:8px; }
+  h2 { font-family:'Bricolage Grotesque',sans-serif; color:var(--pine); font-size:1.2rem; margin:32px 0 8px; }
+  p, li { color:#3d443a; margin-bottom:12px; }
+  ul { padding-left:22px; }
+  .back { display:inline-block; margin-bottom:28px; text-decoration:none; font-size:.95rem; }
+  .btn { display:inline-block; font-family:inherit; font-weight:600; font-size:.95rem; padding:10px 20px;
+         border-radius:6px; border:1px solid var(--line); background:#fff; color:var(--pine); cursor:pointer; }
+  .note { font-size:.9rem; color:var(--moss); margin-top:8px; }
+  footer { margin-top:48px; padding-top:20px; border-top:1px solid var(--line); font-size:.88rem; color:#5a6157; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="/">&larr; oakstride.se</a>
+  <h1>Integritet &amp; cookies</h1>
+  <p>Kort version: vi är nyfikna på hur många som besöker oss — inte på vilka ni är.</p>
+
+  <h2>Besöksstatistik utan cookies</h2>
+  <p>När du besöker oakstride.se registrerar vi anonymt att en sida visats: vilken sida, när, och vilken webbplats du eventuellt kom ifrån. Ingen IP-adress sparas, inga cookies används och inget kan kopplas till dig som person. Datan lagras i vår egen databas inom EU och delas aldrig med tredje part.</p>
+
+  <h2>En cookie — om du säger ja</h2>
+  <p>Om du godkänner cookies i rutan som visas sätter vi <strong>en enda</strong> förstaparts-cookie:</p>
+  <ul>
+    <li><strong>oak_vid</strong> — ett slumpmässigt ID som låter oss räkna unika och återkommande besökare. Giltig i 12 månader. Innehåller ingen personlig information.</li>
+  </ul>
+  <p>Inga annons- eller tredjepartscookies förekommer på webbplatsen.</p>
+
+  <h2>Ångra ditt val</h2>
+  <p>Du kan när som helst återkalla ditt samtycke — då raderas cookien direkt och mätningen blir anonym igen:</p>
+  <p><button class="btn" id="btn-revoke">Återkalla samtycke och radera cookien</button></p>
+  <p class="note" id="revoke-note" hidden>Klart — cookien är raderad och ditt val sparat.</p>
+
+  <h2>Kundportalen</h2>
+  <p>I <a href="https://portal.oakstride.se">kundportalen</a> används endast de tekniska lagringsposter som krävs för att hålla dig inloggad — inga statistik- eller marknadsföringscookies.</p>
+
+  <h2>Kontakt</h2>
+  <p>Frågor om integritet? Mejla <a href="mailto:info@oakstride.se">info@oakstride.se</a> så svarar vi snabbt.</p>
+
+  <footer>OakStride AB · Stockholm · Uppdaterad 2026-07-16</footer>
+</div>
+<script src="/oak-analytics.js" defer></script>
+<script>
+  document.getElementById("btn-revoke").addEventListener("click", function () {
+    if (window.oakConsent) window.oakConsent.revoke();
+    else { localStorage.setItem("oak_consent", "no"); document.cookie = "oak_vid=; max-age=0; path=/"; }
+    document.getElementById("revoke-note").hidden = false;
+  });
+</script>
+</body>
+</html>
