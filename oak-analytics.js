@@ -5,8 +5,21 @@
 (function () {
   "use strict";
   var KEY = "oak_consent";
-  var API = "https://wtekqlkkcomtgizjtqeo.supabase.co/rest/v1/page_views";
+  var POLICY_VERSION = "1.1-2026-07-17";
+  var BASE = "https://wtekqlkkcomtgizjtqeo.supabase.co/rest/v1/";
+  var API = BASE + "page_views";
   var APIKEY = "sb_publishable_khYg7LIrHxnUNoADAkCWSA_lzmI8UYJ";
+
+  function logConsent(vid) {
+    try {
+      fetch(BASE + "consents", {
+        method: "POST",
+        keepalive: true,
+        headers: { apikey: APIKEY, "Content-Type": "application/json", Prefer: "return=minimal" },
+        body: JSON.stringify({ vid: vid, policy_version: POLICY_VERSION })
+      }).catch(function () {});
+    } catch (e) {}
+  }
 
   function send(vid) {
     try {
@@ -45,8 +58,12 @@
 
   // Global så integritetssidan kan återkalla samtycke
   window.oakConsent = {
-    revoke: function () { localStorage.setItem(KEY, "no"); clearVid(); },
-    grant: function () { localStorage.setItem(KEY, "yes"); ensureVid(); },
+    revoke: function () { localStorage.setItem(KEY, "no"); localStorage.removeItem(KEY + "_meta"); clearVid(); },
+    grant: function () {
+      localStorage.setItem(KEY, "yes");
+      localStorage.setItem(KEY + "_meta", JSON.stringify({ policy: POLICY_VERSION, at: new Date().toISOString() }));
+      logConsent(ensureVid());
+    },
     status: function () { return localStorage.getItem(KEY); }
   };
 
@@ -78,7 +95,8 @@
     el.setAttribute("aria-label", "Cookies");
     el.innerHTML =
       "<p><strong>En kaka?</strong> Vi vill gärna använda en (1) egen cookie för att förstå hur många som besöker oss. " +
-      "Inga annonser, ingen delning med tredje part. <a href=\"/integritet\">Läs mer</a></p>" +
+      "Inga annonser, ingen delning med tredje part. Genom att trycka <em>Det går bra</em> godkänner du cookien och vår " +
+      "<a href=\"/integritet\">integritetspolicy</a>.</p>" +
       "<div class=\"row\"><button class=\"yes\">Det går bra</button><button class=\"no\">Nej tack</button></div>";
 
     el.querySelector(".yes").addEventListener("click", function () {
