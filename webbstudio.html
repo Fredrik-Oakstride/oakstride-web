@@ -326,7 +326,7 @@
       <h1>Storbyråns hantverk. <span>Småföretagets hjärta.</span></h1>
       <p class="lead">OakStride Studio designar, bygger och sköter webbplatser och webbutiker för mindre organisationer, föreningar och lokala företag. Modernt, snabbt och lätt att driva — så att ni kan lägga energin på det ni faktiskt gör, och ändå se lysande ut på nätet.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="#kontakt">Starta ert projekt <span class="arrow">&rarr;</span></a>
+        <a class="btn btn-primary" href="#kontakt">Starta er resa <span class="arrow">&rarr;</span></a>
         <a class="btn btn-ghost" href="#arbete">Se vårt arbete <span class="arrow arrow-d">&darr;</span></a>
       </div>
     </div>
@@ -452,15 +452,35 @@
 
   <section id="kontakt">
     <div class="wrap">
-      <h2>Berätta om ert projekt</h2>
-      <div class="contact-grid">
-        <p class="section-intro" style="margin-bottom:0">En ny webbplats, er första webbutik eller en trött gammal sajt som behöver kärlek? Hör av er — det kostar inget att fråga.</p>
-        <ul class="contact-list">
-          <li><span class="k">E-post</span><a href="mailto:info@oakstride.se">info@oakstride.se</a></li>
-          <li><span class="k">Telefon</span><a href="tel:+46702371704">+46 70 237 17 04</a></li>
-          <li><span class="k">Plats</span>Stockholm</li>
-        </ul>
-      </div>
+      <h2>Starta er resa</h2>
+      <p class="section-intro">Berätta om er sida och vad ni önskar — det kostar inget att fråga. Ange gärna några sajter ni gillar som inspiration. När ni skickar in ansöker ni samtidigt om inloggning till vår kundportal, där hela projektet sker.</p>
+      <style>
+        #brief-form{max-width:640px;margin-top:26px;display:flex;flex-direction:column;gap:15px}
+        #brief-form label{font-weight:600;color:#1e3a2f;font-size:.9rem;display:block}
+        #brief-form input,#brief-form textarea{width:100%;margin-top:6px;padding:11px 13px;border:1px solid #d8dcd2;border-radius:8px;font:inherit;font-size:.95rem;background:#fff;color:#21261f}
+        #brief-form textarea{resize:vertical}
+        #brief-form .brief-row{display:flex;gap:15px;flex-wrap:wrap}
+        #brief-form .brief-row>label{flex:1;min-width:200px}
+        #brief-note{font-size:.86rem;color:#5b635a;margin:0}
+        #brief-status{font-size:.92rem;margin:0}
+      </style>
+      <form id="brief-form" novalidate>
+        <div class="brief-row">
+          <label>Ert namn*<input name="name" required maxlength="120" autocomplete="name"></label>
+          <label>E-post*<input name="email" type="email" required maxlength="160" autocomplete="email"></label>
+        </div>
+        <label>Företag / organisation<input name="company" maxlength="160" autocomplete="organization"></label>
+        <label>Beskriv er sida och vad ni önskar*<textarea name="description" required rows="5" maxlength="5000" placeholder="Vad ska sidan användas till, vem är den för och vad ska den göra? Har ni redan något (logotyp, texter, bilder)?"></textarea></label>
+        <label>Exempel på sajter ni gillar (en URL per rad)<textarea name="example_sites" rows="3" maxlength="2000" placeholder="https://exempel.se&#10;https://annan-sajt.se"></textarea></label>
+        <p id="brief-note"><strong>Nästa steg:</strong> när ni skickar in ansöker ni samtidigt om en inloggning till vår kundportal. Vi går igenom er förfrågan och sätter upp er — oftast inom en arbetsdag.</p>
+        <button type="submit" class="btn btn-primary" style="align-self:flex-start">Skicka &amp; ansök om portalåtkomst <span class="arrow">&rarr;</span></button>
+        <p id="brief-status" hidden></p>
+      </form>
+      <ul class="contact-list" style="margin-top:30px">
+        <li><span class="k">E-post</span><a href="mailto:info@oakstride.se">info@oakstride.se</a></li>
+        <li><span class="k">Telefon</span><a href="tel:+46702371704">+46 70 237 17 04</a></li>
+        <li><span class="k">Plats</span>Stockholm</li>
+      </ul>
     </div>
   </section>
 </main>
@@ -502,5 +522,45 @@
 })();
 </script>
 <script src="/oak-analytics.js?v=3" defer></script>
+<script>
+(function () {
+  var f = document.getElementById("brief-form");
+  if (!f) return;
+  var API = "https://wtekqlkkcomtgizjtqeo.supabase.co/rest/v1/project_briefs";
+  var KEY = "sb_publishable_khYg7LIrHxnUNoADAkCWSA_lzmI8UYJ";
+  f.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var st = document.getElementById("brief-status");
+    var name = f.name.value.trim(), email = f.email.value.trim(), desc = f.description.value.trim();
+    if (!name || email.indexOf("@") < 1 || !desc) {
+      st.hidden = false; st.style.color = "#a4472f";
+      st.textContent = "Fyll i namn, en giltig e-post och en kort beskrivning.";
+      return;
+    }
+    var btn = f.querySelector("button[type=submit]");
+    btn.disabled = true;
+    st.hidden = false; st.style.color = "#5b635a"; st.textContent = "Skickar…";
+    fetch(API, {
+      method: "POST",
+      headers: { apikey: KEY, "Content-Type": "application/json", Prefer: "return=minimal" },
+      body: JSON.stringify({
+        name: name, email: email,
+        company: f.company.value.trim() || null,
+        description: desc,
+        example_sites: f.example_sites.value.trim() || null,
+        wants_portal: true
+      })
+    }).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      f.reset(); btn.disabled = false;
+      st.style.color = "#2e8b6b";
+      st.textContent = "Tack! Vi har fått er förfrågan och er portalansökan — vi hör av oss inom kort.";
+    }).catch(function () {
+      btn.disabled = false; st.style.color = "#a4472f";
+      st.textContent = "Något gick fel. Mejla oss på info@oakstride.se istället.";
+    });
+  });
+})();
+</script>
 </body>
 </html>
