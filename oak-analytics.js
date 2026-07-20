@@ -70,6 +70,7 @@
       css.id = "oak-cc-style";
       css.textContent =
         "#oak-cc{position:fixed;left:16px;right:16px;bottom:16px;z-index:99999;font-family:'IBM Plex Sans',system-ui,sans-serif}" +
+        "#oak-cc [hidden]{display:none!important}" +
         "#oak-cc .oak-cc-card{max-width:560px;margin:0 auto;background:#f5f7f6;color:#21261f;border:1px solid #d8dcd2;" +
         "border-radius:12px;box-shadow:0 16px 48px rgba(30,58,47,.28);padding:20px 22px}" +
         "#oak-cc h2{font-family:'Bricolage Grotesque',sans-serif;font-size:1.15rem;color:#1e3a2f;margin:0 0 8px}" +
