@@ -300,6 +300,14 @@
     .nav.open nav.links{display:flex}
     nav.links a{padding:12px 2px;font-size:1rem;border-top:1px solid rgba(0,0,0,.08)}
   }
+  /* Tydliggör länkar som leder till andra OakStride-sidor */
+  .nav-div{display:inline-block;width:1px;height:18px;background:var(--line);align-self:center;margin:0 2px}
+  .nav-cross-label{display:none}
+  .nav-cross .arrow{display:inline-block}
+  @media (max-width:640px){
+    .nav-div{display:none}
+    .nav-cross-label{display:block;width:100%;padding:12px 2px 2px;font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--moss);border-top:1px solid rgba(0,0,0,.08)}
+  }
 </style>
 </head>
 <body>
@@ -312,9 +320,11 @@
       <a href="#work">Our work</a>
       <a href="#contact">Contact</a>
       <a href="https://portal.oakstride.se">Portal</a>
-      <a href="/it-management">IT Management</a>
-      <a href="/">Advisory <span class="arrow">&rarr;</span></a>
       <a href="/webbstudio" lang="sv">Svenska</a>
+      <span class="nav-div" aria-hidden="true"></span>
+      <span class="nav-cross-label">More from OakStride</span>
+      <a href="/it-management" class="nav-cross">IT Management <span class="arrow">&rarr;</span></a>
+      <a href="/" class="nav-cross">Advisory <span class="arrow">&rarr;</span></a>
     </nav>
       <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
