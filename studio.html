@@ -326,7 +326,7 @@
       <h1>Big-agency craft. <span>Small-business heart.</span></h1>
       <p class="lead">OakStride Studio designs, builds and cares for websites and online shops for small organisations, clubs and local businesses. Modern, fast and easy to run — so you can spend your energy on what you actually do, and still look brilliant online.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="#contact">Start your journey <span class="arrow">&rarr;</span></a>
+        <a class="btn btn-primary" href="#" id="btn-open-brief">Start to improve <span class="arrow">&rarr;</span></a>
         <a class="btn btn-ghost" href="#work">See our work <span class="arrow arrow-d">&darr;</span></a>
       </div>
     </div>
@@ -452,18 +452,42 @@
 
   <section id="contact">
     <div class="wrap">
-      <h2>Start your journey</h2>
-      <p class="section-intro">Tell us about your site and what you'd like — it costs nothing to ask. Add a few sites you like as inspiration, and by sending this you also apply for a login to our customer portal, where the whole project happens.</p>
-      <style>
-        #brief-form{max-width:640px;margin-top:26px;display:flex;flex-direction:column;gap:15px}
-        #brief-form label{font-weight:600;color:#1e3a2f;font-size:.9rem;display:block}
-        #brief-form input,#brief-form textarea{width:100%;margin-top:6px;padding:11px 13px;border:1px solid #d8dcd2;border-radius:8px;font:inherit;font-size:.95rem;background:#fff;color:#21261f}
-        #brief-form textarea{resize:vertical}
-        #brief-form .brief-row{display:flex;gap:15px;flex-wrap:wrap}
-        #brief-form .brief-row>label{flex:1;min-width:200px}
-        #brief-note{font-size:.86rem;color:#5b635a;margin:0}
-        #brief-status{font-size:.92rem;margin:0}
-      </style>
+      <h2>Tell us about your project</h2>
+      <div class="contact-grid">
+        <p class="section-intro" style="margin-bottom:0">A new website, your first online shop, or a tired old site that needs love? Let's have a conversation — it costs nothing to ask.</p>
+        <ul class="contact-list">
+          <li><span class="k">Email</span><a href="mailto:info@oakstride.se">info@oakstride.se</a></li>
+          <li><span class="k">Phone</span><a href="tel:+46702371704">+46 70 237 17 04</a></li>
+          <li><span class="k">Location</span>Stockholm, Sweden</li>
+        </ul>
+      </div>
+      <p style="margin-top:22px"><a class="btn btn-primary" href="#" id="btn-open-brief-2">Start to improve <span class="arrow">&rarr;</span></a></p>
+    </div>
+  </section>
+
+  <div id="brief-modal" hidden>
+    <style>
+      #brief-modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
+      #brief-modal[hidden]{display:none}
+      #brief-modal .brief-overlay{position:absolute;inset:0;background:rgba(20,24,26,.55)}
+      #brief-modal .brief-card{position:relative;background:#f5f7f6;color:#21261f;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;border-radius:14px;padding:30px 32px;box-shadow:0 24px 60px rgba(30,58,47,.35)}
+      #brief-modal .brief-close{position:absolute;top:12px;right:16px;background:none;border:none;font-size:1.7rem;line-height:1;cursor:pointer;color:#5b635a}
+      #brief-modal h2{margin:0 0 8px;color:#1e3a2f}
+      #brief-modal .brief-intro{font-size:.95rem;color:#3d443a;margin:0 0 18px}
+      #brief-form{display:flex;flex-direction:column;gap:15px}
+      #brief-form label{font-weight:600;color:#1e3a2f;font-size:.9rem;display:block}
+      #brief-form input,#brief-form textarea{width:100%;margin-top:6px;padding:11px 13px;border:1px solid #d8dcd2;border-radius:8px;font:inherit;font-size:.95rem;background:#fff;color:#21261f}
+      #brief-form textarea{resize:vertical}
+      #brief-form .brief-row{display:flex;gap:15px;flex-wrap:wrap}
+      #brief-form .brief-row>label{flex:1;min-width:200px}
+      #brief-note{font-size:.86rem;color:#5b635a;margin:0}
+      #brief-status{font-size:.92rem;margin:0}
+    </style>
+    <div class="brief-overlay" data-close></div>
+    <div class="brief-card" role="dialog" aria-modal="true" aria-label="Start to improve">
+      <button type="button" class="brief-close" data-close aria-label="Close">&times;</button>
+      <h2>Start to improve</h2>
+      <p class="brief-intro">Tell us about your site and what you'd like — it costs nothing to ask. Add a few sites you like as inspiration. By sending this you also apply for a login to our customer portal, where the whole project happens.</p>
       <form id="brief-form" novalidate>
         <div class="brief-row">
           <label>Your name*<input name="name" required maxlength="120" autocomplete="name"></label>
@@ -476,13 +500,8 @@
         <button type="submit" class="btn btn-primary" style="align-self:flex-start">Send &amp; apply for portal access <span class="arrow">&rarr;</span></button>
         <p id="brief-status" hidden></p>
       </form>
-      <ul class="contact-list" style="margin-top:30px">
-        <li><span class="k">Email</span><a href="mailto:info@oakstride.se">info@oakstride.se</a></li>
-        <li><span class="k">Phone</span><a href="tel:+46702371704">+46 70 237 17 04</a></li>
-        <li><span class="k">Location</span>Stockholm, Sweden</li>
-      </ul>
     </div>
-  </section>
+  </div>
 </main>
 
 <footer>
@@ -524,6 +543,17 @@
 <script src="/oak-analytics.js?v=3" defer></script>
 <script>
 (function () {
+  var modal = document.getElementById("brief-modal");
+  function openModal(e) { if (e) e.preventDefault(); if (modal) { modal.hidden = false; document.body.style.overflow = "hidden"; } }
+  function closeModal() { if (modal) { modal.hidden = true; document.body.style.overflow = ""; } }
+  ["btn-open-brief", "btn-open-brief-2"].forEach(function (id) {
+    var b = document.getElementById(id); if (b) b.addEventListener("click", openModal);
+  });
+  if (modal) {
+    Array.prototype.forEach.call(modal.querySelectorAll("[data-close]"), function (el) { el.addEventListener("click", closeModal); });
+  }
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
+
   var f = document.getElementById("brief-form");
   if (!f) return;
   var API = "https://wtekqlkkcomtgizjtqeo.supabase.co/rest/v1/project_briefs";
