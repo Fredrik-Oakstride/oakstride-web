@@ -53,8 +53,12 @@
   <h2>Dina rättigheter</h2>
   <p>Du har rätt att få veta vilka uppgifter vi har om dig, få dem rättade eller raderade, invända mot behandling och återkalla samtycke. Hör av dig till <a href="mailto:info@oakstride.se">info@oakstride.se</a> så hjälper vi dig. Du kan också klaga hos <a href="https://www.imy.se" rel="noopener">Integritetsskyddsmyndigheten (IMY)</a>.</p>
 
+  <h2>Ändra dina cookie-inställningar</h2>
+  <p>Du kan när som helst öppna cookie-rutan och justera vilka kategorier du godkänner:</p>
+  <p><button class="btn" id="btn-cookiesettings">Ändra cookie-inställningar</button></p>
+
   <h2>Ångra ditt val</h2>
-  <p>Du kan när som helst återkalla ditt samtycke — då raderas cookien direkt och mätningen blir anonym igen:</p>
+  <p>Du kan också återkalla ditt samtycke helt — då raderas cookien direkt och mätningen blir anonym igen:</p>
   <p><button class="btn" id="btn-revoke">Återkalla samtycke och radera cookien</button></p>
   <p class="note" id="revoke-note" hidden>Klart — cookien är raderad och ditt val sparat.</p>
 
@@ -66,12 +70,15 @@
 
   <footer>OakStride AB · Stockholm · Integritetspolicy version 1.1 · 2026-07-17</footer>
 </div>
-<script src="/oak-analytics.js" defer></script>
+<script src="/oak-analytics.js?v=2" defer></script>
 <script>
   document.getElementById("btn-revoke").addEventListener("click", function () {
     if (window.oakConsent) window.oakConsent.revoke();
-    else { localStorage.setItem("oak_consent", "no"); document.cookie = "oak_vid=; max-age=0; path=/"; }
+    else { localStorage.setItem("oak_consent_v2", ""); document.cookie = "oak_vid=; max-age=0; path=/"; }
     document.getElementById("revoke-note").hidden = false;
+  });
+  document.getElementById("btn-cookiesettings").addEventListener("click", function () {
+    if (window.oakConsent) window.oakConsent.openSettings();
   });
 </script>
 </body>
