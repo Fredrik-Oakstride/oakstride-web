@@ -199,6 +199,19 @@
   .work-next .btn { background: var(--pine); color: #f5f7f6; }
   .work-next .btn:hover, .work-next .btn:focus-visible { background: var(--moss); }
 
+  /* Example sites per industry */
+  .examples-h { font-family:'Bricolage Grotesque',sans-serif; color:var(--pine); font-size:1.4rem; margin:52px 0 4px; }
+  .examples-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-top:22px; }
+  @media (max-width:720px){ .examples-grid{ grid-template-columns:1fr; } }
+  .example-card { display:flex; flex-direction:column; background:var(--paper); border:1px solid var(--line); border-radius:6px; overflow:hidden; text-decoration:none; transition:transform .15s ease, box-shadow .15s ease; }
+  .example-card:hover, .example-card:focus-visible { transform:translateY(-3px); box-shadow:0 14px 34px rgba(16,29,23,.13); }
+  .ex-shot { aspect-ratio:16/10; background:var(--birch); overflow:hidden; }
+  .ex-shot img { width:100%; height:100%; object-fit:cover; object-position:top center; display:block; }
+  .ex-body { padding:18px 20px 20px; }
+  .ex-body .tag { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--acorn); display:block; margin-bottom:6px; }
+  .ex-body h4 { font-family:'Bricolage Grotesque',sans-serif; font-size:1.12rem; color:var(--pine); margin-bottom:10px; }
+  .ex-link { color:var(--moss); font-weight:600; font-size:0.9rem; }
+
   /* Steps */
   .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; counter-reset: step; }
   .step { border-left: 3px solid var(--acorn); padding-left: 20px; position: relative; counter-increment: step; }
@@ -430,6 +443,27 @@
           </ul>
           <a class="work-link" href="https://nivlaparkour.com" target="_blank" rel="noopener">nivlaparkour.com <span class="arrow">&rarr;</span></a>
         </div>
+      </div>
+
+      <h3 class="examples-h">Example sites by industry</h3>
+      <p class="section-intro">This is what your site could look like. Four examples we built — each industry with the right feel, content and features. Click around.</p>
+      <div class="examples-grid">
+        <a class="example-card" href="examples/nordvik-bygg/">
+          <div class="ex-shot"><img src="images/portfolio-nordvik-bygg.jpg" alt="Example site for a construction firm – Nordvik Bygg &amp; Tak" loading="lazy"></div>
+          <div class="ex-body"><span class="tag">Trades &amp; Construction</span><h4>Nordvik Bygg &amp; Tak</h4><span class="ex-link">View example &rarr;</span></div>
+        </a>
+        <a class="example-card" href="examples/kajkanten/">
+          <div class="ex-shot"><img src="images/portfolio-kajkanten.jpg" alt="Example site for a restaurant – Kajkanten Kök &amp; Bar" loading="lazy"></div>
+          <div class="ex-body"><span class="tag">Restaurant &amp; Café</span><h4>Kajkanten Kök &amp; Bar</h4><span class="ex-link">View example &rarr;</span></div>
+        </a>
+        <a class="example-card" href="examples/studio-alma/">
+          <div class="ex-shot"><img src="images/portfolio-studio-alma.jpg" alt="Example site for a salon – Studio Alma" loading="lazy"></div>
+          <div class="ex-body"><span class="tag">Salon &amp; Beauty</span><h4>Studio Alma</h4><span class="ex-link">View example &rarr;</span></div>
+        </a>
+        <a class="example-card" href="examples/lind-partners/">
+          <div class="ex-shot"><img src="images/portfolio-lind-partners.jpg" alt="Example site for a consultancy – Lind &amp; Partners" loading="lazy"></div>
+          <div class="ex-body"><span class="tag">Consulting &amp; B2B</span><h4>Lind &amp; Partners</h4><span class="ex-link">View example &rarr;</span></div>
+        </a>
       </div>
 
       <!--

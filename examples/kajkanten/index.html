@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="sv" data-segment="restaurang">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kajkanten Kök &amp; Bar</title>
+  <meta name="description" content="Kajkanten Kök &amp; Bar bjuder på säsongens bästa råvaror, tillagade över öppen eld mitt i Ekerös hamn. Boka bord och känn havsluften redan vid dörren." />
+  <link rel="canonical" href="https://www.kajkanten.se/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Kajkanten Kök &amp; Bar" />
+  <meta property="og:locale" content="sv_SE" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="themes.css" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Restaurant","name":"Kajkanten Kök & Bar","telephone":"08-560 100 20","email":"boka@kajkanten.se","address":{"@type":"PostalAddress","streetAddress":"Hamngatan 2","postalCode":"178 30","addressLocality":"Ekerö","addressCountry":"SE"},"url":"https://www.kajkanten.se/"}</script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Hoppa till innehåll</a>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#top">Kajkanten Kök &amp; Bar</a>
+      <button class="nav-toggle" aria-label="Öppna meny" aria-expanded="false" aria-controls="menu"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <ul class="nav-links" id="menu">
+        <li><a href="#meny">Meny</a></li>
+        <li><a href="#boka">Boka bord</a></li>
+        <li><a href="#om">Om oss</a></li>
+        <li><a class="btn btn--primary" href="#kontakt">Hitta hit</a></li>
+      </ul>
+    </div>
+  </header>
+  <main id="main">
+    <span id="top"></span>
+    <style>
+    .menu-list{display:grid;gap:16px;max-width:740px}
+    .menu-cat{font-family:var(--font-head);font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);margin:22px 0 2px}
+    .menu-cat:first-child{margin-top:0}
+    .menu-item{display:grid;grid-template-columns:1fr auto;gap:4px 16px;align-items:baseline;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .menu-item h4{font-size:1.1rem;font-family:var(--font-head);font-weight:500}
+    .menu-item .price{font-variant-numeric:tabular-nums;font-weight:600;color:var(--brand)}
+    .menu-item p{grid-column:1/-1;color:var(--ink-soft);font-size:.95rem}
+    .booking-band{background:var(--brand);color:#fff;border-radius:var(--radius);padding:clamp(28px,5vw,52px);display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center}
+    .booking-band h2{color:#fff}.booking-band p{color:rgba(255,255,255,.88);max-width:46ch}
+    .band-hours{list-style:none;display:grid;gap:8px}
+    .band-hours li{display:flex;justify-content:space-between;gap:20px;border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:8px;color:#fff}
+    .band-hours span:last-child{color:rgba(255,255,255,.82)}
+    @media(max-width:720px){.booking-band{grid-template-columns:1fr}}
+  </style>
+    <section class="hero hero--cinematic">
+      <div class="hero-bg">
+        <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/hero-poster.jpg" aria-label="Kajkanten Kök &amp; Bar">
+          <source src="assets/hero.mp4" type="video/mp4" /></video>
+        <img class="video-poster" src="assets/hero-poster.jpg" alt="Kajkanten Kök &amp; Bar" />
+      </div>
+      <div class="container">
+        <p class="eyebrow">Nordisk matlagning vid havet</p>
+        <h1>Doften av rök, hav och nybakat bröd</h1>
+        <p class="lead">Kajkanten Kök &amp; Bar bjuder på säsongens bästa råvaror, tillagade över öppen eld mitt i Ekerös hamn. Boka bord och känn havsluften redan vid dörren.</p>
+        <div class="cta-row">
+          <a class="btn btn--primary" href="#kontakt">Boka bord</a>
+          <a class="btn btn--ghost" href="tel:08-56010020">Ring 08-560 100 20</a>
+        </div>
+        <div class="trust-row">
+            <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Lokala råvaror</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Öppen eld &amp; rök</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Take away &amp; catering</span>
+          </div>
+      </div>
+    </section>
+
+    <section class="section" id="boka">
+      <div class="container">
+        <div class="booking-band">
+          <div>
+            <h2>Boka bord</h2>
+            <p>Boka online dygnet runt eller ring oss. Större sällskap, event och catering ordnar vi gärna.</p>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:6px">
+              <a class="btn btn--primary" style="background:#fff;color:var(--brand)" href="#">Boka online</a>
+              <a class="btn btn--ghost" style="border-color:rgba(255,255,255,.6);color:#fff" href="tel:08-56010020">Ring 08-560 100 20</a>
+            </div>
+          </div>
+          <ul class="band-hours">
+              <li><span>Mån–Tors</span><span>11:00–22:00</span></li>
+              <li><span>Fre–Lör</span><span>11:00–23:00</span></li>
+              <li><span>Söndag</span><span>12:00–21:00</span></li>
+            </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--surface" id="meny">
+      <div class="container">
+        <div class="section-head"><p class="eyebrow">Ur menyn</p><h2>Säsongens rätter</h2><p>Ett smakprov – menyn byts efter årstid. Berätta gärna om allergier vid bokning.</p></div>
+        <div class="menu-list">
+          <h3 class="menu-cat">Förrätter</h3>
+          <div class="menu-item"><h4>Toast Skagen</h4><span class="price">165 kr</span><p>Räkröra på handskalade räkor, dill, citron och löjrom</p></div>
+          <div class="menu-item"><h4>Löjromstoast</h4><span class="price">175 kr</span><p>Stenbitsrom, rödlök, crème fraîche på rostad surdeg</p></div>
+          <div class="menu-item"><h4>Getostsallad</h4><span class="price">145 kr</span><p>Ugnsbakad chèvre, rostade valnötter, honung och päron</p></div>
+          <h3 class="menu-cat">Varmrätter</h3>
+          <div class="menu-item"><h4>Havets gratäng</h4><span class="price">285 kr</span><p>Dagens fisk, räkor och musslor i saffranssås, kokt potatis</p></div>
+          <div class="menu-item"><h4>Grillad entrecôte</h4><span class="price">345 kr</span><p>250 g, rödvinssås, potatisgratäng och haricots verts</p></div>
+          <div class="menu-item"><h4>Rökt kycklingfilé</h4><span class="price">265 kr</span><p>Smörstekt savoykål, timjansky och rostad potatis</p></div>
+          <div class="menu-item"><h4>Vegetarisk risotto</h4><span class="price">235 kr</span><p>Säsongens grönsaker, parmesan och salvia</p></div>
+          <h3 class="menu-cat">Dessert</h3>
+          <div class="menu-item"><h4>Pannacotta</h4><span class="price">115 kr</span><p>Vaniljpannacotta med hjortronsås och mandelkross</p></div>
+          <div class="menu-item"><h4>Chokladfondant</h4><span class="price">125 kr</span><p>Varm chokladkaka, vaniljglass och hallonsås</p></div>
+          <h3 class="menu-cat">Lunch (vardagar 11–14)</h3>
+          <div class="menu-item"><h4>Dagens rätt</h4><span class="price">155 kr</span><p>Inkl. sallad, bröd, dricka och kaffe</p></div>
+          <div class="menu-item"><h4>Vegetariskt alternativ</h4><span class="price">145 kr</span><p>Dagens gröna, inkl. sallad, bröd, dricka och kaffe</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="om">
+      <div class="container split">
+        <div class="split-media"><img src="assets/g1.jpg" alt="Kajkanten Kök &amp; Bar" /></div>
+        <div>
+          <p class="eyebrow">Om oss</p>
+          <h2>Kajkanten Kök &amp; Bar</h2>
+          <p style="color:var(--ink-soft)">Kajkanten öppnade 2018 i en gammal magasinsbyggnad nere vid hamnen. Vår kock Elin Sandberg lagar nordisk bistromat med råvaror från traktens producenter – mycket över öppen eld och rök. Här möts hav och skog på tallriken, i en avslappnad miljö med utsikt över kajen.</p>
+          <ul class="feature-list">
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><strong>Råvaror från lokala producenter</strong></span></li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><strong>Öppen eld och egen rökning</strong></span></li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><strong>Glutenfritt, laktosfritt &amp; vegetariskt</strong></span></li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><strong>Take away på hela menyn</strong></span></li>
+            <li><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><strong>Catering till fest och företag</strong></span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--surface" id="arbeten">
+      <div class="container">
+        <div class="section-head"><p class="eyebrow">Miljö</p><h2>Hos oss</h2></div>
+        <div class="gallery">
+          <a href="#"><img src="assets/g1.jpg" alt="Rustik, mysig restaurangmiljö med kvällsljus" /></a>
+          <a href="#"><img src="assets/g2.jpg" alt="Färska grönsaker i trälådor – råvarukänsla" /></a>
+          <a href="#"><img src="assets/g3.jpg" alt="Dukat bord med stearinljus, kvällsstämning" /></a>
+          <a href="#"><img src="assets/g4.jpg" alt="Vinglas på bord vid baren" /></a>
+          <a href="#"><img src="assets/g5.jpg" alt="Grillad fisk med grönsaker, vackert upplagt" /></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="omdomen">
+      <div class="container">
+        <div class="section-head"><p class="eyebrow">Vad kunderna säger</p><h2>Omdömen</h2></div>
+        <div class="reviews">
+          <blockquote class="review"><div class="stars" aria-label="5 av 5 stjärnor">★★★★★</div><p>"Bästa löjromstoasten jag ätit utanför skärgården – och personalen kom ihåg att jag är laktosintolerant utan att jag behövde påminna."</p><div class="who">Maria Lindqvist<span>Ekerö</span></div></blockquote>
+          <blockquote class="review"><div class="stars" aria-label="5 av 5 stjärnor">★★★★★</div><p>"Bokade bord för åtta till mammas 60-årsdag. Allt flöt på perfekt och maten höll hög klass hela vägen."</p><div class="who">Johan Bergström<span>Ekerö</span></div></blockquote>
+          <blockquote class="review"><div class="stars" aria-label="4 av 5 stjärnor">★★★★</div><p>"Mysig stämning, jättegod entrecôte och trevlig personal. Boka i förväg på fredagar – det blir snabbt fullsatt!"</p><div class="who">Sara Nilsson<span>Ekerö</span></div></blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="container narrow">
+        <div class="section-head"><p class="eyebrow">Vanliga frågor</p><h2>Frågor &amp; svar</h2></div>
+        <div class="faq">
+          <details class="faq-item"><summary>Behöver jag boka bord i förväg?</summary><div class="faq-a"><p>Vi rekommenderar bokning, särskilt fredag–lördag kväll. Boka enkelt via knappen ovan eller ring oss.</p></div></details>
+          <details class="faq-item"><summary>Har ni alternativ för allergier och specialkost?</summary><div class="faq-a"><p>Ja, vi tillagar gärna glutenfritt, laktosfritt och vegetariskt/veganskt. Meddela oss vid bokning eller fråga personalen på plats.</p></div></details>
+          <details class="faq-item"><summary>Erbjuder ni take away eller catering?</summary><div class="faq-a"><p>Ja, hela menyn går att beställa för avhämtning, och vi ordnar catering till fest och företag. Hör av dig minst två dagar i förväg för större beställningar.</p></div></details>
+          <details class="faq-item"><summary>Finns det parkering i närheten?</summary><div class="faq-a"><p>Det finns gatuparkering samt parkeringshus cirka två minuters promenad bort, och vi ligger nära busshållplatsen vid hamnen.</p></div></details>
+          <details class="faq-item"><summary>Kan vi boka för större sällskap eller event?</summary><div class="faq-a"><p>Absolut. Vi tar emot sällskap upp till 40 personer och har ett avskilt utrymme för fester, firmaevent och konferenser. Kontakta oss för offert.</p></div></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--brand" id="kontakt">
+      <div class="container">
+        <div class="section-head"><p class="eyebrow">Hör av dig</p><h2>Boka bord</h2></div>
+        <div class="contact-grid">
+          <ul class="contact-list">
+            <li><div class="k">Telefon</div><a href="tel:08-56010020">08-560 100 20</a></li>
+            <li><div class="k">E-post</div><a href="mailto:boka@kajkanten.se">boka@kajkanten.se</a></li>
+            <li><div class="k">Adress</div>Hamngatan 2, 178 30 Ekerö</li>
+            <li><div class="k">Öppettider</div><ul class="hours">
+                <li><span>Mån–Tors</span><span>11:00–22:00</span></li>
+                <li><span>Fre–Lör</span><span>11:00–23:00</span></li>
+                <li><span>Söndag</span><span>12:00–21:00</span></li>
+              </ul></li>
+          </ul>
+          <form class="contact-form" action="#" method="post">
+            <div><label for="namn">Namn</label><input id="namn" name="namn" type="text" autocomplete="name" required /></div>
+            <div><label for="epost">E-post</label><input id="epost" name="epost" type="email" autocomplete="email" required /></div>
+            <div><label for="meddelande">Meddelande</label><textarea id="meddelande" name="meddelande" rows="4" required></textarea></div>
+            <button class="btn btn--primary btn--block" type="submit">Skicka</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div><a class="brand" href="#top" style="color:#fff">Kajkanten Kök &amp; Bar</a></div>
+        <div><h4>Kontakt</h4><ul><li><a href="tel:08-56010020">08-560 100 20</a></li><li><a href="mailto:boka@kajkanten.se">boka@kajkanten.se</a></li><li>Ekerö</li></ul></div>
+        <div><h4>OakStride Studio</h4><ul><li><a href="https://oakstride.se">oakstride.se</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Kajkanten Kök &amp; Bar · Org.nr 556800-0000</span>
+        <span><a href="#" data-oak-consent-open>Cookie-inställningar</a> · <a href="integritetspolicy.html">Integritetspolicy</a> · En sajt av <a href="https://oakstride.se">OakStride Studio</a></span>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function () {
+      var t = document.querySelector('.nav-toggle'), m = document.getElementById('menu');
+      if (t && m) { t.addEventListener('click', function(){var o=m.classList.toggle('open');t.setAttribute('aria-expanded',o?'true':'false');});
+        m.addEventListener('click', function(e){ if(e.target.tagName==='A'){m.classList.remove('open');t.setAttribute('aria-expanded','false');} }); }
+      if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.querySelectorAll('video[autoplay]').forEach(function(v){v.removeAttribute('autoplay');v.pause();});
+      }
+    })();
+  </script>
+  <script src="oak-consent.js" defer></script>
+  <script src="oak-analytics.js" data-site="kajkanten.se" defer></script>
+</body>
+</html>

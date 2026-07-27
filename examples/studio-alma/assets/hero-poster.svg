@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-label="Poster för hero-video">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eef4f4"/>
+      <stop offset="1" stop-color="#dbe8e9"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g fill="none" stroke="#1d5566" stroke-opacity="0.35" stroke-width="3">
+    <circle cx="400" cy="440" r="80"/>
+    <circle cx="400" cy="440" r="140"/>
+    <circle cx="400" cy="440" r="200"/>
+  </g>
+  <g transform="translate(400 440)" fill="#1d5566" fill-opacity="0.5">
+    <path d="M-70 30 0-40 70 30 45 30 45 70-45 70-45 30Z"/>
+  </g>
+  <text x="400" y="720" text-anchor="middle" font-family="system-ui, sans-serif" font-size="30" fill="#143d4a" fill-opacity="0.7">Byt mot kundens foto/video</text>
+</svg>

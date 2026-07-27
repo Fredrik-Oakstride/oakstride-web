@@ -1,0 +1,65 @@
+/* =============================================================
+   OakStride Studio – Temapresets per kundsegment
+   -------------------------------------------------------------
+   Aktivera ett tema genom att sätta attribut på <html>:
+       <html lang="sv" data-segment="restaurang">
+   och länka rätt Google Fonts (se "Typsnitt" i kommentaren per tema).
+
+   Två typsnittspar används:
+     A) Familjen Grotesk + Inter   (modern nordisk – default)
+     B) Fraunces + Inter           (varm/elegant)
+   ============================================================= */
+
+/* 1. Hantverk, Bygg & Service — stålblå (default). Typsnitt A */
+:root[data-segment="hantverk"]      { --brand:#1d5566; --brand-dark:#143d4a; --brand-tint:#e9f1f2; }
+
+/* 2. Restaurang, Café & Catering — vinrött, varmt. Typsnitt B */
+:root[data-segment="restaurang"]    { --brand:#6d2135; --brand-dark:#521826; --brand-tint:#f6ebe9; --surface:#faf5f2; --ink:#241a1a;
+  --font-head:'Fraunces', Georgia, serif; }
+
+/* 3. Butik & Handel — modern magenta. Typsnitt A */
+:root[data-segment="butik"]         { --brand:#b5296b; --brand-dark:#8f1d53; --brand-tint:#fbe9f1; }
+
+/* 4. Konsult & Professionella tjänster — djup marinblå. Typsnitt A */
+:root[data-segment="konsult"]       { --brand:#22314f; --brand-dark:#161f33; --brand-tint:#eaeef4; }
+
+/* 5. Media, Reklam & Kreativt — korall-röd på nästan-svart. Typsnitt B */
+:root[data-segment="media"]         { --brand:#ef5a3c; --brand-dark:#c8462b; --brand-tint:#fdeae5; --ink:#161514; --surface:#f6f4f2;
+  --font-head:'Fraunces', Georgia, serif; }
+
+/* 6. Skönhet, Friskvård & Träning (ex frisör) — dammig plommon. Typsnitt B */
+:root[data-segment="skonhet"]       { --brand:#7d5a74; --brand-dark:#5f4459; --brand-tint:#f4edf2; --surface:#faf6f9; --ink:#241f23;
+  --font-head:'Fraunces', Georgia, serif; }
+
+/* 7. Hälsa & Vård — lugn turkosgrön. Typsnitt A */
+:root[data-segment="halsa"]         { --brand:#2a7a6f; --brand-dark:#1e5a52; --brand-tint:#e6f2f0; }
+
+/* 8. Djur, Häst & Veterinär — varm skogsgrön. Typsnitt A */
+:root[data-segment="djur"]          { --brand:#4a6b3f; --brand-dark:#37502f; --brand-tint:#ecf1e8; }
+
+/* 9. Fastighet & Förvaltning — skiffergrå-blå. Typsnitt A */
+:root[data-segment="fastighet"]     { --brand:#33465a; --brand-dark:#243342; --brand-tint:#eceff2; }
+
+/* 10. Transport & Logistik — stark stålblå. Typsnitt A */
+:root[data-segment="transport"]     { --brand:#0f4c81; --brand-dark:#0a3860; --brand-tint:#e7eff6; }
+
+/* 11. Utbildning & Förskola — varm solig orange. Typsnitt A */
+:root[data-segment="utbildning"]    { --brand:#cf7a1c; --brand-dark:#a66015; --brand-tint:#fcf0df; }
+
+/* 12. Jordbruk, Odling & Livsmedel — mossgrön/oliv. Typsnitt B */
+:root[data-segment="jordbruk"]      { --brand:#5e6b34; --brand-dark:#464f26; --brand-tint:#f0f1e6; --surface:#f8f8f1;
+  --font-head:'Fraunces', Georgia, serif; }
+
+/* 13. Tillverkning & Industri — grafit + precision. Typsnitt A */
+:root[data-segment="industri"]      { --brand:#2b3138; --brand-dark:#1b2025; --brand-tint:#eceef0; }
+
+/* 14. Besöksnäring & Event — inbjudande petrol. Typsnitt B */
+:root[data-segment="besoksnaring"]  { --brand:#1f7a8c; --brand-dark:#155e6c; --brand-tint:#e6f3f5;
+  --font-head:'Fraunces', Georgia, serif; }
+
+/* 15. Förening, Kyrka & Ideellt — varm rost. Typsnitt B */
+:root[data-segment="forening"]      { --brand:#9a5b34; --brand-dark:#774526; --brand-tint:#f6ece4;
+  --font-head:'Fraunces', Georgia, serif; }
+
+/* 16. Övrigt / Behöver kategoriseras — OakStride default (stålblå). Typsnitt A */
+:root[data-segment="ovrigt"]        { --brand:#1d5566; --brand-dark:#143d4a; --brand-tint:#e9f1f2; }
