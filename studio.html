@@ -225,6 +225,16 @@
   .step p { font-size: 0.95rem; color: #3d443a; }
   .step .n { font-family:'IBM Plex Mono',monospace; font-size: 0.78rem; letter-spacing: 0.12em; color: var(--moss); display:block; margin-bottom: 8px; }
 
+  /* Updating your site is this easy — text left, image right */
+  .andra-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .andra-text h2 { text-align: left; margin-bottom: 16px; }
+  .andra-text .lead { font-size: 1.12rem; color: var(--ink); margin-bottom: 14px; }
+  .andra-text p { font-size: 1rem; color: #3d443a; margin-bottom: 14px; }
+  .andra-points { list-style: none; display: grid; gap: 11px; margin: 20px 0 0; }
+  .andra-points li { position: relative; padding-left: 28px; font-size: 0.98rem; color: #3d443a; }
+  .andra-points li::before { content: "✓"; position: absolute; left: 0; top: 0; color: var(--acorn); font-weight: 700; }
+  .andra-media img { width: 100%; height: auto; border-radius: 16px; box-shadow: 0 24px 60px rgba(30,58,47,0.18); display: block; }
+
   .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
   .contact-list { list-style: none; display: grid; gap: 16px; }
   .contact-list a { color: var(--pine); font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--acorn); }
@@ -247,7 +257,7 @@
   footer { border-top: 1px solid var(--line); padding: 32px 0; font-size: 0.88rem; color: #5a6157; }
 
   @media (max-width: 900px) {
-    .services, .steps, .contact-grid { grid-template-columns: 1fr; }
+    .services, .steps, .contact-grid, .andra-grid { grid-template-columns: 1fr; }
     .work-item { grid-template-columns: 1fr; }
     .work-shot { min-height: 220px; }
     .rings { display: none; }
@@ -514,23 +524,20 @@
 
   <section id="edit-your-site">
     <div class="wrap">
-      <h2>Updating your site is this easy</h2>
-      <p class="section-intro">Need to change some text, update a price or post some news? Do it in minutes — straight from your phone. Included in your monthly plan.</p>
-      <div class="steps">
-        <div class="step">
-          <span class="n">01 &middot; Open</span>
-          <h3>Log in to the portal</h3>
-          <p>Open the customer portal on your phone or computer — your personal login is always close at hand.</p>
+      <div class="andra-grid">
+        <div class="andra-text">
+          <h2>Updating your site is this easy</h2>
+          <p class="lead">Need to change some text, update a price or post some news? Open the customer portal on your phone and tell your AI assistant what you want to change.</p>
+          <p>In seconds it produces a finished draft. Preview the whole site — then choose for yourself: publish instantly, or ask us to review it first.</p>
+          <ul class="andra-points">
+            <li>Chat in your own words — no technical skills needed</li>
+            <li>Upload your own images right in the chat</li>
+            <li>Preview before anything goes live</li>
+            <li>Included in your monthly plan</li>
+          </ul>
         </div>
-        <div class="step">
-          <span class="n">02 &middot; Chat</span>
-          <h3>Tell the AI agent</h3>
-          <p>Type what you want to change — &quot;update the opening hours&quot; or &quot;add this image&quot; — and our AI agent turns it into a draft.</p>
-        </div>
-        <div class="step">
-          <span class="n">03 &middot; Done</span>
-          <h3>We review &amp; publish</h3>
-          <p>A real person double-checks and publishes it — so your site always looks polished. Everyday content changes are included.</p>
+        <div class="andra-media">
+          <img src="images/ai-assistent.png" alt="OakStride's AI assistant in the customer portal — describe your change, get a draft and publish instantly or after review" loading="lazy" width="756" height="646">
         </div>
       </div>
     </div>
