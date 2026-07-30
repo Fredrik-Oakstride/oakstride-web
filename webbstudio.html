@@ -225,6 +225,16 @@
   .step p { font-size: 0.95rem; color: #3d443a; }
   .step .n { font-family:'IBM Plex Mono',monospace; font-size: 0.78rem; letter-spacing: 0.12em; color: var(--moss); display:block; margin-bottom: 8px; }
 
+  /* Så enkelt ändrar du din sida — text vänster, bild höger */
+  .andra-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .andra-text h2 { text-align: left; margin-bottom: 16px; }
+  .andra-text .lead { font-size: 1.12rem; color: var(--ink); margin-bottom: 14px; }
+  .andra-text p { font-size: 1rem; color: #3d443a; margin-bottom: 14px; }
+  .andra-points { list-style: none; display: grid; gap: 11px; margin: 20px 0 0; }
+  .andra-points li { position: relative; padding-left: 28px; font-size: 0.98rem; color: #3d443a; }
+  .andra-points li::before { content: "✓"; position: absolute; left: 0; top: 0; color: var(--acorn); font-weight: 700; }
+  .andra-media img { width: 100%; height: auto; border-radius: 16px; box-shadow: 0 24px 60px rgba(30,58,47,0.18); display: block; }
+
   .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
   .contact-list { list-style: none; display: grid; gap: 16px; }
   .contact-list a { color: var(--pine); font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--acorn); }
@@ -247,7 +257,7 @@
   footer { border-top: 1px solid var(--line); padding: 32px 0; font-size: 0.88rem; color: #5a6157; }
 
   @media (max-width: 900px) {
-    .services, .steps, .contact-grid { grid-template-columns: 1fr; }
+    .services, .steps, .contact-grid, .andra-grid { grid-template-columns: 1fr; }
     .work-item { grid-template-columns: 1fr; }
     .work-shot { min-height: 220px; }
     .rings { display: none; }
@@ -514,23 +524,20 @@
 
   <section id="andra-sidan">
     <div class="wrap">
-      <h2>Så enkelt ändrar du din sida</h2>
-      <p class="section-intro">Behöver du byta en text, uppdatera ett pris eller lägga upp en nyhet? Gör det på minuter — direkt från mobilen. Ingår i månadsavgiften.</p>
-      <div class="steps">
-        <div class="step">
-          <span class="n">01 &middot; Öppna</span>
-          <h3>Logga in i portalen</h3>
-          <p>Öppna kundportalen i mobilen eller datorn — din personliga inloggning finns alltid nära till hands.</p>
+      <div class="andra-grid">
+        <div class="andra-text">
+          <h2>Så enkelt ändrar du din sida</h2>
+          <p class="lead">Behöver du byta en text, uppdatera ett pris eller lägga upp en nyhet? Öppna kundportalen i mobilen och skriv till din AI-assistent vad du vill ändra.</p>
+          <p>På bara några sekunder tar den fram ett färdigt utkast. Förhandsgranska hela sajten — och välj sedan själv: lansera direkt, eller be oss granska först.</p>
+          <ul class="andra-points">
+            <li>Chatta med egna ord — inga tekniska kunskaper behövs</li>
+            <li>Ladda upp egna bilder direkt i chatten</li>
+            <li>Förhandsgranska innan något går live</li>
+            <li>Ingår i månadsavgiften</li>
+          </ul>
         </div>
-        <div class="step">
-          <span class="n">02 &middot; Chatta</span>
-          <h3>Berätta för AI-agenten</h3>
-          <p>Skriv vad du vill ändra — &quot;byt öppettiderna&quot; eller &quot;lägg in den här bilden&quot; — så tar vår AI-agent fram ändringen som ett utkast.</p>
-        </div>
-        <div class="step">
-          <span class="n">03 &middot; Klart</span>
-          <h3>Vi granskar &amp; publicerar</h3>
-          <p>En människa hos oss dubbelkollar och publicerar — så din sida alltid ser proffsig ut. Löpande innehållsändringar ingår i driften.</p>
+        <div class="andra-media">
+          <img src="images/ai-assistent.png" alt="OakStrides AI-assistent i kundportalen — beskriv din ändring, få ett utkast och publicera direkt eller efter granskning" loading="lazy" width="1165" height="793">
         </div>
       </div>
     </div>
