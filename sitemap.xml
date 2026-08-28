@@ -31,4 +31,14 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://oakstride.se/studio"/>
     <xhtml:link rel="alternate" hreflang="sv" href="https://oakstride.se/webbstudio"/>
   </url>
+  <url>
+    <loc>https://oakstride.se/insights</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://oakstride.se/insights"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://oakstride.se/insikter"/>
+  </url>
+  <url>
+    <loc>https://oakstride.se/insikter</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://oakstride.se/insights"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://oakstride.se/insikter"/>
+  </url>
 </urlset>
