@@ -416,6 +416,52 @@ console.log("\n17. Kallfilen pa disk ar oforandrad efter provet  [fynd F1]");
 // granskarens mutation "sluta kontrollera response.ok" passerade 56/56 - alltsa var hela
 // tystnadsfixen obevisad av det prov som ar merge-grinden. Granskningsfynd N2.
 console.log("");
+console.log("17b. consent UPDATE speglar valet  [granskningsfynd]");
+{
+  // Det ar den har mekanismen policytexten namnger vid namn: "innan du sagt ja skickas
+  // inga annonsidentifierare". Den var olast - en mutation som satte allt till granted
+  // passerade 70/70. Ofarligt sa lange ingen tagg laddas utan c.marketing, men det enda
+  // signalvarde vi lovar uttryckligen ska inte vila pa en annan mekanism.
+  const upd = r => r.dataLayer().filter(a => a[0] === "consent" && a[1] === "update").pop();
+
+  const ja = körFilen({ sparat: { v: 2, statistics: true, marketing: true, policy: NY } });
+  const u1 = upd(ja);
+  pastå(!!u1, "ett consent update skickas");
+  pastå(u1 && u1[2].ad_storage === "granted", "ad_storage granted vid ja");
+  pastå(u1 && u1[2].ad_user_data === "granted", "ad_user_data granted vid ja");
+  pastå(u1 && u1[2].ad_personalization === "granted", "ad_personalization granted vid ja");
+
+  const nej = körFilen({ sparat: { v: 2, statistics: true, marketing: false, policy: NY } });
+  const u2 = upd(nej);
+  pastå(u2 && u2[2].ad_storage === "denied", "ad_storage denied vid nej till marknadsforing");
+  pastå(u2 && u2[2].ad_user_data === "denied", "ad_user_data denied vid nej");
+  pastå(u2 && u2[2].ad_personalization === "denied", "ad_personalization denied vid nej");
+  pastå(u2 && u2[2].analytics_storage === "granted", "analytics_storage foljer statistik, inte marknadsforing");
+
+  const badeNej = körFilen({ sparat: { v: 2, statistics: false, marketing: false, policy: NY } });
+  const u3 = upd(badeNej);
+  pastå(u3 && u3[2].analytics_storage === "denied", "analytics_storage denied vid nej till statistik");
+}
+
+console.log("");
+console.log("17c. Platshallaren far en RIKTIG src, och aktiveras bara en gang  [granskningsfynd]");
+{
+  const r = körFilen({ sparat: { v: 2, statistics: true, marketing: true, policy: NY }, skriptTaggar: [{ ...ADS }] });
+  pastå(r.laddade.length === 1, "platshallaren aktiverad");
+  // Assertionen "data-src blev src" fanns i forsta versionen av provet och foll bort i
+  // omskrivningen - den enda coverage-regressionen i overgangen. Utan den kan en klon
+  // utan src rakna som "aktiverad" trots att den inte laddar nagot.
+  pastå(r.laddade[0] && r.laddade[0].src === "https://x/ads.js", "data-src blev en riktig src");
+  pastå(r.laddade[0] && r.laddade[0].getAttribute("type") === null, "type=text/plain foljde INTE med");
+
+  // Dubbelaktiveringsvakten: applyMarketing kors bade vid init och i saveConsent, sa en
+  // besokare som oppnar installningarna och sparar om skulle annars fa skriptet insatt
+  // tva ganger.
+  r.api.grant();
+  pastå(r.laddade.length === 1, "ingen andra aktivering vid omsparat samtycke");
+}
+
+console.log("");
 console.log("18. clearVid raderar en avbojd besokares cookie  [granskningsfynd]");
 {
   // Cookien overlever policybytet - bara localStorage ogiltigforklaras. En besokare som
