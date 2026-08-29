@@ -89,11 +89,14 @@ function nod(tag) {
   return n;
 }
 
-function körFilen({ sparat, adsId = "", skriptTaggar = [], språk = "sv" }) {
+function körFilen({ sparat, adsId = "", skriptTaggar = [], språk = "sv", befintligVid = "", svarOk = true }) {
   const lagring = sparat ? { oak_consent_v2: JSON.stringify(sparat) } : {};
   let lagringKastar = false;
-  const cookies = [], laddade = [], huvudSkript = [];
+  const cookies = [], laddade = [], huvudSkript = [], poster = [], larmade = [];
   let omladdad = false, idRäknare = 0;
+  // En redan satt oak_vid, t.ex. fran ett statistik-ja under policy 1.1. Cookien
+  // overlever policybytet - bara localStorage ogiltigforklaras.
+  if (befintligVid) cookies.push("oak_vid=" + befintligVid + "; max-age=31536000; path=/");
 
   const platshållare = skriptTaggar.map(attr => {
     const n = nod("script");
@@ -136,11 +139,23 @@ function körFilen({ sparat, adsId = "", skriptTaggar = [], språk = "sv" }) {
       getItem: k => (k in lagring ? lagring[k] : null),
       setItem: (k, v) => { if (lagringKastar) throw new Error("blockerad lagring"); lagring[k] = v; }
     },
-    fetch: () => Promise.resolve({ ok: true, status: 200 }),
-    console: { warn() {}, error() {} }
+    fetch: (url, opt) => {
+      var kropp = {};
+      try { kropp = JSON.parse((opt && opt.body) || "{}"); } catch (e) {}
+      poster.push({ url: String(url), body: kropp });
+      return Promise.resolve(svarOk ? { ok: true, status: 200 } : { ok: false, status: 401 });
+    },
+    console: { warn(t) { larmade.push(["warn", String(t)]); }, error(t) { larmade.push(["error", String(t)]); } }
   };
   sandlåda.window = sandlåda;
-  sandlåda.crypto = { randomUUID: () => "UUID-" + (++idRäknare) };
+  // Realistisk form: en riktig randomUUID ar 36 tecken. En mock som ger "UUID-1"
+  // kan dolja fel som beror pa langd, och gav ett falskt underkant prov 14.
+  sandlåda.crypto = {
+    randomUUID: () => {
+      const n = String(++idRäknare).padStart(12, "0");
+      return "00000000-0000-4000-8000-" + n;
+    }
+  };
 
   const kod = adsId ? KOD.replace('var ADS_ID = "";', 'var ADS_ID = "' + adsId + '";') : KOD;
   if (adsId && kod === KOD) throw new Error("kunde inte satta ADS_ID - kontrollera raden i kallfilen");
@@ -157,7 +172,9 @@ function körFilen({ sparat, adsId = "", skriptTaggar = [], språk = "sv" }) {
     dataLayer: () => (sandlåda.dataLayer || []).map(a => Array.from(a)),
     lagrat: () => (lagring.oak_consent_v2 ? JSON.parse(lagring.oak_consent_v2) : null),
     omladdad: () => omladdad,
-    sättLagringKastar: v => { lagringKastar = v; }
+    sättLagringKastar: v => { lagringKastar = v; },
+    samtyckesposter: () => poster.filter(x => x.url.includes("/consents")),
+    larm: () => larmade
   };
 }
 
@@ -296,10 +313,99 @@ console.log("\n12. Bannern foljer <html lang>  [fynd B2]");
   pastå(en.banner().innerHTML.indexOf("Godkänn alla") === -1, "ingen svensk text pa engelsk sida");
 }
 
-console.log("\n13. Kallfilen pa disk ar oforandrad efter provet  [fynd F1]");
+console.log("");
+console.log("13. Aterkallelse laddar om AVEN med tom ADS_ID  [fynd N1]");
+{
+  // Scenariot granskaren matte: nagon lagger till ett marknadsforingsskript pa det satt
+  // filen dokumenterar, medan ADS_ID annu ar tom. Da satts aldrig adsLaddad - men ett
+  // tredjepartsskript KOR. Ett nej maste anda betyda att det slutar kora.
+  const r = körFilen({ sparat: null, skriptTaggar: [{ ...ADS }] });   // ADS_ID tom
+  r.banner().klicka("all");
+  pastå(r.laddade.length === 1, "platshallarskriptet aktiverat");
+  pastå(r.gtag().length === 0, "ingen gtag-tagg - ADS_ID ar tom");
+  r.api.revoke();
+  pastå(r.omladdad() === true, "sidan laddades om anda - mattet ar 'aktiverades nagot alls'");
+}
+
+console.log("");
+console.log("14. Samtyckesloggens nyttolast granskas  [fynd N2]");
+{
+  const r = körFilen({ sparat: null, adsId: "AW-000TEST", skriptTaggar: [{ ...ADS }] });
+  r.banner().klicka("customize");
+  r.ruta("oak-cc-stat").checked = false;
+  r.ruta("oak-cc-mark").checked = true;
+  r.banner().klicka("save");
+  const poster = r.samtyckesposter();
+  pastå(poster.length === 1, "exakt en post till /consents");
+  pastå(poster[0] && poster[0].body.policy_version === NY, "policy_version med i nyttolasten");
+  // consents.vid ar NOT NULL - matt i drift 2026-08-29. NAGRA CHECK-VILLKOR FINNS INTE,
+  // varken i drift eller i migration-29 (kontrollerat bada). En granskningsnotering
+  // angav "char_length(vid) between 8 and 64" och "policy_version max 20 tecken"; det
+  // kom ur en minnesfil och stammer inte. Provet kraver darfor bara ett icke-tomt id.
+  pastå(poster[0] && typeof poster[0].body.vid === "string" && poster[0].body.vid.length > 0,
+        "vid med i nyttolasten och icke-tomt (consents.vid ar NOT NULL)");
+  pastå(vidSatta(r).length === 0, "ingen oak_vid-cookie satt");
+}
+
+console.log("");
+console.log("15. Ett gammalt oak_vid far INTE aterbrukas i loggen  [fynd N2]");
+{
+  // oak_vid overlever policybytet. En besokare som sa ja till statistik 20 juli bar kvar
+  // sin cookie. Sager hon nej till statistik nu far hennes HISTORISKA identifierare inte
+  // hamna i samtyckesloggen - det vore B1 en niva djupare.
+  const r = körFilen({ sparat: null, adsId: "AW-000TEST", befintligVid: "GAMMAL-VID-FRAN-JULI" });
+  r.banner().klicka("customize");
+  r.ruta("oak-cc-stat").checked = false;
+  r.ruta("oak-cc-mark").checked = true;
+  r.banner().klicka("save");
+  const poster = r.samtyckesposter();
+  pastå(poster.length === 1, "en post till /consents");
+  pastå(poster[0] && poster[0].body.vid !== "GAMMAL-VID-FRAN-JULI",
+        "den historiska identifieraren aterbrukades INTE");
+}
+
+console.log("");
+console.log("16. Ett JA till statistik ska daremot anvanda cookien  [motprov till 15]");
+{
+  const r = körFilen({ sparat: null, adsId: "AW-000TEST", befintligVid: "GAMMAL-VID-FRAN-JULI" });
+  r.banner().klicka("all");
+  const poster = r.samtyckesposter();
+  pastå(poster.length === 1, "en post till /consents");
+  pastå(poster[0] && poster[0].body.vid === "GAMMAL-VID-FRAN-JULI",
+        "statistik-ja aterbrukar den godkanda cookien - inget nytt id i onodan");
+}
+
+console.log("\n17. Kallfilen pa disk ar oforandrad efter provet  [fynd F1]");
 {
   pastå(fs.readFileSync(KÄLLA, "utf8") === KOD, "oak-analytics.js orord - provet skriver aldrig till disk");
 }
 
-console.log("\n" + (fel === 0 ? "ALLA " + ok + " PROV GICK IGENOM" : fel + " PROV FALLERADE av " + (ok + fel)));
-process.exit(fel === 0 ? 0 : 1);
+// Prov 18-19 maste vanta pa mikrotasken: larmet sker i post():s .then(), alltsa efter
+// att klicket returnerat. Utan vantan matte provet ett lage som annu inte intraffat, och
+// granskarens mutation "sluta kontrollera response.ok" passerade 56/56 - alltsa var hela
+// tystnadsfixen obevisad av det prov som ar merge-grinden. Granskningsfynd N2.
+(async function () {
+  console.log("");
+  console.log("18. Ett misslyckat samtyckes-POST LARMAR  [fynd N2]");
+  {
+    const r = körFilen({ sparat: null, svarOk: false });
+    r.banner().klicka("all");
+    await new Promise(res => setImmediate(res));
+    const kritiska = r.larm().filter(l => l[0] === "error" && l[1].indexOf("samtyckesloggen") > -1);
+    pastå(kritiska.length === 1, "HTTP 401 pa samtyckesloggen gav ett console.error");
+    pastå(kritiska.length === 1 && kritiska[0][1].indexOf("401") > -1, "statuskoden star i larmet");
+  }
+
+  console.log("");
+  console.log("19. Ett lyckat POST larmar INTE  [motprov till 18]");
+  {
+    const r = körFilen({ sparat: null, svarOk: true });
+    r.banner().klicka("all");
+    await new Promise(res => setImmediate(res));
+    pastå(r.larm().filter(l => l[0] === "error").length === 0, "inga fellarm vid HTTP 200");
+  }
+
+  console.log("");
+  console.log(fel === 0 ? "ALLA " + ok + " PROV GICK IGENOM" : fel + " PROV FALLERADE av " + (ok + fel));
+  process.exit(fel === 0 ? 0 : 1);
+})();

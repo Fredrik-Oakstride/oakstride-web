@@ -43,10 +43,14 @@ jobs:
           set -euo pipefail
           node prov/prov-samtycke.js
 
-      # Provet skriver tillfalligt till kallfilen i sitt attonde fall och aterstaller
-      # den i ett finally-block. Kontrollen finns for att en avbruten korning annars
-      # kunde lamna en andrad fil bakom sig - och en fil med ett testvarde i ADS_ID
-      # skulle vara mycket obehaglig att mergea.
+      # Provet ror INTE disken - ADS_ID-varianten matas in i vm som en strang, och
+      # provets sista fall kontrollerar det sjalvt. Den har kontrollen ar anda kvar som
+      # ett andra las: skulle nagon i framtiden lata ett prov skriva till kallfilen
+      # igen, ska det fangas har och inte i en merge. En fil med ett testvarde i ADS_ID
+      # vore mycket obehaglig att mergea.
+      #
+      # (Kommentaren som stod har beskrev det gamla finally-monstret och var falsk redan
+      # inom samma PR - granskningsfynd N4.)
       - name: Kallfilen ska vara oforandrad efter provet
         run: |
           set -euo pipefail

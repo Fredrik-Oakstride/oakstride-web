@@ -52,7 +52,7 @@
   //    response.ok nedan ser en RLS-avvisning, en roterad nyckel, en borttagen tabell
   //    och ett brutet CHECK-villkor EXAKT likadana ut som en lyckad insert. Det spelade
   //    mindre roll for sidvisningar; det ar oacceptabelt for samtyckesloggen, som ar
-  //    vart enda BEVIS pa vad en besokare godkant. "Noll rader den veckan" hade da
+  //    vart enda bevis pa ATT en besokare gav samtycke (se noten vid logConsent om vad raden inte innehaller). "Noll rader den veckan" hade da
   //    kunnat betyda antingen noll samtycken eller ett brutet ror - och ingenting i
   //    utdatan hade skilt dem at. Tystnadsgranskningens fynd, 2026-08-29.
   function post(url, body, vad, kritisk) {
@@ -88,7 +88,17 @@
     } catch (e) {}
   }
 
-  // Samtyckesloggen ar kritisk: den ar beviset. Sidvisningar ar det inte.
+  // Samtyckesloggen ar kritisk. Sidvisningar ar det inte.
+  //
+  // ⚠️ VAD LOGGEN FAKTISKT BEVISAR - las detta innan du aberopar den.
+  //    Raden ar `{ vid, policy_version, created_at }`. **Ingen KATEGORI lagras.** Loggen
+  //    bevisar alltsa ATT ett samtycke inhamtades, NAR, och under VILKEN POLICY - men
+  //    inte VAD som godkandes. Ett ja till bara statistik och ett ja till annonser ger
+  //    identiska rader sanar som pa ett slumptal. Tidigare kommentarer har pastod att
+  //    den bevisar "vad som godkandes"; det var for stort och ar rattat (granskningsfynd,
+  //    2026-08-29). Policytexten har alltid varit korrekt - den lovar bara tidpunkt och
+  //    policyversion. Ska kategorierna kunna visas kravs en migration i portal-repot,
+  //    alltsa Fredriks prioritering, inte en andring har.
   //
   // 🔴 ANROPA ALDRIG DEN HAR MED ensureVid() RAKT AV. `ensureVid` SATTER cookien som
   //    sidoeffekt (se dess kropp). Ett tag stod har `if (stats || mark) logConsent(ensureVid())`,
@@ -175,6 +185,10 @@
   // ⚠️ ENVAGS, OCH DET AR EN EGENSKAP INTE EN BRIST: ett laddat skript kan inte
   // avladdas. Darfor laddar aterkallelse om sidan (se saveConsent), sa att ett nej
   // faktiskt betyder att inget annonsskript kor - inte bara att vi slutat be om mer.
+  // Sant sa fort NAGOT tredjepartsskript aktiverats i den har sidvisningen - bade via
+  // platshallarmekanismen och via gtag-taggen. Det ar det matt aterkallelsen behover.
+  var nagotAktiverat = false;
+
   function activateScripts(cat) {
     var noder = document.querySelectorAll('script[type="text/plain"][data-consent="' + cat + '"]');
     for (var i = 0; i < noder.length; i++) {
@@ -191,6 +205,7 @@
       gammal.setAttribute("data-oak-aktiverad", "1");
       ny.setAttribute("data-oak-aktiverad", "1");
       gammal.parentNode.insertBefore(ny, gammal.nextSibling);
+      nagotAktiverat = true;
     }
   }
 
@@ -200,6 +215,7 @@
   function loadAds() {
     if (adsLaddad || !ADS_ID) return;   // tomt ID = inert, se blocket vid ADS_ID
     adsLaddad = true;
+    nagotAktiverat = true;
     var sc = document.createElement("script");
     sc.async = true;
     sc.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(ADS_ID);
@@ -220,15 +236,22 @@
     // Granskningsfynd F4: den har byggde forst pa `currentConsent()`, alltsa pa vad som
     // ligger i localStorage. Kastar `setItem` (privat lage, blockerad lagring, vissa
     // webviews) sparas ingenting, och ett ja foljt av ett nej gav da INGEN omladdning -
-    // trots att skriptet faktiskt laddats och fortsatte kora. `adsLaddad` speglar det
-    // verkliga laget i den har sidvisningen och ar darfor det ratta mattet.
-    var badeAv = adsLaddad && !mark;
+    // trots att skriptet faktiskt laddats och fortsatte kora.
+    //
+    // ⚠️ RATTAT IGEN (granskningsfynd N1): forsta fixen anvande `adsLaddad`, som satts
+    // INNE i loadAds efter `if (adsLaddad || !ADS_ID) return`. Med den levererade tomma
+    // ADS_ID blir den flaggan aldrig sann - och `activateScripts` ar en HELT separat
+    // mekanism som aktiverar platshallarskript utan att rora den. Nagon som lagger till
+    // ett marknadsforingsskript pa det satt filen sjalv dokumenterar, medan ADS_ID annu
+    // ar tom, hade darfor fatt skriptet aktiverat vid ja och INGEN omladdning vid nej.
+    // Ratt matt ar "aktiverades nagot alls i den har sidvisningen".
+    var badeAv = nagotAktiverat && !mark;
     var c = { v: 2, statistics: !!stats, marketing: !!mark, policy: POLICY_VERSION, at: new Date().toISOString() };
     try { localStorage.setItem(KEY, JSON.stringify(c)); } catch (e) {}
-    // Samtyckesloggen ar vart BEVIS pa vad som godkandes och under vilken policy.
-    // Den skrivs sa fort NAGON kategori sagts ja till - tidigare bara vid statistik,
-    // vilket hade lamnat ett marknadsforings-ja obokfort. Det ar just det ja som ar
-    // kansligast att kunna visa i efterhand.
+    // Samtyckesloggen bokfor ATT samtycke gavs och under vilken policy - inte vilka
+    // kategorier. Den skrivs sa fort NAGON kategori sagts ja till - tidigare bara vid
+    // statistik, vilket hade lamnat ett marknadsforings-ja helt obokfort. Att raden
+    // finns ar det vi kan visa i efterhand; vilken kategori den avsag ar det inte.
     if (stats || mark) logConsent(loggId(!!stats));
     applyAnalytics(c);
     applyMarketing(c);
