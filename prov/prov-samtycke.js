@@ -23,6 +23,14 @@
 // Mocken nedan bar riktiga event-lyssnare och parsar de element ur innerHTML som proven
 // behover roras vid, sa att proven kan KLICKA i stallet for att anropa API:t.
 //
+// ── EN LARDOM TILL, 2026-08-29 ────────────────────────────────────────────────────
+// Mocken gav forst `randomUUID()` som "UUID-1", sex tecken. Prov 14 underkandes, och jag
+// avfardade det som ett falskt larm fran en orealistisk mock. **Det var ett SANT larm:**
+// drift har ett RLS-villkor som kraver 8-64 tecken, och en for kort vid hade avvisats.
+// Att gora mocken realistisk var ratt - men slutsatsen "provet hittade pa ett fel" var
+// fel, och den slutsatsen anvandes for att LATTA provet. En mock ska likna verkligheten
+// just for att dess larm ska ga att lita pa.
+//
 // F1: provet skriver inte langre till kallfilen pa disk. Varianten med ifyllt ADS_ID
 // matas in i vm som en STRANG. Forra versionen skrev till filen och aterstallde den i
 // ett finally - som inte tacker Ctrl-C. Ett avbrott kunde lamna ADS_ID = "AW-000TEST"
@@ -174,7 +182,8 @@ function körFilen({ sparat, adsId = "", skriptTaggar = [], språk = "sv", befin
     omladdad: () => omladdad,
     sättLagringKastar: v => { lagringKastar = v; },
     samtyckesposter: () => poster.filter(x => x.url.includes("/consents")),
-    larm: () => larmade
+    larm: () => larmade,
+    lagring: () => lagring
   };
 }
 
@@ -182,6 +191,9 @@ const NY = "1.2-2026-08-29";
 const ADS = { type: "text/plain", "data-consent": "marketing", "data-src": "https://x/ads.js" };
 // En SATT statistikcookie, alltsa inte en raderande skrivning.
 const vidSatta = r => r.cookies.filter(c => /^oak_vid=.+/.test(c) && !/max-age=0/.test(c));
+// Raderingar syns bara som en skrivning med max-age=0. vidSatta kan inte se dem, och
+// darfor var clearVid() otestad - granskningsfynd.
+const vidRaderade = r => r.cookies.filter(c => /^oak_vid=/.test(c) && /max-age=0/.test(c));
 
 console.log("\n1. Gammalt samtycke fran policy 1.1 raknas som inget val");
 {
@@ -338,12 +350,31 @@ console.log("14. Samtyckesloggens nyttolast granskas  [fynd N2]");
   const poster = r.samtyckesposter();
   pastå(poster.length === 1, "exakt en post till /consents");
   pastå(poster[0] && poster[0].body.policy_version === NY, "policy_version med i nyttolasten");
-  // consents.vid ar NOT NULL - matt i drift 2026-08-29. NAGRA CHECK-VILLKOR FINNS INTE,
-  // varken i drift eller i migration-29 (kontrollerat bada). En granskningsnotering
-  // angav "char_length(vid) between 8 and 64" och "policy_version max 20 tecken"; det
-  // kom ur en minnesfil och stammer inte. Provet kraver darfor bara ett icke-tomt id.
-  pastå(poster[0] && typeof poster[0].body.vid === "string" && poster[0].body.vid.length > 0,
-        "vid med i nyttolasten och icke-tomt (consents.vid ar NOT NULL)");
+  // ⚠️ RATTAT 2026-08-29, ANDRA GANGEN. Har stod en stund att inga langdvillkor fanns
+  // "varken i drift eller i migration-29 (kontrollerat bada)". **Det var fel**, och felet
+  // ar larorikt nog att fa sta kvar som varning:
+  //
+  // Villkoret ligger inte i en CHECK-constraint utan i RLS-policyns `with check`. Jag
+  // fragade `pg_constraint`, fick noll rader, och drog slutsatsen att villkoret inte
+  // fanns. Men `pg_constraint` kan STRUKTURELLT inte innehalla ett policyuttryck - det
+  // lever i `pg_policy.polwithcheck`. Noll rader var det vantade utfallet oavsett svar,
+  // alltsa ett icke-diskriminerande experiment. Samma fel som nionde sattet i
+  // kunskap-verifiering.md, begatt av mig sjalv tva timmar efter att jag skrev ned det.
+  //
+  // UPPMATT I DRIFT med ratt fraga (`select with_check from pg_policies where
+  // tablename='consents'`), 2026-08-29:
+  //   "consents: oppen insert"  INSERT  {anon,authenticated}
+  //     with check: char_length(vid) >= 8 and char_length(vid) <= 64
+  //             and char_length(policy_version) >= 4 and char_length(policy_version) <= 20
+  //
+  // Villkoret finns alltsa, och tystnadsgranskarens minnesfil hade ratt hela tiden.
+  // En vid under 8 tecken avvisas av RLS - och post() sväljer inte langre den avvisningen
+  // tyst, men samtycket blir anda obokfort. Provet mater darfor hela intervallet.
+  const v = poster[0] && poster[0].body.vid;
+  pastå(typeof v === "string" && v.length >= 8 && v.length <= 64,
+        "vid ar 8-64 tecken - RLS-policyns with check i drift");
+  pastå(poster[0] && poster[0].body.policy_version.length >= 4 && poster[0].body.policy_version.length <= 20,
+        "policy_version ar 4-20 tecken (nu " + (poster[0] ? poster[0].body.policy_version.length : "?") + " av 20 - marginalen ar verklig)");
   pastå(vidSatta(r).length === 0, "ingen oak_vid-cookie satt");
 }
 
@@ -380,13 +411,48 @@ console.log("\n17. Kallfilen pa disk ar oforandrad efter provet  [fynd F1]");
   pastå(fs.readFileSync(KÄLLA, "utf8") === KOD, "oak-analytics.js orord - provet skriver aldrig till disk");
 }
 
-// Prov 18-19 maste vanta pa mikrotasken: larmet sker i post():s .then(), alltsa efter
+// Prov 20-21 maste vanta pa mikrotasken: larmet sker i post():s .then(), alltsa efter
 // att klicket returnerat. Utan vantan matte provet ett lage som annu inte intraffat, och
 // granskarens mutation "sluta kontrollera response.ok" passerade 56/56 - alltsa var hela
 // tystnadsfixen obevisad av det prov som ar merge-grinden. Granskningsfynd N2.
+console.log("");
+console.log("18. clearVid raderar en avbojd besokares cookie  [granskningsfynd]");
+{
+  // Cookien overlever policybytet - bara localStorage ogiltigforklaras. En besokare som
+  // sa ja till statistik 20 juli bar alltsa kvar sin oak_vid nar bannern kommer tillbaka.
+  // clearVid ar den ENDA mekanism som tar bort den, och den var helt otestad: harnessen
+  // matte bara sattningar, aldrig raderingar. integritet.html lovar rakt ut att cookien
+  // raderas, sa loftet vilade pa otestad kod.
+  //
+  // ⚠️ Provet avslojade nagot jag inte visste, och som ar STARKARE an jag trodde:
+  // cookien raderas redan vid SIDLADDNING nar inget giltigt samtycke finns, alltsa
+  // innan besokaren hunnit klicka. applyAnalytics(null) kor clearVid vid init. Efter
+  // ett policybyte ar en avbojd cookie darfor borta direkt. Forsta versionen av
+  // motprovet nedan matte fel ogonblick och underkandes med ratta.
+  const r = körFilen({ sparat: null, befintligVid: "GAMMAL-VID-FRAN-JULI" });
+  pastå(vidRaderade(r).length >= 1, "cookien raderas redan vid sidladdning utan giltigt val");
+  pastå(!!r.banner(), "bannern visas (inget giltigt val finns)");
+  const foreKlick = vidRaderade(r).length;
+  const sattaFore = vidSatta(r).length;   // 1: den befintliga cookien harnessen la in
+  r.banner().klicka("necessary");
+  pastå(vidRaderade(r).length > foreKlick, "och raderas igen vid nej till statistik");
+  pastå(vidSatta(r).length === sattaFore, "ingen NY oak_vid satt av klicket");
+  pastå(r.lagrat().statistics === false, "valet sparat som nej");
+}
+
+console.log("");
+console.log("19. Ett JA till statistik aterbrukar cookien i stallet  [motprov till 18]");
+{
+  const r = körFilen({ sparat: null, befintligVid: "GAMMAL-VID-FRAN-JULI" });
+  const foreKlick = vidRaderade(r).length;
+  r.banner().klicka("all");
+  pastå(vidRaderade(r).length === foreKlick, "ingen radering AV KLICKET vid ja");
+  pastå(r.lagrat().statistics === true, "valet sparat som ja");
+}
+
 (async function () {
   console.log("");
-  console.log("18. Ett misslyckat samtyckes-POST LARMAR  [fynd N2]");
+  console.log("20. Ett misslyckat samtyckes-POST LARMAR  [fynd N2]");
   {
     const r = körFilen({ sparat: null, svarOk: false });
     r.banner().klicka("all");
@@ -397,12 +463,35 @@ console.log("\n17. Kallfilen pa disk ar oforandrad efter provet  [fynd F1]");
   }
 
   console.log("");
-  console.log("19. Ett lyckat POST larmar INTE  [motprov till 18]");
+  console.log("21. Ett lyckat POST larmar INTE  [motprov till 20]");
   {
     const r = körFilen({ sparat: null, svarOk: true });
     r.banner().klicka("all");
     await new Promise(res => setImmediate(res));
     pastå(r.larm().filter(l => l[0] === "error").length === 0, "inga fellarm vid HTTP 200");
+  }
+
+  console.log("");
+  console.log("22. Ett misslyckat POST lamnar ett spar i localStorage");
+  {
+    // Posten ar sedan granskningsfynd N3 UTLOVAD i integritetstexten - da ska den ocksa
+    // matas. Utan den finns ingen vag att i efterhand fraga en drabbad besokare vad som
+    // hande, eftersom vi inte har nagon felkanal pa en statisk sajt.
+    const r = körFilen({ sparat: null, svarOk: false });
+    r.banner().klicka("all");
+    await new Promise(res => setImmediate(res));
+    const spar = r.lagring().oak_consent_fel;
+    pastå(typeof spar === "string" && spar.length > 0, "oak_consent_fel skrivet");
+    pastå(typeof spar === "string" && spar.indexOf("samtyckesloggen") > -1, "sparet namner vad som felade");
+  }
+
+  console.log("");
+  console.log("23. Ett lyckat POST lamnar INGET spar  [motprov till 22]");
+  {
+    const r = körFilen({ sparat: null, svarOk: true });
+    r.banner().klicka("all");
+    await new Promise(res => setImmediate(res));
+    pastå(!r.lagring().oak_consent_fel, "inget felspar vid HTTP 200");
   }
 
   console.log("");
