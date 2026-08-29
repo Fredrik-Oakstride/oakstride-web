@@ -46,18 +46,54 @@
   var API = BASE + "page_views";
   var APIKEY = "sb_publishable_khYg7LIrHxnUNoADAkCWSA_lzmI8UYJ";
 
-  function post(url, body) {
+  // `vad` namnger anropet i felmeddelandet. `kritisk` styr hur hogt vi skriker.
+  //
+  // 🔴 fetch AVVISAR BARA VID NATVERKSFEL - inte vid HTTP 4xx/5xx. Utan kontrollen av
+  //    response.ok nedan ser en RLS-avvisning, en roterad nyckel, en borttagen tabell
+  //    och ett brutet CHECK-villkor EXAKT likadana ut som en lyckad insert. Det spelade
+  //    mindre roll for sidvisningar; det ar oacceptabelt for samtyckesloggen, som ar
+  //    vart enda BEVIS pa vad en besokare godkant. "Noll rader den veckan" hade da
+  //    kunnat betyda antingen noll samtycken eller ett brutet ror - och ingenting i
+  //    utdatan hade skilt dem at. Tystnadsgranskningens fynd, 2026-08-29.
+  function post(url, body, vad, kritisk) {
     try {
       fetch(url, {
         method: "POST", keepalive: true,
         headers: { apikey: APIKEY, "Content-Type": "application/json", Prefer: "return=minimal" },
         body: JSON.stringify(body)
-      }).catch(function () {});
+      }).then(function (r) {
+        if (!r || r.ok) return;
+        larm(vad + ": HTTP " + r.status, kritisk);
+      }).catch(function (e) {
+        larm(vad + ": " + (e && e.message ? e.message : "natverksfel"), kritisk);
+      });
+    } catch (e) {
+      larm(vad + ": " + (e && e.message ? e.message : "kunde inte skicka"), kritisk);
+    }
+  }
+
+  // Vi har ingen felkanal pa en statisk sajt - inget Sentry, ingen server att larma till.
+  // Konsolen ar darfor vad som finns, och det ar en riktig forbattring mot ingenting:
+  // ett fel gar nu att SE. For samtyckesloggen skrivs dessutom ett spar i localStorage,
+  // sa att det gar att fraga en drabbad besokare vad som hande - och sa att en framtida
+  // kontroll kan lasa det utan att vara pa plats i ratt sekund.
+  function larm(text, kritisk) {
+    try {
+      if (kritisk) {
+        console.error("[oak] " + text);
+        try { localStorage.setItem("oak_consent_fel", new Date().toISOString() + " " + text); } catch (e) {}
+      } else {
+        console.warn("[oak] " + text);
+      }
     } catch (e) {}
   }
-  function logConsent(vid) { post(BASE + "consents", { vid: vid, policy_version: POLICY_VERSION }); }
+
+  // Samtyckesloggen ar kritisk: den ar beviset. Sidvisningar ar det inte.
+  function logConsent(vid) {
+    post(BASE + "consents", { vid: vid, policy_version: POLICY_VERSION }, "samtyckesloggen", true);
+  }
   function send(vid) {
-    post(API, { site: "oakstride.se", path: location.pathname, referrer: document.referrer || null, vid: vid || null });
+    post(API, { site: "oakstride.se", path: location.pathname, referrer: document.referrer || null, vid: vid || null }, "sidvisning", false);
   }
   function getCookie(name) { var m = document.cookie.match("(?:^|; )" + name + "=([^;]*)"); return m ? m[1] : null; }
   function ensureVid() {

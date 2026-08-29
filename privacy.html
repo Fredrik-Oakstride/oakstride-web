@@ -91,9 +91,19 @@
 <script src="/oak-analytics.js?v=4" defer></script>
 <script>
   document.getElementById("btn-revoke").addEventListener("click", function () {
-    if (window.oakConsent) window.oakConsent.revoke();
-    else { localStorage.setItem("oak_consent_v2", ""); document.cookie = "oak_vid=; max-age=0; path=/"; }
-    document.getElementById("revoke-note").hidden = false;
+    // Skilj de tva vagarna at i TEXTEN. Reservvagen raderar cookien men kan varken
+    // logga aterkallelsen eller nollstalla Google Consent Mode - att da saga "Klart"
+    // vore att rapportera en framgang som inte ar hela sanningen.
+    var not = document.getElementById("revoke-note");
+    if (window.oakConsent) {
+      window.oakConsent.revoke();
+      not.textContent = "Done \u2014 the cookie is deleted and your choice saved.";
+    } else {
+      try { localStorage.setItem("oak_consent_v2", ""); } catch (e) {}
+      document.cookie = "oak_vid=; max-age=0; path=/; SameSite=Lax; Secure";
+      not.textContent = "The cookie is deleted, but we could not confirm the full withdrawal \u2014 please reload the page and try again.";
+    }
+    not.hidden = false;
   });
   document.getElementById("btn-cookiesettings").addEventListener("click", function () {
     if (window.oakConsent) window.oakConsent.openSettings();
