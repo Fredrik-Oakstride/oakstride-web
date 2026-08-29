@@ -89,6 +89,24 @@
   }
 
   // Samtyckesloggen ar kritisk: den ar beviset. Sidvisningar ar det inte.
+  //
+  // 🔴 ANROPA ALDRIG DEN HAR MED ensureVid() RAKT AV. `ensureVid` SATTER cookien som
+  //    sidoeffekt (se dess kropp). Ett tag stod har `if (stats || mark) logConsent(ensureVid())`,
+  //    vilket betydde att en besokare som sa NEJ till statistik men JA till marknadsforing
+  //    anda fick `oak_vid` skriven med 12 manaders livslangd, och fick sin identifierare
+  //    sparad hos oss - efter ett uttryckligt nej till just den kategorin. Cookien raderades
+  //    en rad senare av applyAnalytics, men id:t var da redan skickat och lagrat.
+  //    Granskningsfynd B1, 2026-08-29. Uppmatt, inte teoretiskt.
+  //
+  // Darfor: `loggId` skapar ett ENGANGS-id nar ingen statistikcookie far finnas. Det
+  // lagras ingenstans - varken som cookie eller i localStorage - och finns bara i den
+  // rad som bevisar att samtycke inhamtades. Vi kan alltsa visa ATT ett samtycke gavs,
+  // vid vilken tid och under vilken policy, utan att skapa en identifierare for nagon
+  // som bett oss lata bli. `consents.vid` ar NOT NULL, sa faltet maste ha ett varde.
+  function loggId(harStatistikJa) {
+    if (harStatistikJa) return ensureVid();          // cookien ar redan godkand
+    return nyttId();                                  // engangs, satts aldrig som cookie
+  }
   function logConsent(vid) {
     post(BASE + "consents", { vid: vid, policy_version: POLICY_VERSION }, "samtyckesloggen", true);
   }
@@ -96,10 +114,16 @@
     post(API, { site: "oakstride.se", path: location.pathname, referrer: document.referrer || null, vid: vid || null }, "sidvisning", false);
   }
   function getCookie(name) { var m = document.cookie.match("(?:^|; )" + name + "=([^;]*)"); return m ? m[1] : null; }
+  function nyttId() {
+    return (window.crypto && window.crypto.randomUUID)
+      ? window.crypto.randomUUID()
+      : String(Math.random()).slice(2) + "-" + Date.now();
+  }
+  // ⚠️ SATTER COOKIEN. Anropa bara nar statistik-samtycke faktiskt finns.
   function ensureVid() {
     var v = getCookie("oak_vid");
     if (!v) {
-      v = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Math.random()).slice(2) + "-" + Date.now();
+      v = nyttId();
       document.cookie = "oak_vid=" + v + "; max-age=31536000; path=/; SameSite=Lax; Secure";
     }
     return v;
@@ -193,15 +217,19 @@
   }
 
   function saveConsent(stats, mark) {
-    var fore = currentConsent();
-    var badeAv = fore && fore.marketing && !mark;   // aktivt aterkallad marknadsforing
+    // Granskningsfynd F4: den har byggde forst pa `currentConsent()`, alltsa pa vad som
+    // ligger i localStorage. Kastar `setItem` (privat lage, blockerad lagring, vissa
+    // webviews) sparas ingenting, och ett ja foljt av ett nej gav da INGEN omladdning -
+    // trots att skriptet faktiskt laddats och fortsatte kora. `adsLaddad` speglar det
+    // verkliga laget i den har sidvisningen och ar darfor det ratta mattet.
+    var badeAv = adsLaddad && !mark;
     var c = { v: 2, statistics: !!stats, marketing: !!mark, policy: POLICY_VERSION, at: new Date().toISOString() };
     try { localStorage.setItem(KEY, JSON.stringify(c)); } catch (e) {}
     // Samtyckesloggen ar vart BEVIS pa vad som godkandes och under vilken policy.
     // Den skrivs sa fort NAGON kategori sagts ja till - tidigare bara vid statistik,
     // vilket hade lamnat ett marknadsforings-ja obokfort. Det ar just det ja som ar
     // kansligast att kunna visa i efterhand.
-    if (stats || mark) logConsent(ensureVid());
+    if (stats || mark) logConsent(loggId(!!stats));
     applyAnalytics(c);
     applyMarketing(c);
     var el = document.getElementById("oak-cc"); if (el) el.remove();
@@ -210,8 +238,14 @@
   }
 
   // Global sa integritetssidan kan oppna installningar / aterkalla samtycke.
-  // status() svarar pa STATISTIK av bakatkompatibilitet - integritet.html anropar den.
-  // Anvand categories() for hela bilden.
+  //
+  // ⚠️ `grant()` betyder sedan 2026-08-29 "ja till ALLT inklusive annonser"; tidigare
+  //    bara "ja till statistik". Ingen anropare finns i repot i dag, men det ar ett
+  //    publikt API pa en live-sajt vars innebord andrats - star har sa att nasta lasare
+  //    inte antar den gamla.
+  // ⚠️ `status()` svarar bara pa STATISTIK, av bakatkompatibilitet. Har ingen anropare
+  //    i repot (rattat pastaende: en tidigare kommentar sa att integritet.html anropar
+  //    den - den anropar bara revoke() och openSettings()). Anvand `categories()`.
   window.oakConsent = {
     status: function () { var c = currentConsent(); return c ? (c.statistics ? "yes" : "no") : null; },
     categories: function () {
@@ -223,6 +257,58 @@
     openSettings: function () { showBanner(true); }
   };
 
+  // ── Sprak i samtyckesrutan ──────────────────────────────────────────────────────
+  // Granskningsfynd B2, 2026-08-29: rutan var hardkodat svensk och lankade alltid till
+  // /integritet - aven pa index.html, studio.html, it-management.html och privacy.html,
+  // som alla ar lang="en". En engelsksprakig besokare fran en Ads-annons fick alltsa en
+  // svensk dialog som bad henne godkanna annonscookies, med "las mer" till en svensk
+  // policy - trots att en engelsk fanns publicerad. Ett samtycke ska vara informerat,
+  // och det ar HAR samtycket inhamtas. Staende regel 2 galler sidorna; i sak ar detta
+  // samma fel en niva ner.
+  //
+  // Sproket lases ur <html lang>. Svenska ar reserv: sajtens svenska sidor ar
+  // huvudmalgruppen, och en felaktigt svensk ruta ar mindre fel an en tom.
+  var TEXT = {
+    sv: {
+      rubrik: "Vi anv\u00e4nder cookies",
+      brod: "Vi anv\u00e4nder cookies f\u00f6r att webbplatsen ska fungera och f\u00f6r att f\u00f6rst\u00e5 hur den anv\u00e4nds. Du v\u00e4ljer sj\u00e4lv vad du godk\u00e4nner. L\u00e4s mer i v\u00e5r ",
+      policy: "integritets- och cookiepolicy",
+      policyUrl: "/integritet",
+      nodvandigT: "N\u00f6dv\u00e4ndiga",
+      nodvandigB: "Kr\u00e4vs f\u00f6r att webbplatsen ska fungera. Kan inte st\u00e4ngas av.",
+      statistikT: "Statistik",
+      statistikB: "En f\u00f6rstaparts-cookie (oak_vid) f\u00f6r att r\u00e4kna unika bes\u00f6kare. Stannar hos oss \u2014 ingen tredjepart.",
+      marknadT: "Marknadsf\u00f6ring",
+      marknadB: "Cookies fr\u00e5n Google Ads, s\u00e5 vi kan m\u00e4ta vilka annonser som leder till en f\u00f6rfr\u00e5gan. Laddas bara om du s\u00e4ger ja.",
+      endast: "Endast n\u00f6dv\u00e4ndiga",
+      anpassa: "Anpassa",
+      alla: "Godk\u00e4nn alla",
+      spara: "Spara inst\u00e4llningar",
+      aria: "Cookie-inst\u00e4llningar"
+    },
+    en: {
+      rubrik: "We use cookies",
+      brod: "We use cookies to make the site work and to understand how it is used. You choose what you accept. Read more in our ",
+      policy: "privacy and cookie policy",
+      policyUrl: "/privacy",
+      nodvandigT: "Necessary",
+      nodvandigB: "Required for the site to work. Cannot be switched off.",
+      statistikT: "Statistics",
+      statistikB: "One first-party cookie (oak_vid) to count unique visitors. Stays with us \u2014 no third party.",
+      marknadT: "Marketing",
+      marknadB: "Cookies from Google Ads, so we can measure which ads lead to an enquiry. Loaded only if you accept.",
+      endast: "Necessary only",
+      anpassa: "Customise",
+      alla: "Accept all",
+      spara: "Save settings",
+      aria: "Cookie settings"
+    }
+  };
+  function txt() {
+    var l = (document.documentElement.getAttribute("lang") || "sv").toLowerCase();
+    return l.indexOf("en") === 0 ? TEXT.en : TEXT.sv;
+  }
+
   var consent = currentConsent();
   applyAnalytics(consent);           // anonym matning direkt; cookie bara vid statistik-samtycke
   applyMarketing(consent);           // satter Consent Mode; laddar tagg bara vid ja
@@ -232,6 +318,7 @@
   }
 
   function showBanner(openPrefs) {
+    var t = txt();
     var existing = document.getElementById("oak-cc");
     if (existing) existing.remove();
     if (!document.getElementById("oak-cc-style")) {
@@ -266,25 +353,25 @@
     var el = document.createElement("div");
     el.id = "oak-cc";
     el.setAttribute("role", "dialog");
-    el.setAttribute("aria-label", "Cookie-inställningar");
+    el.setAttribute("aria-label", t.aria);
     el.innerHTML =
       '<div class="oak-cc-card">' +
-      "<h2>Vi använder cookies</h2>" +
-      "<p>Vi använder cookies för att webbplatsen ska fungera och för att förstå hur den används. " +
-      "Du väljer själv vad du godkänner. Läs mer i vår <a href=\"/integritet\">integritets- och cookiepolicy</a>.</p>" +
+      "<h2>" + t.rubrik + "</h2>" +
+      "<p>" + t.brod +
+      '<a href="' + t.policyUrl + '">' + t.policy + "</a>.</p>" +
       '<div class="oak-cc-prefs"' + (openPrefs ? "" : " hidden") + ">" +
-      '<div class="oak-cc-cat"><span><strong>Nödvändiga</strong><br><small>Krävs för att webbplatsen ska fungera. Kan inte stängas av.</small></span><input type="checkbox" checked disabled></div>' +
-      '<div class="oak-cc-cat"><span><strong>Statistik</strong><br><small>En förstaparts-cookie (oak_vid) för att räkna unika besökare. Stannar hos oss — ingen tredjepart.</small></span><input type="checkbox" id="oak-cc-stat"' + statChecked + "></div>" +
-      '<div class="oak-cc-cat"><span><strong>Marknadsföring</strong><br><small>Cookies från Google Ads, så vi kan mäta vilka annonser som leder till en förfrågan. Laddas bara om du säger ja.</small></span><input type="checkbox" id="oak-cc-mark"' + markChecked + "></div>" +
+      '<div class="oak-cc-cat"><span><strong>' + t.nodvandigT + '</strong><br><small>' + t.nodvandigB + '</small></span><input type="checkbox" checked disabled></div>' +
+      '<div class="oak-cc-cat"><span><strong>' + t.statistikT + '</strong><br><small>' + t.statistikB + '</small></span><input type="checkbox" id="oak-cc-stat"' + statChecked + "></div>" +
+      '<div class="oak-cc-cat"><span><strong>' + t.marknadT + '</strong><br><small>' + t.marknadB + '</small></span><input type="checkbox" id="oak-cc-mark"' + markChecked + "></div>" +
       "</div>" +
       '<div class="oak-cc-row" data-role="main"' + (openPrefs ? " hidden" : "") + ">" +
-      '<button class="oak-cc-secondary" data-act="necessary">Endast nödvändiga</button>' +
-      '<button class="oak-cc-secondary" data-act="customize">Anpassa</button>' +
-      '<button class="oak-cc-primary" data-act="all">Godkänn alla</button>' +
+      '<button class="oak-cc-secondary" data-act="necessary">' + t.endast + '</button>' +
+      '<button class="oak-cc-secondary" data-act="customize">' + t.anpassa + '</button>' +
+      '<button class="oak-cc-primary" data-act="all">' + t.alla + '</button>' +
       "</div>" +
       '<div class="oak-cc-row" data-role="save"' + (openPrefs ? "" : " hidden") + ">" +
-      '<button class="oak-cc-secondary" data-act="necessary">Endast nödvändiga</button>' +
-      '<button class="oak-cc-primary" data-act="save">Spara inställningar</button>' +
+      '<button class="oak-cc-secondary" data-act="necessary">' + t.endast + '</button>' +
+      '<button class="oak-cc-primary" data-act="save">' + t.spara + '</button>' +
       "</div>" +
       "</div>";
 
