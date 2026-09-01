@@ -128,6 +128,14 @@
   .btn { display: inline-block; text-decoration: none; font-weight: 600; font-size: 1rem; padding: 14px 28px; border-radius: 4px; }
   .btn-primary { background: var(--paper); color: var(--pine); }
   .btn-primary:hover, .btn-primary:focus-visible { background: #dfe6e1; }
+  /* .btn-primary ar byggd for det MORKA hero-blocket: dess bakgrund ar var(--paper),
+     samma varde som sidans ljusa botten. Pa en ljus sektion far knappen darfor ingen
+     synlig fyllning - ett <a> blir en nastan omarkbar blek ruta, och ett <button>
+     raddas bara av webblasarens standardram och ser da ut som en konturknapp.
+     .btn-solid ar samma knapp inverterad, for ljus bakgrund. Matt 2026-09-01. */
+  .btn-solid { background: var(--pine); color: var(--paper); }
+  .btn-solid:hover, .btn-solid:focus-visible { background: #172d24; }
+  button.btn { border: 0; font-family: inherit; cursor: pointer; }
   .btn-ghost { color: #f5f7f6; border: 1px solid #9fc0d4; }
   .btn-ghost:hover, .btn-ghost:focus-visible { background: rgba(255,255,255,0.10); }
 
@@ -518,7 +526,7 @@
           <p>Vi tar er live, lär er grunderna och håller allt snabbt, säkert och uppdaterat när ni växer.</p>
         </div>
       </div>
-      <p style="text-align:center;margin-top:38px"><a class="btn btn-primary" href="#" id="btn-open-brief-2">Låt oss börja <span class="arrow">&rarr;</span></a></p>
+      <p style="text-align:center;margin-top:38px"><a class="btn btn-solid" href="#" id="btn-open-brief-2">Låt oss börja <span class="arrow">&rarr;</span></a></p>
     </div>
   </section>
 
@@ -589,7 +597,7 @@
         <label>Beskriv er sida och vad ni önskar*<textarea name="description" required rows="5" maxlength="5000" placeholder="Vad ska sidan användas till, vem är den för och vad ska den göra? Har ni redan något (logotyp, texter, bilder)?"></textarea></label>
         <label>Exempel på sajter ni gillar (en URL per rad)<textarea name="example_sites" rows="3" maxlength="2000" placeholder="https://exempel.se&#10;https://annan-sajt.se"></textarea></label>
         <p id="brief-note"><strong>Nästa steg:</strong> när ni skickar in ansöker ni samtidigt om en inloggning till vår kundportal. Vi går igenom er förfrågan och sätter upp er — oftast inom en arbetsdag.</p>
-        <button type="submit" class="btn btn-primary" style="align-self:flex-start">Skicka &amp; ansök om portalåtkomst <span class="arrow">&rarr;</span></button>
+        <button type="submit" class="btn btn-solid" style="align-self:flex-start">Skicka &amp; ansök om portalåtkomst <span class="arrow">&rarr;</span></button>
         <p id="brief-status" hidden></p>
       </form>
     </div>
