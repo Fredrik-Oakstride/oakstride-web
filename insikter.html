@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insikter — OakStride Studio</title>
 <meta name="description" content="Korta texter om hemsidor, synlighet och teknik för små företag. Skrivna av OakStride Studio, utan fackspråk.">
-<meta name="robots" content="noindex, follow">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -233,6 +232,16 @@
     .nav-div{display:none}
     .nav-cross-label{display:block;width:100%;padding:12px 2px 2px;font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--moss);border-top:1px solid rgba(0,0,0,.08)}
   }
+
+  /* --- Artikelkort --- */
+  .card h3 a { color: inherit; text-decoration: none; }
+  .card h3 a:hover, .card h3 a:focus-visible { color: var(--acorn); }
+  .work-link { display:inline-block; margin-top:16px; color:var(--acorn); font-weight:600; font-size:0.95rem; text-decoration:none; }
+  .work-link:hover, .work-link:focus-visible { text-decoration: underline; }
+  /* .btn-primary ar byggd for det morka hero-blocket (bakgrund = var(--paper))
+     och blir darfor osynlig pa en ljus sektion. .btn-solid ar varianten for ljus bakgrund. */
+  .btn-solid { background: var(--pine); color: var(--paper); }
+  .btn-solid:hover, .btn-solid:focus-visible { background: #172d24; }
 </style>
 </head>
 <body>
@@ -281,14 +290,16 @@
   <section class="alt" id="artiklar">
     <div class="wrap">
       <h2>Senaste texterna</h2>
-      <p class="section-intro">Här samlas det vi skriver.</p>
+      <p class="section-intro">Här samlas det vi skriver. Nyast överst.</p>
       <div class="grid2">
         <div class="card">
           <span class="tag">Insikter</span>
-          <h3>Första texten kommer snart</h3>
+          <h3><a href="/insikter-osynlig-pa-google">Din sajt kan vara helt rätt byggd — och ändå osynlig på Google</a></h3>
           <ul>
-            <li>Vi har just öppnat den här sidan. Den första texten publiceras här först och delas därefter — originalet bor alltså alltid på oakstride.se.</li>
+            <li>Vi kontrollerade vår egen sajt. Allt tekniskt var redan rätt — och Google kände ändå bara till två adresser. Det som saknades var ett klick vi aldrig gjort.</li>
           </ul>
+          <a class="work-link" href="/insikter-osynlig-pa-google">Läs texten <span class="arrow">&rarr;</span></a>
+          <span class="hours"><time datetime="2026-09-01">1 september 2026</time> &middot; 4 min</span>
         </div>
       </div>
     </div>
@@ -299,7 +310,7 @@
       <h2>Vill du prata i stället?</h2>
       <p class="section-intro">Har du en fråga om din egen sajt behöver du inte vänta på en artikel. Skriv en rad så svarar vi.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="/webbstudio">Till OakStride Studio <span class="arrow">&rarr;</span></a>
+        <a class="btn btn-solid" href="/webbstudio">Till OakStride Studio <span class="arrow">&rarr;</span></a>
       </div>
     </div>
   </section>

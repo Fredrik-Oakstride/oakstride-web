@@ -31,4 +31,26 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://oakstride.se/studio"/>
     <xhtml:link rel="alternate" hreflang="sv" href="https://oakstride.se/webbstudio"/>
   </url>
+  <url>
+    <loc>https://oakstride.se/insikter</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://oakstride.se/insights"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://oakstride.se/insikter"/>
+  </url>
+  <url>
+    <loc>https://oakstride.se/insights</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://oakstride.se/insights"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://oakstride.se/insikter"/>
+  </url>
+  <url>
+    <loc>https://oakstride.se/insikter-osynlig-pa-google</loc>
+    <lastmod>2026-09-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://oakstride.se/insights-invisible-on-google"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://oakstride.se/insikter-osynlig-pa-google"/>
+  </url>
+  <url>
+    <loc>https://oakstride.se/insights-invisible-on-google</loc>
+    <lastmod>2026-09-01</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://oakstride.se/insights-invisible-on-google"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://oakstride.se/insikter-osynlig-pa-google"/>
+  </url>
 </urlset>
