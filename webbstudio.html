@@ -128,14 +128,18 @@
   .btn { display: inline-block; text-decoration: none; font-weight: 600; font-size: 1rem; padding: 14px 28px; border-radius: 4px; }
   .btn-primary { background: var(--paper); color: var(--pine); }
   .btn-primary:hover, .btn-primary:focus-visible { background: #dfe6e1; }
-  /* .btn-primary ar byggd for det MORKA hero-blocket: dess bakgrund ar var(--paper),
-     samma varde som sidans ljusa botten. Pa en ljus sektion far knappen darfor ingen
-     synlig fyllning - ett <a> blir en nastan omarkbar blek ruta, och ett <button>
-     raddas bara av webblasarens standardram och ser da ut som en konturknapp.
-     .btn-solid ar samma knapp inverterad, for ljus bakgrund. Matt 2026-09-01. */
+  /* .btn-primary är byggd för det MÖRKA hero-blocket: dess bakgrund är var(--paper),
+     samma värde som sidans ljusa botten. På en ljus sektion får knappen därför ingen
+     synlig fyllning — ett <a> blir en nästan omärkbar blek ruta, och ett <button>
+     räddas bara av webbläsarens standardram och ser då ut som en konturknapp.
+     .btn-solid är samma knapp inverterad, för ljus bakgrund. Mätt 2026-09-01. */
   .btn-solid { background: var(--pine); color: var(--paper); }
   .btn-solid:hover, .btn-solid:focus-visible { background: #172d24; }
+  /* .btn var skriven för <a> och nollställde aldrig <button>-elementets egna värden. */
   button.btn { border: 0; font-family: inherit; cursor: pointer; }
+  /* ...men .btn-ghost ÄR sin ram. Utan den här raden blir en framtida
+     <button class="btn btn-ghost"> ramlös, alltså osynlig — samma fel en gång till. */
+  button.btn.btn-ghost { border: 1px solid #9fc0d4; }
   .btn-ghost { color: #f5f7f6; border: 1px solid #9fc0d4; }
   .btn-ghost:hover, .btn-ghost:focus-visible { background: rgba(255,255,255,0.10); }
 

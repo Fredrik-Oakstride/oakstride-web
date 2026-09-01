@@ -128,14 +128,18 @@
   .btn { display: inline-block; text-decoration: none; font-weight: 600; font-size: 1rem; padding: 14px 28px; border-radius: 4px; }
   .btn-primary { background: var(--paper); color: var(--pine); }
   .btn-primary:hover, .btn-primary:focus-visible { background: #dfe6e1; }
-  /* .btn-primary ar byggd for det MORKA hero-blocket: dess bakgrund ar var(--paper),
-     samma varde som sidans ljusa botten. Pa en ljus sektion far knappen darfor ingen
-     synlig fyllning - ett <a> blir en nastan omarkbar blek ruta, och ett <button>
-     raddas bara av webblasarens standardram och ser da ut som en konturknapp.
-     .btn-solid ar samma knapp inverterad, for ljus bakgrund. Matt 2026-09-01. */
+  /* .btn-primary is built for the DARK hero block: its background is var(--paper),
+     the same value as the page's light ground. On a light section the button therefore
+     gets no visible fill — an <a> becomes an almost imperceptible pale rectangle, and a
+     <button> is saved only by the browser's default border, reading as an outline button.
+     .btn-solid is the same button inverted, for light backgrounds. Measured 2026-09-01. */
   .btn-solid { background: var(--pine); color: var(--paper); }
   .btn-solid:hover, .btn-solid:focus-visible { background: #172d24; }
+  /* .btn was written for <a> and never reset the <button> element's own defaults. */
   button.btn { border: 0; font-family: inherit; cursor: pointer; }
+  /* ...but .btn-ghost IS its border. Without this line a future
+     <button class="btn btn-ghost"> loses it, and is invisible — the same bug again. */
+  button.btn.btn-ghost { border: 1px solid #9fc0d4; }
   .btn-ghost { color: #f5f7f6; border: 1px solid #9fc0d4; }
   .btn-ghost:hover, .btn-ghost:focus-visible { background: rgba(255,255,255,0.10); }
 
