@@ -104,7 +104,8 @@ jobs:
           it-management.html it-chef.html
           index.html sv.html
           insights.html insikter.html
-          insights-invisible-on-google.html insikter-osynlig-pa-google.html"
+          insights-invisible-on-google.html insikter-osynlig-pa-google.html
+          insights-privacy-policy-said-no.html insikter-integritetstexten-sa-nej.html"
 
           while read -r a b; do
             [ -n "$a" ] && kolla "$a" "$b"
