@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insights — OakStride Studio</title>
 <meta name="description" content="Short pieces on websites, visibility and technology for small businesses. Written by OakStride Studio, without the jargon.">
-<meta name="robots" content="noindex, follow">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -233,13 +232,24 @@
     .nav-div{display:none}
     .nav-cross-label{display:block;width:100%;padding:12px 2px 2px;font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--moss);border-top:1px solid rgba(0,0,0,.08)}
   }
+
+  /* --- Artikelkort --- */
+  .card h3 a { color: inherit; text-decoration: underline;
+    text-decoration-color: rgba(47,100,134,0.60); text-underline-offset: 3px; }
+  .card h3 a:hover, .card h3 a:focus-visible { color: var(--acorn); text-decoration-color: var(--acorn); }
+  .work-link { display:inline-block; margin-top:16px; color:var(--acorn); font-weight:600; font-size:0.95rem; text-decoration:none; }
+  .work-link:hover, .work-link:focus-visible { text-decoration: underline; }
+  /* .btn-primary ar byggd for det morka hero-blocket (bakgrund = var(--paper))
+     och blir darfor osynlig pa en ljus sektion. .btn-solid ar varianten for ljus bakgrund. */
+  .btn-solid { background: var(--pine); color: var(--paper); }
+  .btn-solid:hover, .btn-solid:focus-visible { background: #172d24; }
 </style>
 </head>
 <body>
 <header>
   <div class="wrap nav">
     <a class="logo" href="/">Oak<span>Stride</span><small>Insights</small></a>
-    <nav class="links" aria-label="Articles">
+    <nav class="links" aria-label="Main navigation">
       <a href="#artiklar">Articles</a>
       <a href="#kontakt">Contact</a>
       <a href="/insikter" lang="sv">Svenska</a>
@@ -281,14 +291,16 @@
   <section class="alt" id="artiklar">
     <div class="wrap">
       <h2>Latest pieces</h2>
-      <p class="section-intro">This is where our writing collects.</p>
+      <p class="section-intro">This is where our writing collects. Newest first.</p>
       <div class="grid2">
         <div class="card">
           <span class="tag">Insights</span>
-          <h3>The first piece is on its way</h3>
+          <h3><a href="/insights-invisible-on-google">Your site can be built exactly right — and still be invisible on Google</a></h3>
           <ul>
-            <li>We have just opened this page. The first piece will be published here before it is shared anywhere else — the original always lives on oakstride.se.</li>
+            <li>We checked our own site. Everything technical was already correct — and Google still knew of only two addresses. What was missing was a click we had never made.</li>
           </ul>
+          <a class="work-link" href="/insights-invisible-on-google">Read the piece <span class="arrow">&rarr;</span></a>
+          <span class="hours"><time datetime="2026-09-01">1 September 2026</time> &middot; 4 min</span>
         </div>
       </div>
     </div>
@@ -299,7 +311,7 @@
       <h2>Rather talk instead?</h2>
       <p class="section-intro">If you have a question about your own site you do not have to wait for an article. Drop us a line and we will answer.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="/studio">To OakStride Studio <span class="arrow">&rarr;</span></a>
+        <a class="btn btn-solid" href="/studio">To OakStride Studio <span class="arrow">&rarr;</span></a>
       </div>
     </div>
   </section>

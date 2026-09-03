@@ -1,0 +1,4 @@
+# Repot ar PUBLIKT. .claude/ innehaller interna granskningsanteckningar och
+# settings.local.json - ett 'git add -A' skulle publicera dem.
+.claude/
+*.tmp
