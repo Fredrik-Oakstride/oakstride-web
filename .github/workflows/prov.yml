@@ -94,10 +94,28 @@ jobs:
               echo "ok  $1 = $2  ($a rader)"
             fi
           }
-          kolla integritet.html privacy.html
-          kolla studio.html webbstudio.html
-          kolla it-management.html it-chef.html
-          kolla index.html sv.html
+          # Ett sprakpar gar INTE att harleda ur filsystemet - filnamnen ar inte
+          # oversattningar av varandra (index.html/sv.html, privacy/integritet).
+          # Listan maste darfor underhallas for hand. Det gjordes inte 2026-09-03,
+          # och tackningen gick tyst fran 8 av 8 sidor till 8 av 12. Darfor star
+          # nu en tacknignskontroll efter listan: en sida utan par FALLER provet.
+          par="integritet.html privacy.html
+          studio.html webbstudio.html
+          it-management.html it-chef.html
+          index.html sv.html
+          insights.html insikter.html
+          insights-invisible-on-google.html insikter-osynlig-pa-google.html"
+
+          while read -r a b; do
+            [ -n "$a" ] && kolla "$a" "$b"
+          done <<< "$par"
+
+          for f in *.html; do
+            if ! printf '%s\n' $par | grep -qxF "$f"; then
+              echo "::error file=$f::$f ingar inte i nagot sprakpar - speglingen ar oskyddad for den sidan. Lagg till paret i listan ovan."
+              fel=1
+            fi
+          done
           [ "$fel" -eq 0 ] || exit 1
 
       # Den kontroll som faktiskt hittade det verkliga felet 2026-08-29: ett stycke som
@@ -107,7 +125,10 @@ jobs:
         run: |
           set -euo pipefail
           fel=0
-          for f in privacy.html studio.html it-management.html index.html; do
+          # HARLEDD ur lang="en", inte uppraknad - en ny engelsk sida tacks
+          # automatiskt. Den gamla listan missade insights.html och
+          # insights-invisible-on-google.html nar de tillkom via main.
+          for f in $(grep -l '<html lang="en">' *.html); do
             # Undantagen ar EGENNAMN och sprakvaxlarens egen text, inte en generell
             # uppmjukning. De star utskrivna sa att nasta person ser VAD som slapps
             # igenom och kan ifragasatta just det:
@@ -137,7 +158,10 @@ jobs:
         run: |
           set -euo pipefail
           fel=0
-          for f in index.html sv.html it-management.html it-chef.html studio.html webbstudio.html integritet.html privacy.html; do
+          # HARLEDD ur *.html i reporoten, inte uppraknad. Kommentaren ovan
+          # sager att en sida utan taggen inte far nagon samtyckesbanner -
+          # da far listan inte kunna halka efter nar en sida tillkommer.
+          for f in *.html; do
             if grep -q 'oak-analytics.js' "$f"; then
               echo "ok  $f"
             else
