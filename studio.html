@@ -128,6 +128,18 @@
   .btn { display: inline-block; text-decoration: none; font-weight: 600; font-size: 1rem; padding: 14px 28px; border-radius: 4px; }
   .btn-primary { background: var(--paper); color: var(--pine); }
   .btn-primary:hover, .btn-primary:focus-visible { background: #dfe6e1; }
+  /* .btn-primary is built for the DARK hero block: its background is var(--paper),
+     the same value as the page's light ground. On a light section the button therefore
+     gets no visible fill — an <a> becomes an almost imperceptible pale rectangle, and a
+     <button> is saved only by the browser's default border, reading as an outline button.
+     .btn-solid is the same button inverted, for light backgrounds. Measured 2026-09-01. */
+  .btn-solid { background: var(--pine); color: var(--paper); }
+  .btn-solid:hover, .btn-solid:focus-visible { background: #172d24; }
+  /* .btn was written for <a> and never reset the <button> element's own defaults. */
+  button.btn { border: 0; font-family: inherit; cursor: pointer; }
+  /* ...but .btn-ghost IS its border. Without this line a future
+     <button class="btn btn-ghost"> loses it, and is invisible — the same bug again. */
+  button.btn.btn-ghost { border: 1px solid #9fc0d4; }
   .btn-ghost { color: #f5f7f6; border: 1px solid #9fc0d4; }
   .btn-ghost:hover, .btn-ghost:focus-visible { background: rgba(255,255,255,0.10); }
 
@@ -348,6 +360,7 @@
       <span class="nav-cross-label">More from OakStride</span>
       <a href="/it-management" class="nav-cross">IT Governance <span class="arrow">&rarr;</span></a>
       <a href="/" class="nav-cross">Advisory <span class="arrow">&rarr;</span></a>
+      <a href="/insights" class="nav-cross">Insights <span class="arrow">&rarr;</span></a>
     </nav>
       <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
@@ -518,7 +531,7 @@
           <p>We put you live, teach you the ropes, and keep things fast, safe and up to date as you grow.</p>
         </div>
       </div>
-      <p style="text-align:center;margin-top:38px"><a class="btn btn-primary" href="#" id="btn-open-brief-2">Let's begin <span class="arrow">&rarr;</span></a></p>
+      <p style="text-align:center;margin-top:38px"><a class="btn btn-solid" href="#" id="btn-open-brief-2">Let's begin <span class="arrow">&rarr;</span></a></p>
     </div>
   </section>
 
@@ -589,7 +602,7 @@
         <label>Describe your site and what you'd like*<textarea name="description" required rows="5" maxlength="5000" placeholder="What is the site for, who is it for, and what should it do? Anything you already have (logo, text, images)?"></textarea></label>
         <label>Example sites you like (one URL per line)<textarea name="example_sites" rows="3" maxlength="2000" placeholder="https://exempel.se&#10;https://another-site.com"></textarea></label>
         <p id="brief-note"><strong>Next step:</strong> when you send this, you also apply for a login to our customer portal. We review your brief and set you up — usually within a working day.</p>
-        <button type="submit" class="btn btn-primary" style="align-self:flex-start">Send &amp; apply for portal access <span class="arrow">&rarr;</span></button>
+        <button type="submit" class="btn btn-solid" style="align-self:flex-start">Send &amp; apply for portal access <span class="arrow">&rarr;</span></button>
         <p id="brief-status" hidden></p>
       </form>
     </div>

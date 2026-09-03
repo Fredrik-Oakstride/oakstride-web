@@ -128,6 +128,18 @@
   .btn { display: inline-block; text-decoration: none; font-weight: 600; font-size: 1rem; padding: 14px 28px; border-radius: 4px; }
   .btn-primary { background: var(--paper); color: var(--pine); }
   .btn-primary:hover, .btn-primary:focus-visible { background: #dfe6e1; }
+  /* .btn-primary är byggd för det MÖRKA hero-blocket: dess bakgrund är var(--paper),
+     samma värde som sidans ljusa botten. På en ljus sektion får knappen därför ingen
+     synlig fyllning — ett <a> blir en nästan omärkbar blek ruta, och ett <button>
+     räddas bara av webbläsarens standardram och ser då ut som en konturknapp.
+     .btn-solid är samma knapp inverterad, för ljus bakgrund. Mätt 2026-09-01. */
+  .btn-solid { background: var(--pine); color: var(--paper); }
+  .btn-solid:hover, .btn-solid:focus-visible { background: #172d24; }
+  /* .btn var skriven för <a> och nollställde aldrig <button>-elementets egna värden. */
+  button.btn { border: 0; font-family: inherit; cursor: pointer; }
+  /* ...men .btn-ghost ÄR sin ram. Utan den här raden blir en framtida
+     <button class="btn btn-ghost"> ramlös, alltså osynlig — samma fel en gång till. */
+  button.btn.btn-ghost { border: 1px solid #9fc0d4; }
   .btn-ghost { color: #f5f7f6; border: 1px solid #9fc0d4; }
   .btn-ghost:hover, .btn-ghost:focus-visible { background: rgba(255,255,255,0.10); }
 
@@ -348,6 +360,7 @@
       <span class="nav-cross-label">Mer från OakStride</span>
       <a href="/it-chef" class="nav-cross">IT Ledning <span class="arrow">&rarr;</span></a>
       <a href="/sv" class="nav-cross">Advisory <span class="arrow">&rarr;</span></a>
+      <a href="/insikter" class="nav-cross">Insikter <span class="arrow">&rarr;</span></a>
     </nav>
       <button class="nav-toggle" type="button" aria-label="Meny" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
@@ -518,7 +531,7 @@
           <p>Vi tar er live, lär er grunderna och håller allt snabbt, säkert och uppdaterat när ni växer.</p>
         </div>
       </div>
-      <p style="text-align:center;margin-top:38px"><a class="btn btn-primary" href="#" id="btn-open-brief-2">Låt oss börja <span class="arrow">&rarr;</span></a></p>
+      <p style="text-align:center;margin-top:38px"><a class="btn btn-solid" href="#" id="btn-open-brief-2">Låt oss börja <span class="arrow">&rarr;</span></a></p>
     </div>
   </section>
 
@@ -589,7 +602,7 @@
         <label>Beskriv er sida och vad ni önskar*<textarea name="description" required rows="5" maxlength="5000" placeholder="Vad ska sidan användas till, vem är den för och vad ska den göra? Har ni redan något (logotyp, texter, bilder)?"></textarea></label>
         <label>Exempel på sajter ni gillar (en URL per rad)<textarea name="example_sites" rows="3" maxlength="2000" placeholder="https://exempel.se&#10;https://annan-sajt.se"></textarea></label>
         <p id="brief-note"><strong>Nästa steg:</strong> när ni skickar in ansöker ni samtidigt om en inloggning till vår kundportal. Vi går igenom er förfrågan och sätter upp er — oftast inom en arbetsdag.</p>
-        <button type="submit" class="btn btn-primary" style="align-self:flex-start">Skicka &amp; ansök om portalåtkomst <span class="arrow">&rarr;</span></button>
+        <button type="submit" class="btn btn-solid" style="align-self:flex-start">Skicka &amp; ansök om portalåtkomst <span class="arrow">&rarr;</span></button>
         <p id="brief-status" hidden></p>
       </form>
     </div>

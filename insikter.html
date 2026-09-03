@@ -3,45 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OakStride IT Ledning — IT-chef som tjänst för mindre bolag</title>
-<meta name="description" content="OakStride IT Ledning — erfaret IT-stöd på deltid för mindre bolag. Vi stöttar er ledning med strategi, budget, säkerhet och leverantörsstyrning, utan kostnaden för en heltidsanställd IT-chef.">
+<title>Insikter — OakStride Studio</title>
+<meta name="description" content="Korta texter om hemsidor, synlighet och teknik för små företag. Skrivna av OakStride Studio, utan fackspråk.">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="canonical" href="https://oakstride.se/it-chef">
-<link rel="alternate" hreflang="en" href="https://oakstride.se/it-management">
-<link rel="alternate" hreflang="sv" href="https://oakstride.se/it-chef">
-<link rel="alternate" hreflang="x-default" href="https://oakstride.se/it-management">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="canonical" href="https://oakstride.se/insikter">
+<link rel="alternate" hreflang="en" href="https://oakstride.se/insights">
+<link rel="alternate" hreflang="sv" href="https://oakstride.se/insikter">
+<link rel="alternate" hreflang="x-default" href="https://oakstride.se/insights">
 <meta property="og:site_name" content="OakStride">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://oakstride.se/it-chef">
-<meta property="og:title" content="OakStride IT Ledning — IT-chef som tjänst för mindre bolag">
-<meta property="og:description" content="En IT-chef på er sida av bordet — strategi, budget, säkerhet och leverantörer på ett fast antal timmar per månad.">
+<meta property="og:url" content="https://oakstride.se/insikter">
+<meta property="og:title" content="Insikter — OakStride Studio">
+<meta property="og:description" content="Korta texter om hemsidor, synlighet och teknik för små företag.">
 <meta property="og:image" content="https://oakstride.se/images/photo-6.jpg">
 <meta property="og:locale" content="sv_SE">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="OakStride IT Ledning — IT-chef som tjänst för mindre bolag">
-<meta name="twitter:description" content="En IT-chef på er sida av bordet — strategi, budget, säkerhet och leverantörer på ett fast antal timmar per månad.">
+<meta name="twitter:title" content="Insikter — OakStride Studio">
+<meta name="twitter:description" content="Korta texter om hemsidor, synlighet och teknik för små företag.">
 <meta name="twitter:image" content="https://oakstride.se/images/photo-6.jpg">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "OakStride IT Ledning",
-  "serviceType": "IT-chef som tjänst",
-  "url": "https://oakstride.se/it-chef",
-  "areaServed": "Sverige",
-  "provider": {
+  "@type": "Blog",
+  "name": "Insikter — OakStride Studio",
+  "url": "https://oakstride.se/insikter",
+  "inLanguage": "sv",
+  "publisher": {
     "@type": "Organization",
-    "@id": "https://oakstride.se/#org",
-    "name": "OakStride AB",
-    "url": "https://oakstride.se/",
-    "email": "info@oakstride.se"
-  },
-  "description": "Erfaret IT-ledarskap på deltid för bolag med 1-50 anställda — strategi, budget, säkerhet och leverantörsstyrning på ett fast antal timmar per månad."
+    "name": "OakStride",
+    "url": "https://oakstride.se/"
+  }
 }
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --ink: #21261f;
@@ -236,22 +232,32 @@
     .nav-div{display:none}
     .nav-cross-label{display:block;width:100%;padding:12px 2px 2px;font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--moss);border-top:1px solid rgba(0,0,0,.08)}
   }
+
+  /* --- Artikelkort --- */
+  .card h3 a { color: inherit; text-decoration: underline;
+    text-decoration-color: rgba(47,100,134,0.60); text-underline-offset: 3px; }
+  .card h3 a:hover, .card h3 a:focus-visible { color: var(--acorn); text-decoration-color: var(--acorn); }
+  .work-link { display:inline-block; margin-top:16px; color:var(--acorn); font-weight:600; font-size:0.95rem; text-decoration:none; }
+  .work-link:hover, .work-link:focus-visible { text-decoration: underline; }
+  /* .btn-primary ar byggd for det morka hero-blocket (bakgrund = var(--paper))
+     och blir darfor osynlig pa en ljus sektion. .btn-solid ar varianten for ljus bakgrund. */
+  .btn-solid { background: var(--pine); color: var(--paper); }
+  .btn-solid:hover, .btn-solid:focus-visible { background: #172d24; }
 </style>
 </head>
 <body>
-
 <header>
   <div class="wrap nav">
-    <a class="logo" href="/sv">Oak<span>Stride</span><small>IT Ledning</small></a>
+    <a class="logo" href="/sv">Oak<span>Stride</span><small>Insikter</small></a>
     <nav class="links" aria-label="Huvudmeny">
-      <a href="#tjansten">Tjänsten</a>
+      <a href="#artiklar">Artiklar</a>
       <a href="#kontakt">Kontakt</a>
-      <a href="/it-management" lang="en">English</a>
+      <a href="/insights" lang="en">English</a>
       <span class="nav-div" aria-hidden="true"></span>
       <span class="nav-cross-label">Mer från OakStride</span>
       <a href="/webbstudio" class="nav-cross">Studio <span class="arrow">&rarr;</span></a>
       <a href="/sv" class="nav-cross">Advisory <span class="arrow">&rarr;</span></a>
-      <a href="/insikter" class="nav-cross">Insikter <span class="arrow">&rarr;</span></a>
+      <a href="/it-chef" class="nav-cross">IT Ledning <span class="arrow">&rarr;</span></a>
     </nav>
       <button class="nav-toggle" type="button" aria-label="Meny" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
@@ -272,104 +278,40 @@
       <circle cx="280" cy="280" r="8" fill="#9fc0d4"/>
     </svg>
     <div class="wrap">
-      <p class="eyebrow">OakStride · IT Ledning</p>
-      <h1>En IT-chef på er sida av bordet.</h1>
-      <p class="lead">För bolag med 1–50 anställda som vuxit ur "den som kan datorer" men inte behöver en IT-chef på heltid. OakStride stöttar och avlastar er i IT-frågorna — strategi, budget, säkerhet och leverantörer — på ett fast antal timmar per månad.</p>
+      <p class="eyebrow">OakStride · Insikter</p>
+      <h1>Det vi lärt oss, kortfattat.</h1>
+      <p class="lead">Korta texter om hemsidor, synlighet och teknik — skrivna för dig som driver ett litet företag och inte vill läsa fackspråk. Vi skriver bara när vi har något att säga, och hellre en gång i månaden med substans än varje vecka utan.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="#kontakt">Boka ett samtal <span class="arrow">&rarr;</span></a>
-        <a class="btn btn-ghost" href="#tjansten">Så funkar det <span class="arrow arrow-d">&darr;</span></a>
+        <a class="btn btn-primary" href="#artiklar">Läs det senaste <span class="arrow arrow-d">&darr;</span></a>
+        <a class="btn btn-ghost" href="#kontakt">Hör av dig <span class="arrow">&rarr;</span></a>
       </div>
     </div>
   </div>
 
-  <section class="alt" id="tjansten">
+  <section class="alt" id="artiklar">
     <div class="wrap">
-      <h2>Vad vi hjälper er med</h2>
-      <p class="section-intro">Vi stöttar er ledning i IT-frågorna — vi är inte er helpdesk. Den dagliga driften och supporten sköts av en driftpartner, och vi hjälper er att upphandla, följa upp och ställa krav. Ni får någon på er sida av bordet.</p>
+      <h2>Senaste texterna</h2>
+      <p class="section-intro">Här samlas det vi skriver. Nyast överst.</p>
       <div class="grid2">
         <div class="card">
-          <span class="tag">Stöd</span>
-          <h3>Stöd till ledningen</h3>
+          <span class="tag">Insikter</span>
+          <h3><a href="/insikter-osynlig-pa-google">Din sajt kan vara helt rätt byggd — och ändå osynlig på Google</a></h3>
           <ul>
-            <li>Stöd att ta fram IT-strategi och årsplan kopplad till era affärsmål</li>
-            <li>Stöd med IT-budget, kostnadskontroll och underlag inför inköpsbeslut</li>
-            <li>Underlag och rapportering till ledning och styrelse</li>
+            <li>Vi kontrollerade vår egen sajt. Allt tekniskt var redan rätt — och Google kände ändå bara till två adresser. Det som saknades var ett klick vi aldrig gjort.</li>
           </ul>
-        </div>
-        <div class="card">
-          <span class="tag">Trygghet</span>
-          <h3>Säkerhet &amp; ordning</h3>
-          <ul>
-            <li>Genomgång av säkerhetsskydd och backup-rutiner med rekommendationer</li>
-            <li>Rutiner för behörigheter och on-/offboarding av personal</li>
-            <li>Hjälp att ta fram beredskap och plan om något går fel</li>
-          </ul>
-        </div>
-        <div class="card">
-          <span class="tag">Styrning</span>
-          <h3>Leverantörsstyrning</h3>
-          <ul>
-            <li>Stöd vid upphandling och avtal med driftpartner och system­leverantörer</li>
-            <li>Uppföljning av kostnad, kvalitet och leverans</li>
-            <li>En kontakt för er — vi hjälper er att jaga leverantörerna</li>
-          </ul>
-        </div>
-        <div class="card">
-          <span class="tag">AI</span>
-          <h3>AI för mindre bolag</h3>
-          <ul>
-            <li>Hjälp att hitta de AI-verktyg som faktiskt sparar tid i just er verksamhet — utan hajp</li>
-            <li>Stöd vid införande: licenser, utbildning och enkla riktlinjer för säker användning</li>
-            <li>Råd kring vad ni inte bör mata verktygen med — kunddata, avtal och GDPR</li>
-          </ul>
-        </div>
-        <div class="card">
-          <span class="tag">Vardag</span>
-          <h3>Er digitala vardag</h3>
-          <ul>
-            <li>Webbsida och domäner — stöd kring förvaltning, leverantörer och vidareutveckling</li>
-            <li>Betallösningar och e-handel — hjälp med val, avtal och att allt hänger ihop med kassa och ekonomi</li>
-            <li>Den digitala arbetsplatsen — stöd kring mail, Microsoft 365/Google Workspace, delade dokument och telefoni</li>
-          </ul>
+          <a class="work-link" href="/insikter-osynlig-pa-google">Läs texten <span class="arrow">&rarr;</span></a>
+          <span class="hours"><time datetime="2026-09-01">1 september 2026</time> &middot; 4 min</span>
         </div>
       </div>
     </div>
   </section>
 
-  <section>
+  <section id="kontakt">
     <div class="wrap">
-      <h2>Så kommer vi igång</h2>
-      <figure class="photo photo-wide"><img src="images/photo-7.jpg" alt="Kollegor som planerar tillsammans" loading="lazy" onerror="this.parentElement.style.display='none'"></figure>
-      <div class="steps">
-        <div class="step">
-          <span class="n">Steg 1</span>
-          <h3>Nulägesgenomgång</h3>
-          <p>Vi går igenom er miljö, era avtal och era kostnader. Ni får en tydlig bild av läget och en prioriterad åtgärdslista — oavsett om ni går vidare med oss eller inte.</p>
-        </div>
-        <div class="step">
-          <span class="n">Steg 2</span>
-          <h3>Plan och omfattning</h3>
-          <p>Tillsammans sätter vi rätt omfattning och en 90-dagarsplan: vad som ska fixas först, vad det får kosta och hur vi mäter att det blir gjort.</p>
-        </div>
-        <div class="step">
-          <span class="n">Steg 3</span>
-          <h3>Löpande stöd</h3>
-          <p>Vi stöttar er löpande. Ni får en fast kontakt, månadsrapport i klartext och en IT som stödjer affären i stället för att störa den.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="alt" id="kontakt">
-    <div class="wrap">
-      <h2>Kontakt</h2>
-      <div class="contact-grid">
-        <p class="section-intro" style="margin-bottom:0">Nyfiken på vad en IT-ansvarig på deltid skulle innebära för er? Boka ett förutsättningslöst samtal — nulägesgenomgången är alltid ett bra första steg.</p>
-        <ul class="contact-list">
-          <li><span class="k">E-post</span><a href="mailto:info@oakstride.se">info@oakstride.se</a></li>
-          <li><span class="k">Telefon</span><a href="tel:+46702371704">+46 70 237 17 04</a></li>
-          <li><span class="k">Plats</span>Stockholm med omnejd</li>
-        </ul>
+      <h2>Vill du prata i stället?</h2>
+      <p class="section-intro">Har du en fråga om din egen sajt behöver du inte vänta på en artikel. Skriv en rad så svarar vi.</p>
+      <div class="cta-row">
+        <a class="btn btn-solid" href="/webbstudio">Till OakStride Studio <span class="arrow">&rarr;</span></a>
       </div>
     </div>
   </section>
@@ -377,8 +319,8 @@
 
 <footer>
   <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-    <span>© 2026 OakStride</span>
-    <span><a href="/" style="color:inherit;">oakstride.se</a> · IT Ledning · <a href="/webbstudio" style="color:inherit;">Studio</a> · <a href="/integritet" style="color:inherit;">Integritet &amp; cookies</a></span>
+    <span>&copy; 2026 OakStride</span>
+    <span><a href="/sv" style="color:inherit;">oakstride.se</a> &middot; Insikter &middot; <a href="/webbstudio" style="color:inherit;">Studio</a></span>
   </div>
 </footer>
 
@@ -398,7 +340,7 @@
   });
 })();
 </script>
-<script src="/oak-analytics.js?v=4" defer></script>
+<script src="/oak-analytics.js?v=3" defer></script>
 <script>
 (function(){
   var nav=document.querySelector('.nav'); if(!nav) return;
