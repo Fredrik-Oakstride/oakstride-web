@@ -1,0 +1,172 @@
+name: Prov
+
+# oakstride-web hade INGEN CI alls fore 2026-08-29. GitHub Pages bygger direkt fran
+# main och en push ar live inom en minut - det fanns alltsa ingenting mellan en commit
+# och produktion. Det ar den svagaste punkten i hela kedjan, och den bar nu
+# samtyckesgrinden for Google Ads.
+#
+# Tystnadsgranskningens fynd 2, 2026-08-29: provet som skulle fanga en regression i
+# grinden fanns, men kordes bara nar nagon rakade komma ihag att skriva kommandot for
+# hand. Ett prov som aldrig kors ar inte ett svagare skydd an ett som kors - det ar
+# inget skydd alls.
+#
+# Provet ligger med flit i DET HAR repot (web/prov/), inte i hubben. Forsta utkastet
+# hamtade det med en deploy-token ur oakstride-hub, vilket gjorde varje PR beroende av
+# en secret som inte fanns. Ett prov bor ligga bredvid koden det provar.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: prov-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  samtycke:
+    name: Samtyckesgrinden
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Kor provet
+        run: |
+          set -euo pipefail
+          node prov/prov-samtycke.js
+
+      # Provet ror INTE disken - ADS_ID-varianten matas in i vm som en strang, och
+      # provets sista fall kontrollerar det sjalvt. Den har kontrollen ar anda kvar som
+      # ett andra las: skulle nagon i framtiden lata ett prov skriva till kallfilen
+      # igen, ska det fangas har och inte i en merge. En fil med ett testvarde i ADS_ID
+      # vore mycket obehaglig att mergea.
+      #
+      # (Kommentaren som stod har beskrev det gamla finally-monstret och var falsk redan
+      # inom samma PR - granskningsfynd N4.)
+      - name: Kallfilen ska vara oforandrad efter provet
+        run: |
+          set -euo pipefail
+          if ! git diff --quiet -- oak-analytics.js; then
+            echo "::error file=oak-analytics.js::oak-analytics.js andrades av provet och aterstalldes inte."
+            git diff -- oak-analytics.js
+            exit 1
+          fi
+          echo "Kallfilen ar oforandrad."
+
+      # ADS_ID ar publikt och ska sta i koden - men ett TESTVARDE far aldrig na main.
+      - name: Inget testvarde i ADS_ID
+        run: |
+          set -euo pipefail
+          if grep -n 'var ADS_ID = "AW-000TEST"' oak-analytics.js; then
+            echo "::error file=oak-analytics.js::ADS_ID bar provets testvarde."
+            exit 1
+          fi
+          echo "ADS_ID bar inget testvarde."
+
+  spegling:
+    name: SV/EN-spegling (staende regel 2)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Regel 2: en andring pa den ena sprakversionen ska alltid speglas pa den andra.
+      # Radantalskontrollen mater DIVERGENS och kan strukturellt inte se ett fel som
+      # finns i BADA filerna - den ersatter alltsa ingen granskning. Den fangar det
+      # vanligaste felet anda: att nagon andrat en fil och glomt den andra.
+      - name: Radantal per sprakpar
+        run: |
+          set -euo pipefail
+          fel=0
+          kolla() {
+            a=$(wc -l < "$1"); b=$(wc -l < "$2")
+            if [ "$a" -ne "$b" ]; then
+              echo "::error file=$1::$1 har $a rader, $2 har $b - sprakversionerna har glidit isar."
+              fel=1
+            else
+              echo "ok  $1 = $2  ($a rader)"
+            fi
+          }
+          # Ett sprakpar gar INTE att harleda ur filsystemet - filnamnen ar inte
+          # oversattningar av varandra (index.html/sv.html, privacy/integritet).
+          # Listan maste darfor underhallas for hand. Det gjordes inte 2026-09-03,
+          # och tackningen gick tyst fran 8 av 8 sidor till 8 av 12. Darfor star
+          # nu en tacknignskontroll efter listan: en sida utan par FALLER provet.
+          par="integritet.html privacy.html
+          studio.html webbstudio.html
+          it-management.html it-chef.html
+          index.html sv.html
+          insights.html insikter.html
+          insights-invisible-on-google.html insikter-osynlig-pa-google.html"
+
+          while read -r a b; do
+            [ -n "$a" ] && kolla "$a" "$b"
+          done <<< "$par"
+
+          for f in *.html; do
+            if ! printf '%s\n' $par | grep -qxF "$f"; then
+              echo "::error file=$f::$f ingar inte i nagot sprakpar - speglingen ar oskyddad for den sidan. Lagg till paret i listan ovan."
+              fel=1
+            fi
+          done
+          [ "$fel" -eq 0 ] || exit 1
+
+      # Den kontroll som faktiskt hittade det verkliga felet 2026-08-29: ett stycke som
+      # sa "Version 1.1" i BADA filerna, alltsa osynligt for radantalet ovan. Svenska
+      # tecken i den engelska filen ar ett starkt tecken pa oversatt-men-glomt.
+      - name: Svensk text i engelska filer
+        run: |
+          set -euo pipefail
+          fel=0
+          # HARLEDD ur lang="en", inte uppraknad - en ny engelsk sida tacks
+          # automatiskt. Den gamla listan missade insights.html och
+          # insights-invisible-on-google.html nar de tillkom via main.
+          for f in $(grep -l '<html lang="en">' *.html); do
+            # Undantagen ar EGENNAMN och sprakvaxlarens egen text, inte en generell
+            # uppmjukning. De star utskrivna sa att nasta person ser VAD som slapps
+            # igenom och kan ifragasatta just det:
+            #   svenska/Swedish  - sprakvaxlaren och IMY:s namn pa engelska
+            #   oakstride        - domannamnet
+            #   Kajkanten/Kok    - fiktiv exempelkund i portfoljen, ska sta oversatt
+            #   Cafe             - engelskt ord med accent
+            # En kontroll som faller pa ett egennamn blir avstangd inom en vecka, och da
+            # skyddar den ingenting alls.
+            traff=$(grep -n '[åäöÅÄÖ]' "$f" | grep -viE 'svenska|swedish|oakstride|kajkanten|kök|café' || true)
+            if [ -n "$traff" ]; then
+              echo "::error file=$f::$f innehaller svensk text - trolig oversattningsmiss:"
+              echo "$traff"
+              fel=1
+            else
+              echo "ok  $f"
+            fi
+          done
+          [ "$fel" -eq 0 ] || exit 1
+
+      - name: Sitemap ska vara valformad XML
+        run: python3 -c "import xml.etree.ElementTree as ET; ET.parse('sitemap.xml'); print('sitemap.xml OK')"
+
+      # En sida som saknar analytics-taggen far ingen samtyckesbanner heller - dar
+      # skulle en framtida annonstagg kunna hamna utanfor grinden.
+      - name: Alla sidor ska bara oak-analytics
+        run: |
+          set -euo pipefail
+          fel=0
+          # HARLEDD ur *.html i reporoten, inte uppraknad. Kommentaren ovan
+          # sager att en sida utan taggen inte far nagon samtyckesbanner -
+          # da far listan inte kunna halka efter nar en sida tillkommer.
+          for f in *.html; do
+            if grep -q 'oak-analytics.js' "$f"; then
+              echo "ok  $f"
+            else
+              echo "::error file=$f::$f saknar oak-analytics.js - ingen samtyckesbanner pa den sidan."
+              fel=1
+            fi
+          done
+          [ "$fel" -eq 0 ] || exit 1

@@ -55,4 +55,14 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://oakstride.se/insights-invisible-on-google"/>
     <xhtml:link rel="alternate" hreflang="sv" href="https://oakstride.se/insikter-osynlig-pa-google"/>
   </url>
+  <url>
+    <loc>https://oakstride.se/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://oakstride.se/privacy"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://oakstride.se/integritet"/>
+  </url>
+  <url>
+    <loc>https://oakstride.se/integritet</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://oakstride.se/privacy"/>
+    <xhtml:link rel="alternate" hreflang="sv" href="https://oakstride.se/integritet"/>
+  </url>
 </urlset>
