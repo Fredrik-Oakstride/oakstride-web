@@ -150,8 +150,41 @@ jobs:
           done
           [ "$fel" -eq 0 ] || exit 1
 
-      - name: Sitemap ska vara valformad XML
-        run: python3 -c "import xml.etree.ElementTree as ET; ET.parse('sitemap.xml'); print('sitemap.xml OK')"
+      - name: Sitemap ska vara valformad XML OCH peka pa sidor som finns
+        run: |
+          set -euo pipefail
+          # ⚠️ TILLAGT 2026-09-05. Har stod bara ET.parse - alltsa "ar filen
+          # valformad XML?". Den fragan kan en sitemap svara ja pa medan varenda
+          # adress i den pekar pa en sida som inte finns langre.
+          #
+          # Monstret kommer fran Bo: EN JAMFORELSE MOT EN REFERENS SOM INTE
+          # LANGRE FINNS SER ALLTID FRISK UT. Hans vakt jamforde varje morgon
+          # mot ett enhets-id som forsvunnit och rapporterade "oforandrat",
+          # medan den riktiga enheten slutat rapportera helt.
+          #
+          # Sitemapen ar exakt en sadan referenslista, och verktyg/ny-artikel.py
+          # SKRIVER i den. En felstavad slug dar hade gett Google en 404 utan att
+          # nagot larmat - och Search Console rapporterar det forst dagar senare,
+          # om nagon rakar titta.
+          python3 - <<'PY'
+          import sys, xml.etree.ElementTree as ET, os
+          t = ET.parse("sitemap.xml")
+          ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+          loc = [e.text.strip() for e in t.getroot().iter("{http://www.sitemaps.org/schemas/sitemap/0.9}loc")]
+          if not loc:
+              sys.exit("::error::sitemap.xml innehaller noll adresser - det ar inte en frisk sitemap")
+          fel = 0
+          for u in loc:
+              stig = u.replace("https://oakstride.se/", "")
+              fil = "index.html" if stig == "" else stig + ".html"
+              if os.path.exists(fil):
+                  print("ok  %-46s -> %s" % (u, fil))
+              else:
+                  print("::error file=sitemap.xml::%s pekar pa %s som INTE finns i repot." % (u, fil))
+                  fel = 1
+          print("%d adresser kontrollerade." % len(loc))
+          sys.exit(fel)
+          PY
 
       # En sida som saknar analytics-taggen far ingen samtyckesbanner heller - dar
       # skulle en framtida annonstagg kunna hamna utanfor grinden.
