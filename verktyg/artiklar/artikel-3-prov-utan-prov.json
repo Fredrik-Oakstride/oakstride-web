@@ -1,0 +1,204 @@
+{
+ "slug": {
+  "sv": "insikter-fyra-prov-som-inte-provade-nagot",
+  "en": "insights-four-tests-that-tested-nothing"
+ },
+ "datum": "2026-09-05",
+ "datum_text": {
+  "sv": "5 september 2026",
+  "en": "5 September 2026"
+ },
+ "lastid": "4 min",
+ "sidtitel": {
+  "sv": "Fyra prov som inte provade något — OakStride Insikter",
+  "en": "Four tests that tested nothing — OakStride Insights"
+ },
+ "titel": {
+  "sv": "Fyra prov som gick gröna utan att ha provat något",
+  "en": "Four tests that passed without testing anything"
+ },
+ "ingress": {
+  "sv": "Ett prov som inte provar någonting ser exakt likadant ut som ett prov som gick bra. På fem dagar hittade vi fyra sådana i vårt eget bygge. Det sista begick jag medan jag höll på att skriva den här texten.",
+  "en": "A test that checks nothing looks exactly like a test that passed. In five days we found four of them in our own build. I committed the last one while writing this very article."
+ },
+ "block": [
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Vi bygger mycket automatik: prov som körs innan något publiceras, kontroller som ska säga ifrån när en databas och dess källkod glider isär, larm som ska höras när något är fel. Alla har samma syfte — att en människa ska slippa hålla allt i huvudet.",
+    "en": "We build a lot of automation: tests that run before anything is published, checks meant to speak up when a database and its source code drift apart, alarms meant to sound when something is wrong. They all exist for the same reason — so that a human does not have to hold everything in their head."
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Och alla har samma svaghet. <strong>Ett grönt utfall betyder bara att provet inte hittade något.</strong> Det säger ingenting om huruvida provet tittade.",
+    "en": "And they all share the same weakness. <strong>A green result only means the test did not find anything.</strong> It says nothing about whether the test looked."
+   }
+  },
+  {
+   "typ": "h2",
+   "text": {
+    "sv": "1. Torrkörningen som aldrig rörde databasen",
+    "en": "1. The dry run that never touched the database"
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Vi har ett verktyg som kör databasändringar, och det har ett torrkörningsläge. Jag hade just skrivit en ny ändringsfil och tänkte köra den torrt först, för att se att den var syntaktiskt hel innan den kördes skarpt. Rimligt.",
+    "en": "We have a tool that applies database changes, and it has a dry-run mode. I had just written a new change file and planned to dry-run it first, to see that it was syntactically sound before running it for real. Reasonable enough."
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Torrkörningen skriver ut <em>skulle köra: filnamnet</em> och går grön. Den startar aldrig databasklienten. Den läser inte en enda rad av innehållet. Den hade sagt precis samma sak om filen innehållit ren nonsens.",
+    "en": "The dry run prints <em>would run: filename</em> and turns green. It never starts the database client. It does not read a single line of the contents. It would have said exactly the same thing if the file had contained pure nonsense."
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Läget är inte trasigt — det gör vad det är byggt för, nämligen att visa vilka filer som skulle köras och i vilken ordning. Felet var mitt: jag var på väg att låta det svara på en fråga det aldrig ställt.",
+    "en": "The mode is not broken — it does what it was built for, namely to show which files would run and in what order. The mistake was mine: I was about to let it answer a question it had never asked."
+   }
+  },
+  {
+   "typ": "h2",
+   "text": {
+    "sv": "2. Kontrollen som letade efter sig själv",
+    "en": "2. The check that searched for itself"
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Dagen innan hade jag skrivit en annan databasändring med vad jag beskrev som ett inbyggt skydd: en efterkontroll som skulle avbryta om ändringen inte tagit. Jag lyfte fram den i beskrivningen. Den kändes ansvarsfull.",
+    "en": "The day before, I had written another database change with what I described as a built-in safeguard: a post-check that would abort if the change had not taken effect. I highlighted it in the description. It felt responsible."
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Kontrollen letade efter en textsträng. Strängen stod i samma fils egen kropp. Den kunde alltså <strong>aldrig</strong> vara frånvarande, och kontrollen kunde strukturellt aldrig slå larm. Jag hade skrivit noll rader skydd och beskrivit dem som ett skyddsnät.",
+    "en": "The check looked for a text string. That string sat in the same file's own body. It could therefore <strong>never</strong> be absent, and the check could structurally never fire. I had written zero lines of protection and described them as a safety net."
+   }
+  },
+  {
+   "typ": "h2",
+   "text": {
+    "sv": "3. Larmet som ingen sett larma",
+    "en": "3. The alarm nobody has seen fire"
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "I samma verktyg finns en mekanism som ska lyfta en varning ur databasklientens utskrift och göra den synlig som en markering i körningen. Jag hänvisade till den i en kommentar och motiverade ett designval med att varningen skulle synas.",
+    "en": "The same tool has a mechanism that is supposed to lift a warning out of the database client's output and surface it as a visible annotation on the run. I referred to it in a comment and justified a design choice with the claim that the warning would be seen."
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "En granskning gick igenom samtliga åtta körningar som verktyget någonsin haft. Ingen av dem innehåller en enda sådan markering. Koden ser rätt ut när man läser den. Ingen har sett den fyra. Skillnaden mellan <em>läst</em> och <em>sedd fungera</em> är hela poängen med den här texten.",
+    "en": "A review went through all eight runs the tool has ever had. Not one of them contains a single such annotation. The code looks right when you read it. Nobody has seen it fire. The difference between <em>read</em> and <em>seen working</em> is the whole point of this article."
+   }
+  },
+  {
+   "typ": "h2",
+   "text": {
+    "sv": "4. Provet som var sant genom konstruktion",
+    "en": "4. The test that was true by construction"
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Det här är det pinsammaste, och det hände i dag — medan jag samlade material till den här artikeln.",
+    "en": "This is the most embarrassing one, and it happened today — while I was gathering material for this very article."
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Jag hade skrivit en ändring som skulle vara verkningslös i produktion: den skriver bara ned något som redan gäller. För att bevisa det byggde jag in en kontroll som mäter funktionen före och efter och kräver att den är byte för byte identisk. Sedan körde jag provet.",
+    "en": "I had written a change that was supposed to be inert in production: it merely records something that already holds. To prove it, I built in a check that measures the function before and after and requires it to be byte-for-byte identical. Then I ran the test."
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Men jag utelämnade den enda sats som ändrar något — just för att jag ansåg att den ändå var verkningslös. Alltså det som kontrollen fanns till för att bevisa. Utan den satsen rörde ingenting funktionen mellan de två mätningarna, så likheten var <strong>sann genom konstruktion</strong>. Utfallet <em>kontrollen kördes och höll</em> kunde inte ha blivit något annat.",
+    "en": "But I left out the one statement that changes anything — precisely because I had concluded it was inert anyway. Which is the very thing the check existed to prove. Without that statement, nothing touched the function between the two measurements, so the equality was <strong>true by construction</strong>. The result <em>the check ran and held</em> could not have come out any other way."
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "En granskare hittade det. Rättelsen var enkel: kör hela filen, inklusive den satsen, inuti en transaktion som rullas tillbaka efteråt. Då utövas allt, och ingenting blir kvar. Det tog fem minuter. Det som var svårt var inte fixen — det var att se att provet inte provade.",
+    "en": "A reviewer caught it. The fix was simple: run the whole file, including that statement, inside a transaction that is rolled back afterwards. Everything gets exercised, and nothing remains. It took five minutes. The hard part was never the fix — it was noticing that the test was not testing."
+   }
+  },
+  {
+   "typ": "h2",
+   "text": {
+    "sv": "Vad de fyra har gemensamt",
+    "en": "What the four have in common"
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Inget av dem är slarv i vanlig mening. Alla fyra skrevs av någon som var noggrann, och tre av dem lästes av flera personer utan att någon reagerade. Det de delar är något annat:",
+    "en": "None of them is carelessness in the ordinary sense. All four were written by someone being careful, and three of them were read by several people without anyone reacting. What they share is something else:"
+   }
+  },
+  {
+   "typ": "ul",
+   "punkter": [
+    {
+     "sv": "Utdatan ser likadan ut oavsett. Ett prov som inte provar skriver samma gröna rad som ett prov som gick bra.",
+     "en": "The output looks the same either way. A test that tests nothing prints the same green line as one that passed."
+    },
+    {
+     "sv": "Felet ligger i vad provet <em>inte</em> gör, och det syns inte i något fält.",
+     "en": "The fault lies in what the test does <em>not</em> do, and that shows up in no field at all."
+    },
+    {
+     "sv": "Det går inte att fånga med mer uppmärksamhet — alla fyra lästes av någon som var uppmärksam.",
+     "en": "It cannot be caught by paying closer attention — all four were read by someone paying attention."
+    }
+   ]
+  },
+  {
+   "typ": "h2",
+   "text": {
+    "sv": "Det som faktiskt hjälpte",
+    "en": "What actually helped"
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "En enda vana, och den är obekväm: <strong>få provet att gå rött med flit.</strong> Om du inte kan få det att misslyckas vet du inte om det kan lyckas på riktigt.",
+    "en": "One single habit, and it is an uncomfortable one: <strong>make the test fail on purpose.</strong> If you cannot make it fail, you do not know whether it can genuinely pass."
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "När vi utökade vårt sitemap-prov från <em>är det välformad XML</em> till <em>leder varje adress till en sida som finns</em>, provade vi det åt båda hållen: fjorton riktiga adresser passerade, och en medvetet felstavad fångades. Det andra ledet är det som gör det första värt något.",
+    "en": "When we extended our sitemap test from <em>is this well-formed XML</em> to <em>does every address lead to a page that exists</em>, we tested it both ways: fourteen real addresses passed, and one deliberately misspelled one was caught. It is the second half that makes the first half worth anything."
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Vi skriver det här öppet för att det är lätt att tro att den här sortens fel drabbar slarviga bygggen. Den gör den inte. Den drabbar bygggen där någon brytt sig tillräckligt för att skriva prov — och sedan litat på dem.",
+    "en": "We write this openly because it is tempting to assume this kind of fault only strikes sloppy builds. It does not. It strikes builds where somebody cared enough to write tests — and then trusted them."
+   }
+  }
+ ]
+}
