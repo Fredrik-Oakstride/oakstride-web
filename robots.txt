@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+# Byggverktyg, inte innehall. Mallen bar {{platshallare}} och ar meningslos som
+# sida - GitHub Pages serverar den anda, eftersom den ligger i repot.
+Disallow: /verktyg/
 
 Sitemap: https://oakstride.se/sitemap.xml

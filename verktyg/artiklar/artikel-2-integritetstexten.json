@@ -1,0 +1,175 @@
+{
+ "slug": {
+  "sv": "insikter-integritetstexten-sa-nej",
+  "en": "insights-privacy-policy-said-no"
+ },
+ "datum": "2026-09-03",
+ "datum_text": {
+  "sv": "3 september 2026",
+  "en": "3 September 2026"
+ },
+ "lastid": "3 min",
+ "sidtitel": {
+  "sv": "Integritetstexten sa nej — OakStride Insikter",
+  "en": "The privacy policy said no — OakStride Insights"
+ },
+ "titel": {
+  "sv": "Vi ville annonsera — vår egen integritetstext sa nej",
+  "en": "We wanted to advertise — our own privacy policy said no"
+ },
+ "ingress": {
+  "sv": "Vi tänkte börja annonsera. Då upptäckte vi att vår egen integritetstext lovade motsatsen — att vi inte använder cookies för annonsändamål. Vi valde att bygga en grind i stället för att tyst skriva om löftet.",
+  "en": "We were about to start advertising. Then we found our own privacy policy promising the opposite — that we do not use cookies for advertising purposes. We built a gate instead of quietly rewriting the promise."
+ },
+ "block": [
+  {
+   "typ": "h2",
+   "text": {
+    "sv": "Vi bestämde oss för att prova Google Ads",
+    "en": "We decided to try Google Ads"
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Sajten hade i praktiken inga sökklick. Ett rimligt nästa steg är att köpa synlighet i stället för att vänta på den. Så vi började titta på vad som krävs för att sätta upp annonsering ordentligt — och det första som krävs är mätning. Utan mätning vet man inte vilken annons som gjort något, bara vad den kostade.",
+    "en": "The site had almost no search clicks. A reasonable next step is to buy visibility rather than wait for it. So we started looking at what it takes to set up advertising properly — and the first thing it takes is measurement. Without measurement you never learn which ad did something, only what it cost."
+   }
+  },
+  {
+   "typ": "h2",
+   "text": {
+    "sv": "Vår egen integritetstext sa nej",
+    "en": "Our own privacy policy said no"
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Mätningen sker med en annonstagg. Taggen sätter cookies. Och när vi läste vår egen integritetstext stod det där, svart på vitt: att vi <strong>inte</strong> använder cookies för annonsändamål.",
+    "en": "Measurement happens through an advertising tag. The tag sets cookies. And when we read our own privacy policy, there it was in plain words: that we do <strong>not</strong> use cookies for advertising purposes."
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Texten var alltså inte en formalitet i sidfoten. Den var ett löfte, och det löftet stod i vägen för det vi tänkte göra. Det är en obekväm upptäckt, för den enklaste utvägen är också den sämsta.",
+    "en": "So the text was not a formality in the footer. It was a promise, and that promise stood in the way of what we were about to do. It is an uncomfortable discovery, because the easiest way out is also the worst one."
+   }
+  },
+  {
+   "typ": "h2",
+   "text": {
+    "sv": "Två vägar ut — bara den ena var ärlig",
+    "en": "Two ways out — only one of them honest"
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Vi hade två alternativ, och de är värda att skriva ut eftersom valet mellan dem säger allt:",
+    "en": "We had two options, and they are worth writing down because the choice between them says everything:"
+   }
+  },
+  {
+   "typ": "ul",
+   "punkter": [
+    {
+     "sv": "<strong>Skriv tyst om texten.</strong> Ta bort meningen, sätt upp taggen, gå vidare. Ingen märker något, och sajten börjar mäta besökare som aldrig blev tillfrågade.",
+     "en": "<strong>Quietly rewrite the text.</strong> Drop the sentence, add the tag, move on. Nobody notices, and the site starts measuring visitors who were never asked."
+    },
+    {
+     "sv": "<strong>Bygg en grind.</strong> Skriv om texten så att den blir sann, och se till att ingenting laddas förrän besökaren faktiskt sagt ja.",
+     "en": "<strong>Build a gate.</strong> Rewrite the text so that it becomes true, and make sure nothing loads until the visitor has actually said yes."
+    }
+   ]
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Vi valde det andra. Det tog längre tid, och det är den enda av vägarna där texten och koden säger samma sak efteråt.",
+    "en": "We chose the second one. It took longer, and it is the only one of the two where the text and the code say the same thing afterwards."
+   }
+  },
+  {
+   "typ": "h2",
+   "text": {
+    "sv": "Vad grinden faktiskt gör",
+    "en": "What the gate actually does"
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Ingen annonstagg laddas när sidan öppnas. Skriptet ligger där, men det hämtar ingenting och sätter ingenting förrän ett samtycke finns. Säger besökaren nej händer ingenting alls — inte en tyst nedgradering, utan ingen laddning.",
+    "en": "No advertising tag loads when the page opens. The script sits there, but it fetches nothing and sets nothing until consent exists. If the visitor says no, nothing at all happens — not a quiet downgrade, but no loading."
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Vi lät den dessutom vara inert som utgångsläge: så länge annons-ID:t står tomt laddas själva annonstaggen aldrig, även om någon svarar ja. Det gör att en halvfärdig konfiguration inte kan börja mäta av misstag.",
+    "en": "We also made it inert by default: as long as the ad ID is empty, the advertising tag itself never loads, even if someone answers yes. That way a half-finished configuration cannot start measuring by accident."
+   }
+  },
+  {
+   "typ": "h2",
+   "text": {
+    "sv": "Ingen annons har ännu visats",
+    "en": "Not a single ad has run yet"
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Så här är läget när det här skrivs: grinden är byggd, granskad i fyra omgångar, provad med 83 automatiska prov och ligger ute på sajten. Annons-ID:t är fortfarande tomt. Vi annonserar alltså inte än — vi har bara sett till att vi kan göra det utan att bryta ett löfte.",
+    "en": "This is where things stand as this is written: the gate is built, reviewed in four rounds, exercised by 83 automated tests and live on the site. The ad ID is still empty. So we are not advertising yet — we have only made sure that we can, without breaking a promise."
+   }
+  },
+  {
+   "typ": "h2",
+   "text": {
+    "sv": "Kontrollera din egen sajt",
+    "en": "Check your own site"
+   }
+  },
+  {
+   "typ": "ul",
+   "punkter": [
+    {
+     "sv": "Läs din integritetstext och leta upp meningen om cookies och annonsering. Vad lovar den?",
+     "en": "Read your privacy policy and find the sentence about cookies and advertising. What does it promise?"
+    },
+    {
+     "sv": "Öppna sedan sajten och se efter vad som faktiskt laddas innan du klickat på något. Gör du det på vår sajt hittar du typsnitt från Google — de laddas utan samtycke och står redovisade i vår integritetstext. Poängen är inte att en sådan hämtning aldrig får finnas, utan att den ska stå skriven.",
+     "en": "Then open the site and look at what actually loads before you have clicked anything. Do that on our site and you will find fonts served by Google — they load without consent, and they are declared in our privacy policy. The point is not that such a request may never exist, but that it has to be written down."
+    },
+    {
+     "sv": "Säger de två olika saker är det inte texten som är fel eller koden som är fel — det är att ingen jämfört dem.",
+     "en": "If the two say different things, it is not the text that is wrong or the code that is wrong — it is that nobody compared them."
+    }
+   ]
+  },
+  {
+   "typ": "h2",
+   "text": {
+    "sv": "Varför vi skriver om det",
+    "en": "Why this is worth its own piece"
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Därför att det här är ett fel som ingen kontroll larmar om. Ett cookie-skript fungerar precis lika bra oavsett vad som står i integritetstexten, och integritetstexten blir inte röd för att koden motsäger den. Det finns ingen varningslampa mellan dem.",
+    "en": "Because this is a fault that no check will raise. A cookie script works exactly as well no matter what the privacy policy says, and the privacy policy does not turn red because the code contradicts it. There is no warning light between them."
+   }
+  },
+  {
+   "typ": "p",
+   "text": {
+    "sv": "Vi hittade det på vår egen sajt, i samma vecka som vi tänkte börja annonsera. Det är därför vi skriver om det.",
+    "en": "We found it on our own site, in the same week we were about to start advertising. That is why we are writing about it."
+   }
+  }
+ ]
+}
