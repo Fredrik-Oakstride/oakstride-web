@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A receipt for nothing — OakStride Insights</title>
-<meta name="description" content="A customer clicked Approve in our client portal and got a green ”Thank you!” The row that is the proof of that approval was never written. Nothing in the interface separated it from a successful save — and that is not a bug we happened to have, it is a pattern that is easy to build into any website.">
+<meta name="description" content="A customer clicked Approve in our client portal and got a green “Thank you!” The row that is the proof of that approval was never written. Nothing in the interface separated it from a successful save — and that is not a bug we happened to have, it is a pattern that is easy to build into any website.">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,19 +17,19 @@
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://oakstride.se/insights-a-receipt-for-nothing">
 <meta property="og:title" content="The receipt that thanked you for something that never happened">
-<meta property="og:description" content="A customer clicked Approve in our client portal and got a green ”Thank you!” The row that is the proof of that approval was never written. Nothing in the interface separated it from a successful save — and that is not a bug we happened to have, it is a pattern that is easy to build into any website.">
+<meta property="og:description" content="A customer clicked Approve in our client portal and got a green “Thank you!” The row that is the proof of that approval was never written. Nothing in the interface separated it from a successful save — and that is not a bug we happened to have, it is a pattern that is easy to build into any website.">
 <meta property="og:image" content="https://oakstride.se/images/photo-6.jpg">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The receipt that thanked you for something that never happened">
-<meta name="twitter:description" content="A customer clicked Approve in our client portal and got a green ”Thank you!” The row that is the proof of that approval was never written. Nothing in the interface separated it from a successful save — and that is not a bug we happened to have, it is a pattern that is easy to build into any website.">
+<meta name="twitter:description" content="A customer clicked Approve in our client portal and got a green “Thank you!” The row that is the proof of that approval was never written. Nothing in the interface separated it from a successful save — and that is not a bug we happened to have, it is a pattern that is easy to build into any website.">
 <meta name="twitter:image" content="https://oakstride.se/images/photo-6.jpg">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": "The receipt that thanked you for something that never happened",
-  "description": "A customer clicked Approve in our client portal and got a green ”Thank you!” The row that is the proof of that approval was never written. Nothing in the interface separated it from a successful save — and that is not a bug we happened to have, it is a pattern that is easy to build into any website.",
+  "description": "A customer clicked Approve in our client portal and got a green “Thank you!” The row that is the proof of that approval was never written. Nothing in the interface separated it from a successful save — and that is not a bug we happened to have, it is a pattern that is easy to build into any website.",
   "url": "https://oakstride.se/insights-a-receipt-for-nothing",
   "datePublished": "2026-09-06",
   "dateModified": "2026-09-06",
@@ -304,7 +304,7 @@
       <p class="eyebrow">OakStride &middot; Insights</p>
       <p class="post-meta"><time datetime="2026-09-06">6 September 2026</time> &middot; 4 min</p>
       <h1>The receipt that thanked you for something that never happened</h1>
-      <p class="lead">A customer clicked Approve in our client portal and got a green ”Thank you!” The row that is the proof of that approval was never written. Nothing in the interface separated it from a successful save — and that is not a bug we happened to have, it is a pattern that is easy to build into any website.</p>
+      <p class="lead">A customer clicked Approve in our client portal and got a green “Thank you!” The row that is the proof of that approval was never written. Nothing in the interface separated it from a successful save — and that is not a bug we happened to have, it is a pattern that is easy to build into any website.</p>
     </div>
   </div>
 
@@ -321,18 +321,18 @@
         <h2>Three ways a write can fail without anyone finding out</h2>
         <p>What made the week instructive is that the failure did not have one cause but three — and only the first is the one people think of.</p>
         <ul>
-          <li><strong>The security rule filters the row away.</strong> The rules a database keeps for who may change what behave like a filter, not like a guard that shouts. If you are not allowed to touch the row, the answer is not <em>no</em> — the answer is <em>zero rows changed</em>, with no error code. We asked our own database directly, as a blocked user: the update came back with no error code and zero rows changed.</li>
+          <li><strong>The security rule filters the row away.</strong> A database keeps rules about who may change what. Those rules behave like a filter, not like a guard that shouts. If you are not allowed to touch the row, the answer is not <em>no</em> — the answer is <em>zero rows changed</em>, with no error code. We asked our own database directly, as a blocked user: the update came back with no error code and zero rows changed.</li>
           <li><strong>A rule inside the database undoes what you wrote.</strong> We have a guard that lets a customer approve but not change anything else. It writes the old values back. The update succeeds, it touches one row, it returns no error — and nothing changed. Counting rows is therefore not enough; you have to read the value back.</li>
           <li><strong>The code listened in the wrong place.</strong> Our first fix put the error check in a branch that never runs, because the library we use always answers with a result instead of throwing an error. The check itself was correct. It just sat where nothing ever arrives.</li>
         </ul>
 
         <h2>The uncomfortable part: we did not find it ourselves</h2>
-        <p>All three passed our own read-through. The lines look correct — they <em>are</em> correct — and someone who already believes in their own fix reads them as proof that the matter is settled. What found them was a review that measured instead of read.</p>
+        <p>All three passed our own read-through. The lines look correct — they <em>are</em> correct — and someone who already believes in their own fix reads them as proof that the matter is settled. What found them was a review that measured instead of reading.</p>
         <p>One example of what <em>measuring</em> means here: a warning we had added turned out never to reach the customer, because the next message overwrote it before the customer could read it. That is invisible in the code. It becomes visible when someone runs it and looks at what the box actually says.</p>
 
         <h2>What we changed</h2>
         <p>The rule we work by now is easy to state and uncomfortable to follow: <strong>a message saying something went well must rest on a measurement, not on the absence of anything visibly going wrong.</strong> In practice that means asking the database for the rows back and checking them, instead of assuming that silence is a yes.</p>
-        <p>And when we do not know, we say so. If a price list cannot be fetched, the last known figures are still shown — but now with a notice saying they may be out of date and that the page should be reloaded before anything is approved. Before, they simply sat there as if they were today's.</p>
+        <p>And when we do not know, we say so. If a price list cannot be fetched, the page falls back to the default prices written into the code — but now with a notice saying the figures may be out of date and that the page should be reloaded before anything is approved. Before, they simply sat there as if they were today's.</p>
 
         <h2>Three questions to ask about your own site</h2>
         <ul>

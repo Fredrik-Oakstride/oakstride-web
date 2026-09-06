@@ -19,7 +19,7 @@
   },
   "ingress": {
     "sv": "En kund klickade Godkänn i vår kundportal och fick ett grönt ”Tack!” Raden som är beviset för godkännandet skrevs aldrig. Ingenting i gränssnittet skilde det från en lyckad sparning — och det är inte en bugg vi råkade ha, utan en form som är lätt att bygga in i vilken sajt som helst.",
-    "en": "A customer clicked Approve in our client portal and got a green ”Thank you!” The row that is the proof of that approval was never written. Nothing in the interface separated it from a successful save — and that is not a bug we happened to have, it is a pattern that is easy to build into any website."
+    "en": "A customer clicked Approve in our client portal and got a green “Thank you!” The row that is the proof of that approval was never written. Nothing in the interface separated it from a successful save — and that is not a bug we happened to have, it is a pattern that is easy to build into any website."
   },
   "block": [
     {
@@ -76,7 +76,7 @@
       "punkter": [
         {
           "sv": "<strong>Säkerhetsregeln filtrerar bort raden.</strong> Databasens regler för vem som får ändra vad fungerar som ett filter, inte som en vakt som ropar. Får du inte röra raden är svaret inte <em>nej</em> — svaret är <em>noll rader ändrade</em>, utan felkod. Vi frågade vår egen databas rakt ut, med en spärrad användare: uppdateringen kom tillbaka utan felkod och med noll ändrade rader.",
-          "en": "<strong>The security rule filters the row away.</strong> The rules a database keeps for who may change what behave like a filter, not like a guard that shouts. If you are not allowed to touch the row, the answer is not <em>no</em> — the answer is <em>zero rows changed</em>, with no error code. We asked our own database directly, as a blocked user: the update came back with no error code and zero rows changed."
+          "en": "<strong>The security rule filters the row away.</strong> A database keeps rules about who may change what. Those rules behave like a filter, not like a guard that shouts. If you are not allowed to touch the row, the answer is not <em>no</em> — the answer is <em>zero rows changed</em>, with no error code. We asked our own database directly, as a blocked user: the update came back with no error code and zero rows changed."
         },
         {
           "sv": "<strong>En regel i databasen återställer det du skrev.</strong> Vi har en spärr som ser till att en kund bara kan godkänna, inte ändra vad som helst. Den skriver tillbaka det gamla värdet. Uppdateringen lyckas, den träffar en rad, den ger inget fel — och ingenting har ändrats. Att räkna rader räcker alltså inte; man måste läsa tillbaka värdet.",
@@ -99,7 +99,7 @@
       "typ": "p",
       "text": {
         "sv": "Alla tre gick igenom vår egen genomläsning. Raderna ser korrekta ut — de <em>är</em> korrekta — och den som redan tror på sin lösning läser dem som ett kvitto på att saken är löst. Det var en granskning som mätte i stället för att läsa som hittade dem.",
-        "en": "All three passed our own read-through. The lines look correct — they <em>are</em> correct — and someone who already believes in their own fix reads them as proof that the matter is settled. What found them was a review that measured instead of read."
+        "en": "All three passed our own read-through. The lines look correct — they <em>are</em> correct — and someone who already believes in their own fix reads them as proof that the matter is settled. What found them was a review that measured instead of reading."
       }
     },
     {
@@ -126,8 +126,8 @@
     {
       "typ": "p",
       "text": {
-        "sv": "Och när vi inte vet, säger vi det. Går ett prisunderlag inte att hämta visas de senast kända siffrorna — men nu med ett besked om att de kan vara inaktuella och att sidan bör laddas om före ett godkännande. Förut stod de där som om de vore dagens.",
-        "en": "And when we do not know, we say so. If a price list cannot be fetched, the last known figures are still shown — but now with a notice saying they may be out of date and that the page should be reloaded before anything is approved. Before, they simply sat there as if they were today's."
+        "sv": "Och när vi inte vet, säger vi det. Går ett prisunderlag inte att hämta visas i stället de standardpriser som ligger förifyllda i koden — men nu med ett besked om att siffrorna kan vara inaktuella och att sidan bör laddas om före ett godkännande. Förut stod de där som om de vore dagens.",
+        "en": "And when we do not know, we say so. If a price list cannot be fetched, the page falls back to the default prices written into the code — but now with a notice saying the figures may be out of date and that the page should be reloaded before anything is approved. Before, they simply sat there as if they were today's."
       }
     },
     {
