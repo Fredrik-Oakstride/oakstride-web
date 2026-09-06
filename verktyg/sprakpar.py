@@ -35,9 +35,11 @@ ANVANDNING
     python verktyg/sprakpar.py          # skriver paren pa stdout, ett per rad
     python verktyg/sprakpar.py --lista  # samma, men med kalla per par (for oga)
 
-Fel gar till stderr som ::error-rader och ger avslutkod 1. Paren gar till
-stdout, sa `par=$(python3 verktyg/sprakpar.py)` far en ren lista aven nar
-skriptet samtidigt skriver en varning.
+Fel gar till stderr som ::error-rader och ger avslutkod 1, paren till stdout.
+Delningen finns for att `par=$(python3 verktyg/sprakpar.py)` ska fa en ren lista -
+INTE for att det skulle finnas nagon varningsniva. Varje fel() satter ocksa
+`trasigt`, sa det finns ingen vag dar skriptet skriver pa stderr och anda ger 0.
+(En tidigare version av den har meningen pastod motsatsen - granskningens N4.)
 """
 import glob
 import io
@@ -48,8 +50,19 @@ import sys
 ROT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # De fasta sidparen. GAR INTE att harleda: filnamnen ar inte oversattningar av
-# varandra. De tillkommer inte heller lopande - den har listan har varit
-# oforandrad sedan sajten byggdes.
+# varandra (index.html/sv.html, privacy/integritet) - och DEN halvan ar hela skalet
+# att de star uppraknade.
+#
+# 🔴 RATTAT efter granskning (fynd B1). Har stod ocksa "de tillkommer inte heller
+# lopande - listan har varit oforandrad sedan sajten byggdes". Det ar matbart falskt:
+# privacy.html tillkom 2026-09-03 (852897e), insights.html och insikter.html
+# 2026-08-30 (9650fcd). Tva av fem par blev alltsa nodvandiga inom sju dagar fore
+# den har filen skrevs.
+#
+# Skillnaden spelar roll for nasta person: tror hon att listan ar statisk letar hon
+# felet nagon annanstans nar en ny fast sida inte far nagot par. Det FALLS visserligen
+# - tackningskontrollen nedan sager rakt ut att en fast sida ska in har - men ett
+# falskt pastaende i en kommentar ar en falla aven nar det finns ett skyddsnat.
 STATISKA = [
     ("index.html", "sv.html"),
     ("privacy.html", "integritet.html"),
@@ -85,7 +98,17 @@ def ur_specarna():
             ut.append(None)
             continue
         slug = spec.get("slug") or {}
-        if not slug.get("sv") or not slug.get("en"):
+        # ⚠️ En spec kan vara giltig JSON och anda ha fel FORM ("slug": [] eller
+        # "sv": 123). Utan de har tva kontrollerna blev det en traceback i stallet for
+        # en ::error-rad. Felet syntes och fallde aven forut - men den som ska ratta
+        # det ska slippa lasa en stackdump for att forsta vad som ar fel.
+        if not isinstance(slug, dict):
+            fel("::error file=verktyg/artiklar/%s::%s har ett slug-falt som inte ar ett "
+                "objekt utan %s. Det ska vara tva strangar, sv och en."
+                % (namn, namn, type(slug).__name__))
+            ut.append(None)
+            continue
+        if not isinstance(slug.get("sv"), str) or not isinstance(slug.get("en"), str):
             fel("::error file=verktyg/artiklar/%s::%s saknar slug.sv eller slug.en - "
                 "artikeln kan da inte fa nagot sprakpar och speglingen star oskyddad."
                 % (namn, namn))
@@ -140,6 +163,16 @@ def bygg():
                 "verktyg/sprakpar.py." % (f, f))
             trasigt = True
 
+    # ⚠️ TILLAGT efter granskning (fynd N2). Noll par ar inte ett friskt
+    # tillstand - det ar en lista som tappat sitt innehall, och i utdatan ser den ut
+    # precis som en lista dar allt stammer. Sitemap-steget i samma workflow larde sig
+    # det redan ("if not loc: sys.exit"); det har ar samma sak.
+    if not par:
+        fel("::error::sprakpar.py hittade noll sprakpar. Det betyder inte att allt ar "
+            "bra - det betyder att listan ar tom och att regel 2 inte kontrolleras av "
+            "nagot alls.")
+        trasigt = True
+
     return par, trasigt
 
 
@@ -151,6 +184,9 @@ if __name__ == "__main__":
     # utdata bada stallena, annars provar man inte det man kor.
     try:
         sys.stdout.reconfigure(newline="\n")
+        # Aven stderr - kommentaren ovan sager "samma utdata bada stallena",
+        # och da duger inte halva utdatan (granskningens fynd N3).
+        sys.stderr.reconfigure(newline="\n")
     except AttributeError:  # aldre Python - da ar radslutet redan LF
         pass
     par, trasigt = bygg()
