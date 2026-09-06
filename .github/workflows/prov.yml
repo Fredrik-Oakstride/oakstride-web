@@ -77,6 +77,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Proven for de tva verktyg som regel 2 numera VILAR pa. Kors forst, sa att ett
+      # fel i harledningen diagnostiseras som ett fel i harledningen - inte som ett
+      # sprakpar som saknas.
+      #
+      # Granskningens fynd B2: fore #30 var sprakparlistan en deklarativ lista i den
+      # har filen, som en granskare kunde lasa. Nu ar den utfallet av logik, och ett
+      # fel i den logiken visar sig som FARRE PAR - alltsa ett gront prov med farre
+      # kontroller. Sjalvprovet gick dessutom bara att kora for hand och tackte bara
+      # artikel 2, vilket ar precis det den har filens egen rubrik fordomer.
+      - name: Proven for sprakparen och artikelmallen
+        run: |
+          set -euo pipefail
+          python3 verktyg/prov-sprakpar.py
+          python3 verktyg/ny-artikel.py --sjalvprov
+
       # Regel 2: en andring pa den ena sprakversionen ska alltid speglas pa den andra.
       # Radantalskontrollen mater DIVERGENS och kan strukturellt inte se ett fel som
       # finns i BADA filerna - den ersatter alltsa ingen granskning. Den fangar det
@@ -94,30 +109,23 @@ jobs:
               echo "ok  $1 = $2  ($a rader)"
             fi
           }
-          # Ett sprakpar gar INTE att harleda ur filsystemet - filnamnen ar inte
-          # oversattningar av varandra (index.html/sv.html, privacy/integritet).
-          # Listan maste darfor underhallas for hand. Det gjordes inte 2026-09-03,
-          # och tackningen gick tyst fran 8 av 8 sidor till 8 av 12. Darfor star
-          # nu en tacknignskontroll efter listan: en sida utan par FALLER provet.
-          par="integritet.html privacy.html
-          studio.html webbstudio.html
-          it-management.html it-chef.html
-          index.html sv.html
-          insights.html insikter.html
-          insights-four-tests-that-tested-nothing.html insikter-fyra-prov-som-inte-provade-nagot.html
-          insights-invisible-on-google.html insikter-osynlig-pa-google.html
-          insights-privacy-policy-said-no.html insikter-integritetstexten-sa-nej.html"
+          # Listan stod tidigare HAR och fylldes pa for hand. Den gicks inte igenom
+          # 2026-09-03 och tackningen gick tyst fran 8 av 8 sidor till 8 av 12.
+          #
+          # Nu harleds den: verktyg/sprakpar.py laser artikelparen ur specarna i
+          # verktyg/artiklar/*.json (dar bada slugarna star) och raknar bara upp de
+          # fem FASTA sidparen, som inte gar att harleda ur filnamnen
+          # (index.html/sv.html, privacy/integritet) och inte heller tillkommer.
+          # Skriptet gor ocksa tackningen at bada hallen och FALLER sjalvt om en
+          # sida saknar par, om ett par pekar pa en fil som inte finns, eller om
+          # tva specar gor ansprak pa samma sida. Kommandoutbytet nedan avbryter
+          # steget da, tack vare `set -e` - felraderna star pa stderr och syns i
+          # loggen fore avbrottet.
+          par=$(python3 verktyg/sprakpar.py)
 
           while read -r a b; do
             [ -n "$a" ] && kolla "$a" "$b"
           done <<< "$par"
-
-          for f in *.html; do
-            if ! printf '%s\n' $par | grep -qxF "$f"; then
-              echo "::error file=$f::$f ingar inte i nagot sprakpar - speglingen ar oskyddad for den sidan. Lagg till paret i listan ovan."
-              fel=1
-            fi
-          done
           [ "$fel" -eq 0 ] || exit 1
 
       # Den kontroll som faktiskt hittade det verkliga felet 2026-08-29: ett stycke som

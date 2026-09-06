@@ -16,26 +16,38 @@ spraket.** Bada filerna renderas ur SAMMA mall med SAMMA block, sa radantalet
 stammer av konstruktion i stallet for av tur - och ett stycke kan inte bli kvar
 fran en tidigare artikel, for det finns ingen tidigare artikel att kopiera.
 
-DEN ANDRA HALVAN: FYRA STALLEN
-==============================
-En ny sida maste in pa fyra stallen, och missas ett ligger texten ute utan att
+DEN ANDRA HALVAN: TRE STALLEN
+=============================
+En ny sida maste in pa tre stallen, och missas ett ligger texten ute utan att
 nagon lank pekar pa den:
   1. flodessidorna insikter.html och insights.html
   2. sitemap.xml
-  3. sprakparlistan i .github/workflows/prov.yml  (underhalls for hand)
-  4. sjalva sidorna
-Generatorn gor alla fyra. Sprakparlistan ar den lattaste att glomma och den som
-faller provet - den gicks inte igenom 2026-09-03 och tackningen gick tyst fran
-8 av 8 sidor till 8 av 12.
+  3. sjalva sidorna
+Generatorn gor alla tre.
+
+Det fanns ett fjarde: sprakparlistan i .github/workflows/prov.yml. Den togs bort
+2026-09-06 (issue #18). Listan harleds nu ur specarna av verktyg/sprakpar.py, sa
+den har filen behover inte langre redigera provets egen konfiguration - och den
+gor det inte heller. Ett verktyg som skriver i sitt eget prov ar en sak for lite
+att lita pa: gick strangersattningen fel var det provet som slutade tacka, och
+det marks inte pa nagot annat satt an att en kontroll blir tyst.
+
+Kravet pa dig som skriver en ny artikel ar i stallet att specen ligger kvar i
+verktyg/artiklar/ - det ar den som ar kallan till paret.
 
 ANVANDNING
 ==========
     python verktyg/ny-artikel.py verktyg/artiklar/<spec>.json
     python verktyg/ny-artikel.py --sjalvprov
 
-Sjalvprovet aterskapar artikel 2 ur en spec och jamfor byte for byte mot filen
-som ligger i repot. Gar det igenom vet vi att mallen inte tappat nagot pa vagen.
+Sjalvprovet aterskapar VARJE artikel ur sin spec och jamfor byte for byte mot
+filerna som ligger i repot. Gar det igenom vet vi att mallen inte tappat nagot pa
+vagen - och, sedan #30, att specen verkligen motsvarar den sida den pastas ha
+genererat. Specarna ar namligen numera det som sprakparen harleds ur, alltsa
+CI-barande for regel 2. Da racker det inte att EN av dem nagon gang visats kunna
+aterskapa sin sida; det var granskningens fynd B2.
 """
+import glob
 import io
 import json
 import os
@@ -155,7 +167,7 @@ def las(vag):
 
 
 def koppla_in(spec):
-    """De tre stallen utover sjalva sidorna. Idempotent - hoppar over det som finns."""
+    """De tva stallen utover sjalva sidorna. Idempotent - hoppar over det som finns."""
     gjort = []
     for lang, flode, etikett, lastext in (
             ("sv", "insikter.html", "Insikter", "Läs texten"),
@@ -202,17 +214,13 @@ def koppla_in(spec):
         skriv(p, s.replace(ankare, post + ankare, 1))
         gjort.append("sitemap.xml: tva adresser tillagda")
 
-    p = os.path.join(ROT, ".github", "workflows", "prov.yml")
-    s = las(p)
-    rad = "          %s.html %s.html" % (spec["slug"]["en"], spec["slug"]["sv"])
-    if rad in s:
-        gjort.append("prov.yml: sprakparet fanns redan")
-    else:
-        ankare = "          insights.html insikter.html"
-        if ankare not in s:
-            raise SystemExit("AVBRYTER: hittade ingen sprakparlista i prov.yml")
-        skriv(p, s.replace(ankare, ankare + "\n" + rad, 1))
-        gjort.append("prov.yml: sprakparet tillagt")
+    # Har lag tidigare ett fjarde steg som stoppade in sprakparet i prov.yml med
+    # strangersattning mot ett ankare. Det ar borttaget: paret harleds nu ur
+    # specen av verktyg/sprakpar.py. Vi sager det anda hogt, sa att den som kor
+    # generatorn ser att paret ar omhandertaget och inte letar efter en rad att
+    # fylla i.
+    gjort.append("sprakpar: harleds ur specen av verktyg/sprakpar.py - inget att "
+                 "fylla i, men specen maste ligga kvar i verktyg/artiklar/")
     return gjort
 
 
@@ -229,33 +237,88 @@ def bygg(spec):
 
 
 def sjalvprov():
-    """Aterskapa artikel 2 ur en spec och jamfor byte for byte mot repots fil.
+    """Aterskapa VARJE artikel ur sin spec och jamfor byte for byte mot repots filer.
 
     Det ar det enda provet som visar att mallen inte tappat nagot. Ett prov som
     bara sager 'filen blev skriven' svarar pa en annan fraga an den vi staller.
+
+    Provade tidigare bara artikel 2. Sedan #30 harleds sprakparen ur specarna, sa
+    en spec som INTE motsvarar sin sida ar inte langre bara ett skonhetsfel - den
+    ar en felaktig uppgift som regel 2:s tackning vilar pa.
     """
-    spec = json.load(io.open(os.path.join(ROT, "verktyg", "artiklar",
-                                          "artikel-2-integritetstexten.json"), encoding="utf-8"))
+    specar = sorted(glob.glob(os.path.join(ROT, "verktyg", "artiklar", "*.json")))
+    if not specar:
+        # Noll specar ar inte ett gront prov. Det ar ett prov utan innehall, och
+        # det ser i utdatan ut precis som ett prov dar allt stammer.
+        print("  FEL   hittade noll specar i verktyg/artiklar/ - ingenting provades")
+        return 1
     fel = 0
-    for lang in ("sv", "en"):
-        vantat = las(os.path.join(ROT, spec["slug"][lang] + ".html"))
-        fick = rendera(spec, lang)
-        if fick == vantat:
-            print("  ok    %s ar byte-identisk med repots fil" % spec["slug"][lang])
-        else:
+    for p in specar:
+        namn = os.path.basename(p)
+        # 🔴 TILLAGT efter granskning (fynd R1). Har lag `json.load` och
+        # `spec["slug"][lang]` rakt av, sa en spec med fel FORM gav en Python-stackdump
+        # i CI i stallet for en rad som pekar ut fil och falt. Och eftersom det har
+        # provet numera kors FORST i jobbet avbrots steget innan sprakpar.py hann skriva
+        # sitt rena meddelande - alltsa en regression i diagnostiken, inte bara ett
+        # kvarglomt hal. Kravet PR:en staller ar att specen ligger kvar och underhalls
+        # for hand; da ar en handredigerad spec med ett slintat falt det normala felet.
+        try:
+            spec = json.load(io.open(p, encoding="utf-8"))
+        except ValueError as e:
+            print("  FEL   %s gar inte att lasa som JSON: %s" % (namn, e))
             fel = 1
-            a, b = vantat.split("\n"), fick.split("\n")
-            print("  FEL   %s skiljer sig (%d mot %d rader)" % (spec["slug"][lang], len(a), len(b)))
-            for i in range(min(len(a), len(b))):
-                if a[i] != b[i]:
-                    print("        rad %d\n          repo: %s\n          mall: %s" % (i + 1, a[i][:100], b[i][:100]))
-                    break
+            continue
+        slug = spec.get("slug") if isinstance(spec, dict) else None
+        if (not isinstance(slug, dict)
+                or not isinstance(slug.get("sv"), str) or not isinstance(slug.get("en"), str)):
+            print("  FEL   %s saknar ett slug-falt med tva strangar (sv och en) - "
+                  "artikeln kan da varken byggas eller fa ett sprakpar" % namn)
+            fel = 1
+            continue
+        saknade = [k for k in ("datum", "datum_text", "lastid", "sidtitel", "titel",
+                               "ingress", "block") if k not in spec]
+        if saknade:
+            print("  FEL   %s saknar falten: %s" % (namn, ", ".join(saknade)))
+            fel = 1
+            continue
+        for lang in ("sv", "en"):
+            sida = os.path.join(ROT, spec["slug"][lang] + ".html")
+            if not os.path.exists(sida):
+                # En specfil vars sida inte finns ar inte ett undantag att krascha
+                # pa - det ar ett fynd, och det ska lasas som ett. Utan den har
+                # raden blev det en FileNotFoundError-stackdump i CI.
+                print("  FEL   %s: specen %s pekar pa en sida som inte finns i repot"
+                      % (os.path.basename(sida), namn))
+                fel = 1
+                continue
+            vantat = las(sida)
+            try:
+                fick = rendera(spec, lang)
+            except (KeyError, TypeError) as e:
+                # Renderingen laser djupare an kontrollerna ovan (block-typer, texter
+                # per sprak). Ett fel dar ar fortfarande ett FYND om specen, inte ett
+                # undantag att visa som stackdump.
+                print("  FEL   %s gar inte att rendera pa %s: %s: %s"
+                      % (namn, lang, type(e).__name__, e))
+                fel = 1
+                continue
+            if fick == vantat:
+                print("  ok    %s ar byte-identisk med repots fil" % spec["slug"][lang])
+            else:
+                fel = 1
+                a, b = vantat.split("\n"), fick.split("\n")
+                print("  FEL   %s skiljer sig (%d mot %d rader)" % (spec["slug"][lang], len(a), len(b)))
+                for i in range(min(len(a), len(b))):
+                    if a[i] != b[i]:
+                        print("        rad %d\n          repo: %s\n          mall: %s" % (i + 1, a[i][:100], b[i][:100]))
+                        break
+    print("  %d specar provade, %d sidor." % (len(specar), len(specar) * 2))
     return fel
 
 
 if __name__ == "__main__":
     if len(sys.argv) == 2 and sys.argv[1] == "--sjalvprov":
-        print("Sjalvprov: aterskapar artikel 2 ur spec och jamfor mot repot.")
+        print("Sjalvprov: aterskapar varje artikel ur sin spec och jamfor mot repot.")
         sys.exit(sjalvprov())
     if len(sys.argv) != 2:
         sys.exit(__doc__)

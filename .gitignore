@@ -2,3 +2,4 @@
 # settings.local.json - ett 'git add -A' skulle publicera dem.
 .claude/
 *.tmp
+__pycache__/
