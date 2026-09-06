@@ -17,7 +17,7 @@ stammer av konstruktion i stallet for av tur - och ett stycke kan inte bli kvar
 fran en tidigare artikel, for det finns ingen tidigare artikel att kopiera.
 
 DEN ANDRA HALVAN: TRE STALLEN
-============================
+=============================
 En ny sida maste in pa tre stallen, och missas ett ligger texten ute utan att
 nagon lank pekar pa den:
   1. flodessidorna insikter.html och insights.html
@@ -40,9 +40,14 @@ ANVANDNING
     python verktyg/ny-artikel.py verktyg/artiklar/<spec>.json
     python verktyg/ny-artikel.py --sjalvprov
 
-Sjalvprovet aterskapar artikel 2 ur en spec och jamfor byte for byte mot filen
-som ligger i repot. Gar det igenom vet vi att mallen inte tappat nagot pa vagen.
+Sjalvprovet aterskapar VARJE artikel ur sin spec och jamfor byte for byte mot
+filerna som ligger i repot. Gar det igenom vet vi att mallen inte tappat nagot pa
+vagen - och, sedan #30, att specen verkligen motsvarar den sida den pastas ha
+genererat. Specarna ar namligen numera det som sprakparen harleds ur, alltsa
+CI-barande for regel 2. Da racker det inte att EN av dem nagon gang visats kunna
+aterskapa sin sida; det var granskningens fynd B2.
 """
+import glob
 import io
 import json
 import os
@@ -232,33 +237,53 @@ def bygg(spec):
 
 
 def sjalvprov():
-    """Aterskapa artikel 2 ur en spec och jamfor byte for byte mot repots fil.
+    """Aterskapa VARJE artikel ur sin spec och jamfor byte for byte mot repots filer.
 
     Det ar det enda provet som visar att mallen inte tappat nagot. Ett prov som
     bara sager 'filen blev skriven' svarar pa en annan fraga an den vi staller.
+
+    Provade tidigare bara artikel 2. Sedan #30 harleds sprakparen ur specarna, sa
+    en spec som INTE motsvarar sin sida ar inte langre bara ett skonhetsfel - den
+    ar en felaktig uppgift som regel 2:s tackning vilar pa.
     """
-    spec = json.load(io.open(os.path.join(ROT, "verktyg", "artiklar",
-                                          "artikel-2-integritetstexten.json"), encoding="utf-8"))
+    specar = sorted(glob.glob(os.path.join(ROT, "verktyg", "artiklar", "*.json")))
+    if not specar:
+        # Noll specar ar inte ett gront prov. Det ar ett prov utan innehall, och
+        # det ser i utdatan ut precis som ett prov dar allt stammer.
+        print("  FEL   hittade noll specar i verktyg/artiklar/ - ingenting provades")
+        return 1
     fel = 0
-    for lang in ("sv", "en"):
-        vantat = las(os.path.join(ROT, spec["slug"][lang] + ".html"))
-        fick = rendera(spec, lang)
-        if fick == vantat:
-            print("  ok    %s ar byte-identisk med repots fil" % spec["slug"][lang])
-        else:
-            fel = 1
-            a, b = vantat.split("\n"), fick.split("\n")
-            print("  FEL   %s skiljer sig (%d mot %d rader)" % (spec["slug"][lang], len(a), len(b)))
-            for i in range(min(len(a), len(b))):
-                if a[i] != b[i]:
-                    print("        rad %d\n          repo: %s\n          mall: %s" % (i + 1, a[i][:100], b[i][:100]))
-                    break
+    for p in specar:
+        spec = json.load(io.open(p, encoding="utf-8"))
+        for lang in ("sv", "en"):
+            sida = os.path.join(ROT, spec["slug"][lang] + ".html")
+            if not os.path.exists(sida):
+                # En specfil vars sida inte finns ar inte ett undantag att krascha
+                # pa - det ar ett fynd, och det ska lasas som ett. Utan den har
+                # raden blev det en FileNotFoundError-stackdump i CI.
+                print("  FEL   %s: specen %s pekar pa en sida som inte finns i repot"
+                      % (os.path.basename(sida), os.path.basename(p)))
+                fel = 1
+                continue
+            vantat = las(sida)
+            fick = rendera(spec, lang)
+            if fick == vantat:
+                print("  ok    %s ar byte-identisk med repots fil" % spec["slug"][lang])
+            else:
+                fel = 1
+                a, b = vantat.split("\n"), fick.split("\n")
+                print("  FEL   %s skiljer sig (%d mot %d rader)" % (spec["slug"][lang], len(a), len(b)))
+                for i in range(min(len(a), len(b))):
+                    if a[i] != b[i]:
+                        print("        rad %d\n          repo: %s\n          mall: %s" % (i + 1, a[i][:100], b[i][:100]))
+                        break
+    print("  %d specar provade, %d sidor." % (len(specar), len(specar) * 2))
     return fel
 
 
 if __name__ == "__main__":
     if len(sys.argv) == 2 and sys.argv[1] == "--sjalvprov":
-        print("Sjalvprov: aterskapar artikel 2 ur spec och jamfor mot repot.")
+        print("Sjalvprov: aterskapar varje artikel ur sin spec och jamfor mot repot.")
         sys.exit(sjalvprov())
     if len(sys.argv) != 2:
         sys.exit(__doc__)

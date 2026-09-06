@@ -77,6 +77,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Proven for de tva verktyg som regel 2 numera VILAR pa. Kors forst, sa att ett
+      # fel i harledningen diagnostiseras som ett fel i harledningen - inte som ett
+      # sprakpar som saknas.
+      #
+      # Granskningens fynd B2: fore #30 var sprakparlistan en deklarativ lista i den
+      # har filen, som en granskare kunde lasa. Nu ar den utfallet av logik, och ett
+      # fel i den logiken visar sig som FARRE PAR - alltsa ett gront prov med farre
+      # kontroller. Sjalvprovet gick dessutom bara att kora for hand och tackte bara
+      # artikel 2, vilket ar precis det den har filens egen rubrik fordomer.
+      - name: Proven for sprakparen och artikelmallen
+        run: |
+          set -euo pipefail
+          python3 verktyg/prov-sprakpar.py
+          python3 verktyg/ny-artikel.py --sjalvprov
+
       # Regel 2: en andring pa den ena sprakversionen ska alltid speglas pa den andra.
       # Radantalskontrollen mater DIVERGENS och kan strukturellt inte se ett fel som
       # finns i BADA filerna - den ersatter alltsa ingen granskning. Den fangar det
