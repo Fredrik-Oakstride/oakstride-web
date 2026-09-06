@@ -154,6 +154,13 @@ def bygg():
 
     # Tackningen at andra hallet: en sida som inte ingar i nagot par ar oskyddad
     # av regel 2. Det var precis den vagen tystnaden gick 2026-09-03.
+    #
+    # ⚠️ SCOPET AR REPOROTEN MED FLIT, inte rekursivt. Sidorna under examples/
+    # ar exempelsajter och ska INTE spraskspeglas - en rekursiv sokning hade kravt ett
+    # sprakpar for var och en av dem och gjort kontrollen omojlig att halla gron.
+    # Samma scope som den handskrivna loopen hade fore #30 (`for f in *.html`), alltsa
+    # ingen forandring - men det star har sa att den som ser en oskyddad sida under
+    # examples/ slipper dra slutsatsen att kontrollen ar trasig. (Granskningens N1/N-E.)
     for p in sorted(glob.glob(os.path.join(ROT, "*.html"))):
         f = os.path.basename(p)
         if f not in sett:

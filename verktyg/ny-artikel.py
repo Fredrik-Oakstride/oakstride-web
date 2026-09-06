@@ -254,7 +254,33 @@ def sjalvprov():
         return 1
     fel = 0
     for p in specar:
-        spec = json.load(io.open(p, encoding="utf-8"))
+        namn = os.path.basename(p)
+        # 🔴 TILLAGT efter granskning (fynd R1). Har lag `json.load` och
+        # `spec["slug"][lang]` rakt av, sa en spec med fel FORM gav en Python-stackdump
+        # i CI i stallet for en rad som pekar ut fil och falt. Och eftersom det har
+        # provet numera kors FORST i jobbet avbrots steget innan sprakpar.py hann skriva
+        # sitt rena meddelande - alltsa en regression i diagnostiken, inte bara ett
+        # kvarglomt hal. Kravet PR:en staller ar att specen ligger kvar och underhalls
+        # for hand; da ar en handredigerad spec med ett slintat falt det normala felet.
+        try:
+            spec = json.load(io.open(p, encoding="utf-8"))
+        except ValueError as e:
+            print("  FEL   %s gar inte att lasa som JSON: %s" % (namn, e))
+            fel = 1
+            continue
+        slug = spec.get("slug") if isinstance(spec, dict) else None
+        if (not isinstance(slug, dict)
+                or not isinstance(slug.get("sv"), str) or not isinstance(slug.get("en"), str)):
+            print("  FEL   %s saknar ett slug-falt med tva strangar (sv och en) - "
+                  "artikeln kan da varken byggas eller fa ett sprakpar" % namn)
+            fel = 1
+            continue
+        saknade = [k for k in ("datum", "datum_text", "lastid", "sidtitel", "titel",
+                               "ingress", "block") if k not in spec]
+        if saknade:
+            print("  FEL   %s saknar falten: %s" % (namn, ", ".join(saknade)))
+            fel = 1
+            continue
         for lang in ("sv", "en"):
             sida = os.path.join(ROT, spec["slug"][lang] + ".html")
             if not os.path.exists(sida):
@@ -262,11 +288,20 @@ def sjalvprov():
                 # pa - det ar ett fynd, och det ska lasas som ett. Utan den har
                 # raden blev det en FileNotFoundError-stackdump i CI.
                 print("  FEL   %s: specen %s pekar pa en sida som inte finns i repot"
-                      % (os.path.basename(sida), os.path.basename(p)))
+                      % (os.path.basename(sida), namn))
                 fel = 1
                 continue
             vantat = las(sida)
-            fick = rendera(spec, lang)
+            try:
+                fick = rendera(spec, lang)
+            except (KeyError, TypeError) as e:
+                # Renderingen laser djupare an kontrollerna ovan (block-typer, texter
+                # per sprak). Ett fel dar ar fortfarande ett FYND om specen, inte ett
+                # undantag att visa som stackdump.
+                print("  FEL   %s gar inte att rendera pa %s: %s: %s"
+                      % (namn, lang, type(e).__name__, e))
+                fel = 1
+                continue
             if fick == vantat:
                 print("  ok    %s ar byte-identisk med repots fil" % spec["slug"][lang])
             else:
