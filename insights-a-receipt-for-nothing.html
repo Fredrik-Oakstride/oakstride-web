@@ -3,34 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Insights — OakStride Studio</title>
-<meta name="description" content="Short pieces on websites, visibility and technology for small businesses. Written by OakStride Studio, without the jargon.">
+<title>A receipt for nothing — OakStride Insights</title>
+<meta name="description" content="A customer clicked Approve in our client portal and got a green <em>Thank you!</em> The row that is the proof of that approval was never written. Nothing in the interface separated it from a successful save — and that is not a bug we happened to have, it is a shape that is easy to build into any website.">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="canonical" href="https://oakstride.se/insights">
-<link rel="alternate" hreflang="en" href="https://oakstride.se/insights">
-<link rel="alternate" hreflang="sv" href="https://oakstride.se/insikter">
-<link rel="alternate" hreflang="x-default" href="https://oakstride.se/insights">
+<link rel="canonical" href="https://oakstride.se/insights-a-receipt-for-nothing">
+<link rel="alternate" hreflang="en" href="https://oakstride.se/insights-a-receipt-for-nothing">
+<link rel="alternate" hreflang="sv" href="https://oakstride.se/insikter-kvittot-for-ingenting">
+<link rel="alternate" hreflang="x-default" href="https://oakstride.se/insights-a-receipt-for-nothing">
 <meta property="og:site_name" content="OakStride">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://oakstride.se/insights">
-<meta property="og:title" content="Insights — OakStride Studio">
-<meta property="og:description" content="Short pieces on websites, visibility and technology for small businesses.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://oakstride.se/insights-a-receipt-for-nothing">
+<meta property="og:title" content="The receipt that thanked you for something that never happened">
+<meta property="og:description" content="A customer clicked Approve in our client portal and got a green <em>Thank you!</em> The row that is the proof of that approval was never written. Nothing in the interface separated it from a successful save — and that is not a bug we happened to have, it is a shape that is easy to build into any website.">
 <meta property="og:image" content="https://oakstride.se/images/photo-6.jpg">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Insights — OakStride Studio">
-<meta name="twitter:description" content="Short pieces on websites, visibility and technology for small businesses.">
+<meta name="twitter:title" content="The receipt that thanked you for something that never happened">
+<meta name="twitter:description" content="A customer clicked Approve in our client portal and got a green <em>Thank you!</em> The row that is the proof of that approval was never written. Nothing in the interface separated it from a successful save — and that is not a bug we happened to have, it is a shape that is easy to build into any website.">
 <meta name="twitter:image" content="https://oakstride.se/images/photo-6.jpg">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Blog",
-  "name": "Insights — OakStride Studio",
-  "url": "https://oakstride.se/insights",
+  "@type": "BlogPosting",
+  "headline": "The receipt that thanked you for something that never happened",
+  "description": "A customer clicked Approve in our client portal and got a green <em>Thank you!</em> The row that is the proof of that approval was never written. Nothing in the interface separated it from a successful save — and that is not a bug we happened to have, it is a shape that is easy to build into any website.",
+  "url": "https://oakstride.se/insights-a-receipt-for-nothing",
+  "datePublished": "2026-09-06",
+  "dateModified": "2026-09-06",
   "inLanguage": "en",
+  "image": "https://oakstride.se/images/photo-6.jpg",
+  "isPartOf": {
+    "@type": "Blog",
+    "name": "Insights — OakStride Studio",
+    "url": "https://oakstride.se/insights"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "OakStride",
+    "url": "https://oakstride.se/"
+  },
   "publisher": {
     "@type": "Organization",
     "name": "OakStride",
@@ -233,16 +247,25 @@
     .nav-cross-label{display:block;width:100%;padding:12px 2px 2px;font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--moss);border-top:1px solid rgba(0,0,0,.08)}
   }
 
-  /* --- Artikelkort --- */
-  .card h3 a { color: inherit; text-decoration: underline;
-    text-decoration-color: rgba(47,100,134,0.60); text-underline-offset: 3px; }
-  .card h3 a:hover, .card h3 a:focus-visible { color: var(--acorn); text-decoration-color: var(--acorn); }
-  .work-link { display:inline-block; margin-top:16px; color:var(--acorn); font-weight:600; font-size:0.95rem; text-decoration:none; }
-  .work-link:hover, .work-link:focus-visible { text-decoration: underline; }
-  /* .btn-primary ar byggd for det morka hero-blocket (bakgrund = var(--paper))
-     och blir darfor osynlig pa en ljus sektion. .btn-solid ar varianten for ljus bakgrund. */
+  /* --- Artikelsida --- */
+  .post h1 { max-width: 24ch; font-size: clamp(2rem, 4.4vw, 3rem); }
+  .post-meta { font-family:'IBM Plex Mono',monospace; font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase; color:#a9c7b6; margin-bottom:20px; }
+  .prose { max-width: 68ch; }
+  .prose h2 { font-family:'Bricolage Grotesque',sans-serif; font-size:1.5rem; line-height:1.25; letter-spacing:-0.02em; color:var(--pine); margin:46px 0 14px; }
+  .prose h2:first-child { margin-top: 0; }
+  .prose p { margin-bottom:18px; color:#3d443a; }
+  .prose ul { list-style:none; margin:0 0 22px; display:grid; gap:10px; }
+  .prose ul li { padding-left:24px; position:relative; color:#3d443a; }
+  .prose ul li::before { content:""; position:absolute; left:0; top:10px; width:10px; height:10px; border:2px solid var(--acorn); border-radius:50%; }
+  .prose a { color: var(--acorn); }
+  .prose strong { color: var(--ink); }
+  .prose code { font-family:'IBM Plex Mono',monospace; font-size:0.88em; background:var(--birch); border:1px solid var(--line); border-radius:3px; padding:1px 5px; }
+  /* Knapp for LJUS bakgrund. .btn-primary ar byggd for det morka hero-blocket
+     (bakgrund = var(--paper)) och blir darfor osynlig pa en ljus sektion. */
   .btn-solid { background: var(--pine); color: var(--paper); }
   .btn-solid:hover, .btn-solid:focus-visible { background: #172d24; }
+  .btn-line { color: var(--pine); border: 1px solid var(--moss); }
+  .btn-line:hover, .btn-line:focus-visible { background: rgba(30,58,47,0.06); }
 </style>
 </head>
 <body>
@@ -250,9 +273,9 @@
   <div class="wrap nav">
     <a class="logo" href="/">Oak<span>Stride</span><small>Insights</small></a>
     <nav class="links" aria-label="Main navigation">
-      <a href="#artiklar">Articles</a>
+      <a href="/insights">Articles</a>
       <a href="#kontakt">Contact</a>
-      <a href="/insikter" lang="sv">Svenska</a>
+      <a href="/insikter-kvittot-for-ingenting" lang="sv">Svenska</a>
       <span class="nav-div" aria-hidden="true"></span>
       <span class="nav-cross-label">More from OakStride</span>
       <a href="/studio" class="nav-cross">Studio <span class="arrow">&rarr;</span></a>
@@ -264,7 +287,7 @@
 </header>
 
 <main id="top">
-  <div class="hero">
+  <div class="hero post">
     <svg class="rings" viewBox="0 0 560 560" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
       <g fill="none" stroke="#9fc0d4" stroke-opacity="0.22">
         <circle cx="280" cy="280" r="40" stroke-width="1.5"/>
@@ -278,67 +301,58 @@
       <circle cx="280" cy="280" r="8" fill="#9fc0d4"/>
     </svg>
     <div class="wrap">
-      <p class="eyebrow">OakStride · Insights</p>
-      <h1>What we have learned, briefly.</h1>
-      <p class="lead">Short pieces on websites, visibility and technology — written for people who run a small business and would rather not read jargon. We write only when we have something to say, and would rather publish once a month with substance than weekly without.</p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="#artiklar">Read the latest <span class="arrow arrow-d">&darr;</span></a>
-        <a class="btn btn-ghost" href="#kontakt">Get in touch <span class="arrow">&rarr;</span></a>
-      </div>
+      <p class="eyebrow">OakStride &middot; Insights</p>
+      <p class="post-meta"><time datetime="2026-09-06">6 September 2026</time> &middot; 4 min</p>
+      <h1>The receipt that thanked you for something that never happened</h1>
+      <p class="lead">A customer clicked Approve in our client portal and got a green <em>Thank you!</em> The row that is the proof of that approval was never written. Nothing in the interface separated it from a successful save — and that is not a bug we happened to have, it is a shape that is easy to build into any website.</p>
     </div>
   </div>
 
-  <section class="alt" id="artiklar">
+  <section class="post-body">
     <div class="wrap">
-      <h2>Latest pieces</h2>
-      <p class="section-intro">This is where our writing collects. Newest first.</p>
-      <div class="grid2">
-        <div class="card">
-          <span class="tag">Insights</span>
-          <h3><a href="/insights-a-receipt-for-nothing">The receipt that thanked you for something that never happened</a></h3>
-          <ul>
-            <li>A customer clicked Approve in our client portal and got a green <em>Thank you!</em> The row that is the proof of that approval was never written. Nothing in the interface separated it from a successful save — and that is not a bug we happened to have, it is a shape that is easy to build into any website.</li>
-          </ul>
-          <a class="work-link" href="/insights-a-receipt-for-nothing">Read the piece <span class="arrow">&rarr;</span></a>
-          <span class="hours"><time datetime="2026-09-06">6 September 2026</time> &middot; 4 min</span>
-        </div>
-        <div class="card">
-          <span class="tag">Insights</span>
-          <h3><a href="/insights-four-tests-that-tested-nothing">Four tests that passed without testing anything</a></h3>
-          <ul>
-            <li>A test that checks nothing looks exactly like a test that passed. In five days we found four of them in our own build. I committed the last one while writing this very article.</li>
-          </ul>
-          <a class="work-link" href="/insights-four-tests-that-tested-nothing">Read the piece <span class="arrow">&rarr;</span></a>
-          <span class="hours"><time datetime="2026-09-05">5 September 2026</time> &middot; 4 min</span>
-        </div>
-        <div class="card">
-          <span class="tag">Insights</span>
-          <h3><a href="/insights-privacy-policy-said-no">We wanted to advertise — our own privacy policy said no</a></h3>
-          <ul>
-            <li>We were about to start advertising. Then we found our own privacy policy promising the opposite — that we do not use cookies for advertising purposes. We built a gate instead of quietly rewriting the promise.</li>
-          </ul>
-          <a class="work-link" href="/insights-privacy-policy-said-no">Read the piece <span class="arrow">&rarr;</span></a>
-          <span class="hours"><time datetime="2026-09-03">3 September 2026</time> &middot; 3 min</span>
-        </div>
-        <div class="card">
-          <span class="tag">Insights</span>
-          <h3><a href="/insights-invisible-on-google">Your site can be built exactly right — and still be invisible on Google</a></h3>
-          <ul>
-            <li>We checked our own site. Everything technical was already correct — and Google still knew of only two addresses. What was missing was a click we had never made.</li>
-          </ul>
-          <a class="work-link" href="/insights-invisible-on-google">Read the piece <span class="arrow">&rarr;</span></a>
-          <span class="hours"><time datetime="2026-09-01">1 September 2026</time> &middot; 4 min</span>
-        </div>
+      <div class="prose">
+        <p>We reviewed our own client portal this week, and the biggest finding was not an error that crashed anything. It was a message telling the user everything had gone fine.</p>
+        <p>The code that saved the customer's approval looked roughly like this: send the row to the database, and when the answer comes back — show <em>Thank you! Quote and terms approved.</em> The problem is the word <em>when</em>. The answer was never read. What it contained made no difference.</p>
+
+        <h2>What the customer saw, and what was true</h2>
+        <p>The customer saw a green receipt and moved on. The next time she loaded the page the step was still listed as not approved, with no explanation. No order confirmation arrived, because it hangs off the row that did not exist.</p>
+        <p>From our side there was nothing to discover. No error message, no log line, no alert. The difference between success and failure appeared nowhere — and a difference that appears nowhere cannot be monitored.</p>
+
+        <h2>Three ways a write can fail without anyone finding out</h2>
+        <p>What made the week instructive is that the failure did not have one cause but three — and only the first is the one people think of.</p>
+        <ul>
+          <li><strong>The security rule filters the row away.</strong> A database's rules for who may change what work like a filter, not like a guard that shouts. If you are not allowed to touch the row, the answer is not <em>no</em> — the answer is <em>zero rows changed</em>, with no error code. We measured it in production: the update looked like it succeeded.</li>
+          <li><strong>A rule inside the database undoes what you wrote.</strong> We have a guard that lets a customer approve but not change anything else. It writes the old values back. The update succeeds, it touches one row, it returns no error — and nothing changed. Counting rows is therefore not enough; you have to read the value back.</li>
+          <li><strong>The code listened in the wrong place.</strong> Our first fix put the error check in a branch that never runs, because that library always answers with a result instead of throwing an error. The check itself was correct. It just sat where nothing ever arrives.</li>
+        </ul>
+
+        <h2>The uncomfortable part: we did not find it ourselves</h2>
+        <p>All three passed our own read-through. The lines look correct — they <em>are</em> correct — and someone who already believes in their own fix reads them as proof that the matter is settled. It was a review that measured instead of reading that found them.</p>
+        <p>One example of what <em>measuring</em> means here: a warning we had added turned out never to reach the customer, because the next message overwrote it two tenths of a second later. That is invisible in the code. It becomes visible when someone runs it and looks at what the box actually says.</p>
+
+        <h2>What we changed</h2>
+        <p>The rule we work by now is easy to state and uncomfortable to follow: <strong>a message saying something went well must rest on a measurement, not on nothing appearing to go wrong.</strong> In practice that means asking the database for the rows back and checking them, instead of assuming that silence is a yes.</p>
+        <p>And when we do not know, we say so. If a price list cannot be fetched, the page now states plainly that the figures may be out of date — instead of showing the old ones as if they were today's.</p>
+
+        <h2>Three questions to ask about your own site</h2>
+        <ul>
+          <li><strong>What happens if the database says no?</strong> Do not ask whether it <em>can</em> go wrong; ask what the visitor sees when it does. If she gets the same thank-you page as always, the answer is that you do not know whether anything was saved.</li>
+          <li><strong>Has anyone triggered the failure, or only read the code?</strong> Those are two different things. An error message nobody has seen in reality is an intention, not a feature.</li>
+          <li><strong>Where does the error land once it is visible?</strong> A line in a console nobody opens is the same as silence. Whoever has to act on it must be told somewhere she actually looks.</li>
+        </ul>
+        <p>None of this is spectacular craftsmanship. These are checks that take a few lines each, and that nobody notices when they are in place. The difference shows up the day an order does not arrive — and someone can say exactly why, instead of guessing.</p>
+        <p>We write about things we have measured on our own site, not general advice. If you want us to look at your form with the same questions — get in touch.</p>
       </div>
     </div>
   </section>
 
-  <section id="kontakt">
+  <section class="alt" id="kontakt">
     <div class="wrap">
-      <h2>Rather talk instead?</h2>
-      <p class="section-intro">If you have a question about your own site you do not have to wait for an article. Drop us a line and we will answer.</p>
+      <h2>Want us to look at yours?</h2>
+      <p class="section-intro">We can run the same check on your site and tell you what we see. You do not have to become a client to ask.</p>
       <div class="cta-row">
         <a class="btn btn-solid" href="/studio">To OakStride Studio <span class="arrow">&rarr;</span></a>
+        <a class="btn btn-line" href="/insights">More insights <span class="arrow">&rarr;</span></a>
       </div>
     </div>
   </section>
