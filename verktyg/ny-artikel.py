@@ -16,17 +16,24 @@ spraket.** Bada filerna renderas ur SAMMA mall med SAMMA block, sa radantalet
 stammer av konstruktion i stallet for av tur - och ett stycke kan inte bli kvar
 fran en tidigare artikel, for det finns ingen tidigare artikel att kopiera.
 
-DEN ANDRA HALVAN: FYRA STALLEN
-==============================
-En ny sida maste in pa fyra stallen, och missas ett ligger texten ute utan att
+DEN ANDRA HALVAN: TRE STALLEN
+============================
+En ny sida maste in pa tre stallen, och missas ett ligger texten ute utan att
 nagon lank pekar pa den:
   1. flodessidorna insikter.html och insights.html
   2. sitemap.xml
-  3. sprakparlistan i .github/workflows/prov.yml  (underhalls for hand)
-  4. sjalva sidorna
-Generatorn gor alla fyra. Sprakparlistan ar den lattaste att glomma och den som
-faller provet - den gicks inte igenom 2026-09-03 och tackningen gick tyst fran
-8 av 8 sidor till 8 av 12.
+  3. sjalva sidorna
+Generatorn gor alla tre.
+
+Det fanns ett fjarde: sprakparlistan i .github/workflows/prov.yml. Den togs bort
+2026-09-06 (issue #18). Listan harleds nu ur specarna av verktyg/sprakpar.py, sa
+den har filen behover inte langre redigera provets egen konfiguration - och den
+gor det inte heller. Ett verktyg som skriver i sitt eget prov ar en sak for lite
+att lita pa: gick strangersattningen fel var det provet som slutade tacka, och
+det marks inte pa nagot annat satt an att en kontroll blir tyst.
+
+Kravet pa dig som skriver en ny artikel ar i stallet att specen ligger kvar i
+verktyg/artiklar/ - det ar den som ar kallan till paret.
 
 ANVANDNING
 ==========
@@ -155,7 +162,7 @@ def las(vag):
 
 
 def koppla_in(spec):
-    """De tre stallen utover sjalva sidorna. Idempotent - hoppar over det som finns."""
+    """De tva stallen utover sjalva sidorna. Idempotent - hoppar over det som finns."""
     gjort = []
     for lang, flode, etikett, lastext in (
             ("sv", "insikter.html", "Insikter", "Läs texten"),
@@ -202,17 +209,13 @@ def koppla_in(spec):
         skriv(p, s.replace(ankare, post + ankare, 1))
         gjort.append("sitemap.xml: tva adresser tillagda")
 
-    p = os.path.join(ROT, ".github", "workflows", "prov.yml")
-    s = las(p)
-    rad = "          %s.html %s.html" % (spec["slug"]["en"], spec["slug"]["sv"])
-    if rad in s:
-        gjort.append("prov.yml: sprakparet fanns redan")
-    else:
-        ankare = "          insights.html insikter.html"
-        if ankare not in s:
-            raise SystemExit("AVBRYTER: hittade ingen sprakparlista i prov.yml")
-        skriv(p, s.replace(ankare, ankare + "\n" + rad, 1))
-        gjort.append("prov.yml: sprakparet tillagt")
+    # Har lag tidigare ett fjarde steg som stoppade in sprakparet i prov.yml med
+    # strangersattning mot ett ankare. Det ar borttaget: paret harleds nu ur
+    # specen av verktyg/sprakpar.py. Vi sager det anda hogt, sa att den som kor
+    # generatorn ser att paret ar omhandertaget och inte letar efter en rad att
+    # fylla i.
+    gjort.append("sprakpar: harleds ur specen av verktyg/sprakpar.py - inget att "
+                 "fylla i, men specen maste ligga kvar i verktyg/artiklar/")
     return gjort
 
 

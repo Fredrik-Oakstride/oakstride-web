@@ -94,30 +94,23 @@ jobs:
               echo "ok  $1 = $2  ($a rader)"
             fi
           }
-          # Ett sprakpar gar INTE att harleda ur filsystemet - filnamnen ar inte
-          # oversattningar av varandra (index.html/sv.html, privacy/integritet).
-          # Listan maste darfor underhallas for hand. Det gjordes inte 2026-09-03,
-          # och tackningen gick tyst fran 8 av 8 sidor till 8 av 12. Darfor star
-          # nu en tacknignskontroll efter listan: en sida utan par FALLER provet.
-          par="integritet.html privacy.html
-          studio.html webbstudio.html
-          it-management.html it-chef.html
-          index.html sv.html
-          insights.html insikter.html
-          insights-four-tests-that-tested-nothing.html insikter-fyra-prov-som-inte-provade-nagot.html
-          insights-invisible-on-google.html insikter-osynlig-pa-google.html
-          insights-privacy-policy-said-no.html insikter-integritetstexten-sa-nej.html"
+          # Listan stod tidigare HAR och fylldes pa for hand. Den gicks inte igenom
+          # 2026-09-03 och tackningen gick tyst fran 8 av 8 sidor till 8 av 12.
+          #
+          # Nu harleds den: verktyg/sprakpar.py laser artikelparen ur specarna i
+          # verktyg/artiklar/*.json (dar bada slugarna star) och raknar bara upp de
+          # fem FASTA sidparen, som inte gar att harleda ur filnamnen
+          # (index.html/sv.html, privacy/integritet) och inte heller tillkommer.
+          # Skriptet gor ocksa tackningen at bada hallen och FALLER sjalvt om en
+          # sida saknar par, om ett par pekar pa en fil som inte finns, eller om
+          # tva specar gor ansprak pa samma sida. Kommandoutbytet nedan avbryter
+          # steget da, tack vare `set -e` - felraderna star pa stderr och syns i
+          # loggen fore avbrottet.
+          par=$(python3 verktyg/sprakpar.py)
 
           while read -r a b; do
             [ -n "$a" ] && kolla "$a" "$b"
           done <<< "$par"
-
-          for f in *.html; do
-            if ! printf '%s\n' $par | grep -qxF "$f"; then
-              echo "::error file=$f::$f ingar inte i nagot sprakpar - speglingen ar oskyddad for den sidan. Lagg till paret i listan ovan."
-              fel=1
-            fi
-          done
           [ "$fel" -eq 0 ] || exit 1
 
       # Den kontroll som faktiskt hittade det verkliga felet 2026-08-29: ett stycke som
